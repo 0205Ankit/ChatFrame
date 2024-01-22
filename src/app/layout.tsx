@@ -22,8 +22,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+      <body className={`font-sans ${inter.variable} min-h-screen antialiased`}>
+        <TRPCReactProvider>
+          <div className="h-full antialiased">{children}</div>
+        </TRPCReactProvider>
       </body>
     </html>
   );
