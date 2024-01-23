@@ -7,16 +7,12 @@ generator client {
 
 datasource db {
     provider  = "postgresql"
-    // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url       = env("DATABASE_URL")
     directUrl = env("DIRECT_URL")
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
+    id        String   @id @default(uuid())
     name      String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -24,7 +20,26 @@ model Post {
     createdBy   User   @relation(fields: [createdById], references: [id])
     createdById String
 
+    caption      String?
+    images       String[]
+    likes        Int        @default(0)
+    comments     Comments[]
+    location     String?
+    hideLikes    Boolean?   @default(false)
+    hideComments Boolean?   @default(false)
+
     @@index([name])
+}
+
+model Comments {
+    id          String   @id @default(uuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    description String
+
+    Post   Post?   @relation(fields: [postId], references: [id])
+    postId String?
+    likes  Int     @default(0)
 }
 
 // Necessary for Next auth
