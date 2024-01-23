@@ -28,7 +28,7 @@ const SideBar = ({ className }: PropTypes) => {
       <AppLogo shrink={shrink} />
 
       {/* ------------ actions ------------------- */}
-      <div className="flex flex-col gap-3">
+      <div className={cn("flex flex-col gap-3", { "gap-4": shrink })}>
         <Home active={pathname === "/"} shrink={shrink} />
         <Search shrink={shrink} setShrink={setShrink} />
         <Messages shrink={shrink} active={pathname.startsWith("/direct")} />

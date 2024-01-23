@@ -22,24 +22,36 @@ model Post {
 
     caption      String?
     images       String[]
-    likes        Int        @default(0)
-    comments     Comments[]
+    likes        Like[]
+    comments     Comment[]
     location     String?
-    hideLikes    Boolean?   @default(false)
-    hideComments Boolean?   @default(false)
+    hideLikes    Boolean?  @default(false)
+    hideComments Boolean?  @default(false)
 
     @@index([name])
 }
 
-model Comments {
-    id          String   @id @default(uuid())
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    description String
+model Like {
+    id String @id @default(cuid())
+
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String?
 
     Post   Post?   @relation(fields: [postId], references: [id])
     postId String?
-    likes  Int     @default(0)
+}
+
+model Comment {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    text      String
+
+    Post   Post   @relation(fields: [postId], references: [id])
+    postId String
+    likes  Int    @default(0)
+    author User   @relation(fields: [userId], references: [id])
+    userId String
 }
 
 // Necessary for Next auth
@@ -79,6 +91,8 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    Comments      Comment[]
+    likes         Like[]
 }
 
 model VerificationToken {
