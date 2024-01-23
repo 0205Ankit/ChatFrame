@@ -1,18 +1,13 @@
 import AppLogo from "@/components/app-logo";
 import AuthButton from "@/components/auth-button";
 import { Separator } from "@/components/ui/separator";
-import { getServerAuthSession } from "@/server/auth";
 import Image from "next/image";
 import Link from "next/link";
 
 export async function SignIn() {
-  const session = await getServerAuthSession();
-
-  console.log(session);
-
   return (
-    <div className="flex h-screen w-full items-center justify-center">
-      <div className="max-w-6/12 flex gap-10">
+    <>
+      <div className="max-w-6/12 fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-10">
         <Image
           src="/appScreenshotMobile.png"
           alt="App screenshot"
@@ -46,6 +41,6 @@ export async function SignIn() {
       </div>
       <div className="fixed -bottom-[200px] -left-[220px] h-[500px] w-[500px] rounded-full bg-primary max-sm:-bottom-[260px]"></div>
       <div className="fixed -right-[200px] -top-[200px] h-[400px] w-[400px] rounded-full bg-primary 2xl:-right-[150px]"></div>
-    </div>
+    </>
   );
 }

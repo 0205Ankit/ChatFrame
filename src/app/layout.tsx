@@ -5,6 +5,8 @@ import { Inter } from "next/font/google";
 import { TRPCReactProvider } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
+import { getServerAuthSession } from "@/server/auth";
+import SideBar from "@/components/sidebar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,11 +19,12 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerAuthSession();
   return (
     <html lang="en">
       <body
@@ -31,7 +34,14 @@ export default function RootLayout({
         )}
       >
         <TRPCReactProvider>
-          <div className="h-full antialiased">{children}</div>
+          <div className="relative flex">
+            <div className="w-[250px]">
+              {session?.user && <SideBar className="w-[250px]" />}
+            </div>
+            <div className="custom-scrollbar h-full w-full overflow-y-scroll pl-10 antialiased">
+              {children}
+            </div>
+          </div>
         </TRPCReactProvider>
         <Toaster />
       </body>

@@ -1,13 +1,8 @@
-import { unstable_noStore as noStore } from "next/cache";
-import Link from "next/link";
-import { getServerAuthSession } from "@/server/auth";
-import { api } from "@/trpc/server";
 import { SignIn } from "./_components/SignIn";
+import { getServerAuthSession } from "@/server/auth";
 
 export default async function Home() {
-  return (
-    <main>
-      <SignIn />
-    </main>
-  );
+  const session = await getServerAuthSession();
+
+  return <main>{session?.user ? <>you are now logged in</> : <SignIn />}</main>;
 }
