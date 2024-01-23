@@ -3,7 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const AppLogo = ({ className }: { className?: string }) => {
+const AppLogo = ({
+  className,
+  shrink,
+}: {
+  className?: string;
+  shrink?: boolean;
+}) => {
   return (
     <Link
       href="/"
@@ -13,9 +19,11 @@ const AppLogo = ({ className }: { className?: string }) => {
       )}
     >
       <Image src="/logo.png" alt="Logo" width={32} height={32} />
-      <h2>
-        Chat<span className="text-primary">Frame</span>
-      </h2>
+      {!shrink && (
+        <h2>
+          Chat<span className="text-primary">Frame</span>
+        </h2>
+      )}
     </Link>
   );
 };

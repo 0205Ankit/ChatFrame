@@ -19,6 +19,8 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/logo.png" }],
 };
 
+const sideBarWidth = "w-[250px]";
+
 export default async function RootLayout({
   children,
 }: {
@@ -35,8 +37,8 @@ export default async function RootLayout({
       >
         <TRPCReactProvider>
           <div className="relative flex">
-            <div className="w-[250px]">
-              {session?.user && <SideBar className="w-[250px]" />}
+            <div className={cn(sideBarWidth)}>
+              {session?.user && <SideBar className={cn(sideBarWidth)} />}
             </div>
             <div className="custom-scrollbar h-full w-full overflow-y-scroll pl-10 antialiased">
               {children}
