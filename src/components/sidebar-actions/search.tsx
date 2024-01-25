@@ -1,7 +1,13 @@
 "use client";
 import React from "react";
 import { IoSearch } from "react-icons/io5";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetOverlay,
+  SheetTitle,
+} from "../ui/sheet";
 import { cn } from "@/lib/utils";
 import InputWithCloseField from "../input-with-close-field";
 
@@ -36,7 +42,7 @@ const Search = ({ shrink, setShrink }: PropTypes) => {
       <Sheet open={open} onOpenChange={closeSheetHandler}>
         <SheetContent
           side={"left"}
-          className="left-20 rounded-br-2xl rounded-tr-2xl data-[state=open]:slide-in-from-left-20 "
+          className="left-20 z-30 rounded-br-2xl rounded-tr-2xl data-[state=open]:slide-in-from-left-20 "
         >
           <SheetHeader>
             <div>

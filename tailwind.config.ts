@@ -1,12 +1,13 @@
 import type { Config } from "tailwindcss";
+import { withUt } from "uploadthing/tw";
 
-const config = {
+const config = withUt({
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./pages/**/*.{ts,tsx,mdx}",
+    "./components/**/*.{ts,tsx,mdx}",
+    "./app/**/*.{ts,tsx,mdx}",
+    "./src/**/*.{ts,tsx,mdx}",
   ],
   prefix: "",
   theme: {
@@ -26,6 +27,8 @@ const config = {
         foreground: "hsl(var(--foreground))",
         primaryText: "text-slate-900",
         secondaryText: "text-slate-500",
+        warning: "#FFA500",
+        error: "#ff4545",
         primary: {
           DEFAULT: "#FF4A07",
           foreground: "#FFFFFF",
@@ -81,6 +84,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
-} satisfies Config;
+} satisfies Config);
 
 export default config;

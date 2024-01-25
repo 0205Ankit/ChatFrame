@@ -7,6 +7,10 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { getServerAuthSession } from "@/server/auth";
 import SideBar from "@/components/sidebar";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+
+import { customFileRouter } from "@/app/api/uploadthing/core";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -35,6 +39,15 @@ export default async function RootLayout({
           inter.variable,
         )}
       >
+        <NextSSRPlugin
+          /**
+           * The `extractRouterConfig` will extract **only** the route configs
+           * from the router to prevent additional information from being
+           * leaked to the client. The data passed to the client is the same
+           * as if you were to fetch `/api/uploadthing` directly.
+           */
+          routerConfig={extractRouterConfig(customFileRouter)}
+        />
         <TRPCReactProvider>
           <div className="relative flex">
             <div className={cn(sideBarWidth)}>

@@ -93,6 +93,8 @@ model User {
     posts         Post[]
     Comments      Comment[]
     likes         Like[]
+
+    @@index([userName])
 }
 
 model VerificationToken {
