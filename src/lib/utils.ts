@@ -25,15 +25,7 @@ export const formatName = ({
     return nameArray
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
-  }
-  // if (name.includes("-")) {
-  //   const nameArray = name.split("-");
-  //   if (capitalize) return nameArray.join(" ").toUpperCase();
-  //   return nameArray
-  //     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-  //     .join(" ");
-  // }
-  else {
+  } else {
     if (capitalize) return name.toUpperCase();
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
