@@ -1,32 +1,23 @@
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { createPostSchema } from "@/schema/form-schema";
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
   create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
+    .input(createPostSchema)
     .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      return ctx.db.post.create({
-        data: {
-          name: input.name,
-          createdBy: { connect: { id: ctx.session.user.id } },
-        },
-      });
+      console.log(input);
+      // return ctx.db.post.create({
+      //   data: {
+      //     createdById: ctx.session.user.id,
+      //     caption: input.caption,
+      //     location: input.location,
+      //     images: input.images,
+      //     hideLikes: input.hideLikes,
+      //     hideComments: input.hideComments,
+      //   },
+      // });
     }),
 
   getLatest: protectedProcedure.query(({ ctx }) => {
@@ -34,9 +25,5 @@ export const postRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
       where: { createdBy: { id: ctx.session.user.id } },
     });
-  }),
-
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
   }),
 });

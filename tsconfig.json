@@ -11,8 +11,8 @@
 
     /* Strictness */
     "strict": true,
-    "noUncheckedIndexedAccess": true,
     "checkJs": true,
+    "noUncheckedIndexedAccess": true,
 
     /* Bundled projects */
     "lib": ["dom", "dom.iterable", "ES2022"],
@@ -26,8 +26,9 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"],
+      "@ui/*": ["./components/ui/*"],
+    },
   },
   "include": [
     ".eslintrc.cjs",
@@ -36,7 +37,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

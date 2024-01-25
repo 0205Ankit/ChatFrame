@@ -6,7 +6,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import { getServerAuthSession } from "@/server/auth";
-import SideBar from "@/components/sidebar";
+import SideBar from "@/app/_components/sidebar";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 

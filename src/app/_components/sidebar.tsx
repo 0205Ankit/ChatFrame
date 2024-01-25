@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import AppLogo from "./app-logo";
+import AppLogo from "../../components/app-logo";
 import Search from "./sidebar-actions/search";
 import Messages from "./sidebar-actions/messages";
 import Create from "./sidebar-actions/create/create";

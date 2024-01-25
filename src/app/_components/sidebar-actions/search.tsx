@@ -7,9 +7,9 @@ import {
   SheetHeader,
   SheetOverlay,
   SheetTitle,
-} from "../ui/sheet";
+} from "../../../components/ui/sheet";
 import { cn } from "@/lib/utils";
-import InputWithCloseField from "../input-with-close-field";
+import InputWithCloseField from "../../../components/input-with-close-field";
 
 type PropTypes = {
   shrink: boolean;
