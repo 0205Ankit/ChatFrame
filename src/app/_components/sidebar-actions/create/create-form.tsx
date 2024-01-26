@@ -20,10 +20,11 @@ import CaptionField from "./caption-field";
 import HideLikesField from "./hideLikes-field";
 import HideCommentsField from "./hideComments-field";
 import { Badge } from "@/components/ui/badge";
-import { createPost } from "@/app/mutations";
 import LoadingScreen from "@/components/loading-screen";
 import { useToast } from "@/hooks/use-toast";
-import { useDropzone } from "@uploadthing/react";
+import { useDropzone } from "@uploadthing/react/hooks";
+import { api } from "@/trpc/react";
+import { useRouter } from "next/navigation";
 
 const defaultValues = {
   caption: "",
@@ -42,6 +43,7 @@ const CreateForm = () => {
     resolver: zodResolver(createPostSchema),
   });
   const selectedImages = form.getValues("images");
+  const router = useRouter();
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -56,21 +58,26 @@ const CreateForm = () => {
     [form],
   );
 
-  async function creatingPost({ images }: { images: string[] }) {
-    const result = await createPost({ ...form.getValues(), images: images });
-    if (!result) {
+  const { mutate } = api.post.create.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+    onError: () => {
       toast({
         title: "Something went wrong",
         description: "Can't upload the post right now, Try again later..",
       });
-    }
-    setIsUploadingPost(false);
-  }
+    },
+    onSettled: () => {
+      setIsUploadingPost(false);
+    },
+  });
 
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
     onClientUploadComplete: (data) => {
       const uploadedImagesUrl = data.map((image) => image.url);
-      void creatingPost({ images: uploadedImagesUrl });
+      const postData = { ...form.getValues(), images: uploadedImagesUrl };
+      mutate(postData);
     },
     onUploadError: (err) => {
       toast({

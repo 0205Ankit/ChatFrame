@@ -2,14 +2,18 @@ import React from "react";
 import { RiUserLine } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { api } from "@/trpc/react";
 
 type PropTypes = {
   active?: boolean;
   shrink: boolean;
 };
 const Profile = ({ active, shrink }: PropTypes) => {
+  const { data } = api.user.get.useQuery();
   return (
-    <div
+    <Link
+      href={`profile/${data?.userName}`}
       className={cn(
         "flex cursor-pointer items-center gap-2 rounded-md px-2 py-3 text-lg font-medium transition-all duration-200 hover:bg-primary",
         { "font-bold": active },
@@ -22,7 +26,7 @@ const Profile = ({ active, shrink }: PropTypes) => {
         <RiUserLine className="text-2xl" />
       )}{" "}
       {!shrink && "Profile"}
-    </div>
+    </Link>
   );
 };
 
