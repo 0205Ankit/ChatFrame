@@ -1,6 +1,6 @@
+"use client";
 import React, { useCallback, useState } from "react";
 import { TbPhotoVideo } from "react-icons/tb";
-import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,6 +21,9 @@ import HideLikesField from "./hideLikes-field";
 import HideCommentsField from "./hideComments-field";
 import { Badge } from "@/components/ui/badge";
 import { createPost } from "@/app/mutations";
+import LoadingScreen from "@/components/loading-screen";
+import { useToast } from "@/hooks/use-toast";
+import { useDropzone } from "@uploadthing/react";
 
 const defaultValues = {
   caption: "",
@@ -31,6 +34,8 @@ const defaultValues = {
 };
 const CreateForm = () => {
   const [files, setFiles] = useState<File[]>([]);
+  const [isUploadingPost, setIsUploadingPost] = useState(false);
+  const { toast } = useToast();
   const form = useForm({
     defaultValues: defaultValues,
     mode: "onChange",
@@ -52,7 +57,14 @@ const CreateForm = () => {
   );
 
   async function creatingPost({ images }: { images: string[] }) {
-    await createPost({ ...form.getValues(), images: images });
+    const result = await createPost({ ...form.getValues(), images: images });
+    if (!result) {
+      toast({
+        title: "Something went wrong",
+        description: "Can't upload the post right now, Try again later..",
+      });
+    }
+    setIsUploadingPost(false);
   }
 
   const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
@@ -60,11 +72,14 @@ const CreateForm = () => {
       const uploadedImagesUrl = data.map((image) => image.url);
       void creatingPost({ images: uploadedImagesUrl });
     },
-    onUploadError: () => {
-      alert("error occurred while uploading");
+    onUploadError: (err) => {
+      toast({
+        title: err.message,
+        description: "Can't upload more than 4 photos at once",
+      });
     },
     onUploadBegin: () => {
-      console.log("upload has begun");
+      setIsUploadingPost(true);
     },
   });
 
@@ -79,7 +94,8 @@ const CreateForm = () => {
 
   return (
     <>
-      <p className="relative bg-primary py-3 text-center text-primary-foreground">
+      {isUploadingPost && <LoadingScreen />}
+      <div className="relative bg-primary py-3 text-center text-primary-foreground">
         Create new post
         {selectedImages?.length > 0 && (
           <Badge
@@ -89,7 +105,7 @@ const CreateForm = () => {
             Share
           </Badge>
         )}
-      </p>
+      </div>
       <FormProvider {...form}>
         <form className="flex">
           <div className="min-h-[300px] w-full">

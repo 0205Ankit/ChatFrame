@@ -1,11 +1,7 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import CreateForm from "./create-form";
 
 type PropTypes = {
