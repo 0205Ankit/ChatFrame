@@ -3,8 +3,14 @@ import { createUploadthing, type FileRouter } from "uploadthing/next";
 const f = createUploadthing();
 
 export const customFileRouter = {
-  imageUploader: f({
+  multipleImageUploader: f({
     image: { maxFileSize: "64MB", maxFileCount: 4 },
+  }).onUploadComplete(async ({ file }) => {
+    return { url: file.url };
+  }),
+
+  singleImageUploader: f({
+    image: { maxFileSize: "8MB", maxFileCount: 1 },
   }).onUploadComplete(async ({ file }) => {
     return { url: file.url };
   }),

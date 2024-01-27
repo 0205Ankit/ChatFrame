@@ -5,7 +5,6 @@ import {
   Sheet,
   SheetContent,
   SheetHeader,
-  SheetOverlay,
   SheetTitle,
 } from "../../../components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -42,7 +41,10 @@ const Search = ({ shrink, setShrink }: PropTypes) => {
       <Sheet open={open} onOpenChange={closeSheetHandler}>
         <SheetContent
           side={"left"}
-          className="left-20 z-30 rounded-br-2xl rounded-tr-2xl data-[state=open]:slide-in-from-left-20 "
+          className={cn(
+            "left-20 z-[60] rounded-br-2xl rounded-tr-2xl data-[state=open]:slide-in-from-left-10 ",
+            { "z-[30]": !open },
+          )}
         >
           <SheetHeader>
             <div>

@@ -92,6 +92,7 @@ model User {
     posts         Post[]
     Comments      Comment[]
     likes         Like[]
+    profilePhoto  String?
 
     @@index([userName])
 }

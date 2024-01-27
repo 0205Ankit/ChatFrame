@@ -73,22 +73,25 @@ const CreateForm = () => {
     },
   });
 
-  const { startUpload, permittedFileInfo } = useUploadThing("imageUploader", {
-    onClientUploadComplete: (data) => {
-      const uploadedImagesUrl = data.map((image) => image.url);
-      const postData = { ...form.getValues(), images: uploadedImagesUrl };
-      mutate(postData);
+  const { startUpload, permittedFileInfo } = useUploadThing(
+    "multipleImageUploader",
+    {
+      onClientUploadComplete: (data) => {
+        const uploadedImagesUrl = data.map((image) => image.url);
+        const postData = { ...form.getValues(), images: uploadedImagesUrl };
+        mutate(postData);
+      },
+      onUploadError: (err) => {
+        toast({
+          title: err.message,
+          description: "Can't upload more than 4 photos at once",
+        });
+      },
+      onUploadBegin: () => {
+        setIsUploadingPost(true);
+      },
     },
-    onUploadError: (err) => {
-      toast({
-        title: err.message,
-        description: "Can't upload more than 4 photos at once",
-      });
-    },
-    onUploadBegin: () => {
-      setIsUploadingPost(true);
-    },
-  });
+  );
 
   const fileTypes = permittedFileInfo?.config
     ? Object.keys(permittedFileInfo?.config)

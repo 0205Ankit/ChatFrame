@@ -31,6 +31,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerAuthSession();
+  console.log(session?.user);
   return (
     <html lang="en">
       <body
