@@ -13,11 +13,11 @@ import { Loader2 } from "lucide-react";
 
 type PropTypes = React.HTMLAttributes<HTMLImageElement>;
 const EmptyProfilePhoto = ({ className }: PropTypes) => {
-  const { getInputProps, getRootProps, isUploadingPost } =
+  const { getInputProps, getRootProps, isUploadingPhoto } =
     useProfilePhotoUpload();
   return (
     <TooltipProvider>
-      <Tooltip delayDuration={200}>
+      <Tooltip delayDuration={500}>
         <TooltipTrigger>
           <div
             {...getRootProps()}
@@ -33,7 +33,7 @@ const EmptyProfilePhoto = ({ className }: PropTypes) => {
               height={100}
               className={cn("h-full w-full object-cover")}
             />
-            {isUploadingPost && (
+            {isUploadingPhoto && (
               <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-black/50">
                 <Loader2 className="h-2/6 w-2/6 animate-spin font-bold text-slate-200" />
               </div>

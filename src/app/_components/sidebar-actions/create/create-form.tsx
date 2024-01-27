@@ -100,6 +100,7 @@ const CreateForm = () => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
+    maxFiles: 4,
   });
 
   return (

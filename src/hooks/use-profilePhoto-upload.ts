@@ -9,7 +9,7 @@ import { generateClientDropzoneAccept } from "uploadthing/client";
 const useProfilePhotoUpload = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const [isUploadingPost, setIsUploadingPost] = React.useState(false);
+  const [isUploadingPhoto, setIsUploadingPhoto] = React.useState(false);
 
   const { mutate } = api.user.updateProfilePhoto.useMutation({
     onSuccess: () => {
@@ -22,7 +22,7 @@ const useProfilePhotoUpload = () => {
       });
     },
     onSettled: () => {
-      setIsUploadingPost(false);
+      setIsUploadingPhoto(false);
     },
   });
   const { startUpload, permittedFileInfo } = useUploadThing(
@@ -38,7 +38,7 @@ const useProfilePhotoUpload = () => {
         });
       },
       onUploadBegin: () => {
-        setIsUploadingPost(true);
+        setIsUploadingPhoto(true);
       },
     },
   );
@@ -64,7 +64,7 @@ const useProfilePhotoUpload = () => {
   return {
     getRootProps,
     getInputProps,
-    isUploadingPost,
+    isUploadingPhoto,
   };
 };
 

@@ -27,4 +27,16 @@ export const userRouter = createTRPCRouter({
       });
       return user;
     }),
+
+  removeProfilePhoto: protectedProcedure.mutation(({ ctx }) => {
+    const user = ctx.db.user.update({
+      where: {
+        id: ctx.session.user.id,
+      },
+      data: {
+        profilePhoto: null,
+      },
+    });
+    return user;
+  })
 });
