@@ -93,8 +93,19 @@ model User {
     Comments      Comment[]
     likes         Like[]
     profilePhoto  String?
+    followedBy    Follows[] @relation("followedBy")
+    following     Follows[] @relation("following")
 
     @@index([userName])
+}
+
+model Follows {
+    followedBy   User   @relation("followedBy", fields: [followedById], references: [id])
+    followedById String
+    following    User   @relation("following", fields: [followingId], references: [id])
+    followingId  String
+
+    @@id([followingId, followedById])
 }
 
 model VerificationToken {
