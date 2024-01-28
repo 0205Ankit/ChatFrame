@@ -1,14 +1,10 @@
-import React from 'react'
-import { useFormContext } from 'react-hook-form';
-import {
-  FormControl,
-  FormField,
-  FormItem,
-} from "@/components/ui/form";
-import { TextareaWithCounter } from '@/components/textarea-with-counter';
+import React from "react";
+import { useFormContext } from "react-hook-form";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { TextareaWithCounter } from "@/components/textarea-with-counter";
 
 const CaptionField = () => {
-    const form = useFormContext()
+  const form = useFormContext();
   return (
     <FormField
       control={form.control}
@@ -19,7 +15,7 @@ const CaptionField = () => {
             <TextareaWithCounter
               placeholder="caption..."
               hasCounter
-              maxChars={2000}
+              maxChars={200}
               {...field}
               className="max-h-[100px] min-h-[100px] border-none px-0 focus-visible:ring-0"
             />
@@ -28,6 +24,6 @@ const CaptionField = () => {
       )}
     />
   );
-}
+};
 
-export default CaptionField
+export default CaptionField;

@@ -3,9 +3,8 @@ import NoPosts from "./no-posts";
 import { api } from "@/trpc/server";
 import Post from "./post";
 
-const AllUserPosts = async () => {
+const AllPosts = async () => {
   const post = await api.post.getAllPostOfUser.query();
-  console.log(post);
 
   return (
     <div className="mx-auto w-11/12">
@@ -24,4 +23,4 @@ const AllUserPosts = async () => {
   );
 };
 
-export default AllUserPosts;
+export default AllPosts;

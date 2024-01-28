@@ -32,13 +32,15 @@ const ProfileHeader = async ({ profileName }: { profileName: string }) => {
         </div>
         <div className="flex items-center gap-6">
           <p className="font-medium">
-            <span className="font-bold">0</span> posts
+            <span className="font-bold">{user?.posts?.length ?? 0}</span> posts
           </p>
           <p className="font-medium">
-            <span className="font-bold">0</span> followers
+            <span className="font-bold">{user?.followedBy?.length ?? 0}</span>{" "}
+            followers
           </p>
           <p className="font-medium">
-            <span className="font-bold">0</span> following
+            <span className="font-bold">{user?.following?.length ?? 0}</span>{" "}
+            following
           </p>
         </div>
       </div>

@@ -25,6 +25,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import ProfileCard from "@/components/profile-card";
 
 const defaultValues = {
   caption: "",
@@ -155,8 +156,7 @@ const CreateForm = () => {
           </div>
           <Separator orientation="vertical" />
           <div className="min-w-[350px] px-3 pb-5">
-            <div>userProfile</div>
-            <Separator className="my-3" />
+            <ProfileCard />
             <CaptionField />
             <Separator className="my-3" />
             <LocationField />

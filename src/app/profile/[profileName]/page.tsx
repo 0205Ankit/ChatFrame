@@ -3,7 +3,7 @@ import ProfileHeader from "./profile-header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LuGrid, LuBookmark } from "react-icons/lu";
 import { Separator } from "@/components/ui/separator";
-import AllUserPosts from "./all-user-posts";
+import AllUserPosts from "./all-posts";
 import SavedPosts from "./saved-posts";
 
 const tabsTriggerStyle =

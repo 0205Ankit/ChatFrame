@@ -9,6 +9,8 @@ export const userRouter = createTRPCRouter({
         posts: true,
         likes: true,
         Comments: true,
+        following: true,
+        followedBy: true,
       },
     });
     return user;
@@ -38,5 +40,5 @@ export const userRouter = createTRPCRouter({
       },
     });
     return user;
-  })
+  }),
 });

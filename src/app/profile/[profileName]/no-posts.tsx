@@ -6,7 +6,7 @@ import { IoCameraOutline } from "react-icons/io5";
 const NoPosts = () => {
   return (
     <div className="flex w-80 flex-col items-center">
-      <IoCameraOutline className="text-4xl" />
+      <IoCameraOutline className="mb-2 text-4xl" />
       <h6 className="text-xl font-bold">Share Photos</h6>
       <span className="text-center">
         When you share photos, they will appear on your profile.
