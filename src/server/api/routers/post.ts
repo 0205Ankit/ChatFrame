@@ -4,7 +4,7 @@ import { createPostSchema } from "@/schema/form-schema";
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
     .input(createPostSchema)
-    .mutation(async ({ ctx, input }) => {
+    .mutation(({ ctx, input }) => {
       return ctx.db.post.create({
         data: {
           createdById: ctx.session.user.id,
@@ -16,6 +16,15 @@ export const postRouter = createTRPCRouter({
         },
       });
     }),
+
+  getAllPostOfUser: protectedProcedure.query(({ ctx }) => {
+    const posts = ctx.db.post.findMany({
+      where: { createdById: ctx.session.user.id },
+      orderBy: { createdAt: "desc" },
+      include: { comments: true, likes: true },
+    });
+    return posts;
+  }),
 
   getLatest: protectedProcedure.query(({ ctx }) => {
     return ctx.db.post.findFirst({

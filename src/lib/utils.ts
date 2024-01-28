@@ -30,3 +30,5 @@ export const formatName = ({
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   }
 };
+
+export type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;

@@ -31,7 +31,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerAuthSession();
-  console.log(session?.user);
   return (
     <html lang="en">
       <body
@@ -50,11 +49,11 @@ export default async function RootLayout({
           routerConfig={extractRouterConfig(customFileRouter)}
         />
         <TRPCReactProvider>
-          <div className="relative flex">
+          <div className="custom-scrollbar relative flex h-full overflow-y-scroll">
             <div className={cn(sideBarWidth)}>
               {session?.user && <SideBar className={cn(sideBarWidth)} />}
             </div>
-            <div className="custom-scrollbar h-full w-full overflow-y-scroll pl-10 antialiased">
+            <div className="mx-auto h-full pl-10 antialiased md:w-[700px] lg:w-[800px] xl:w-[1000px]">
               {children}
             </div>
           </div>
