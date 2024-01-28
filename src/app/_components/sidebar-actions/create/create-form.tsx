@@ -8,13 +8,6 @@ import { createPostSchema } from "@/schema/form-schema";
 import { generateClientDropzoneAccept } from "uploadthing/client";
 import { useUploadThing } from "@/utils/uploadthing";
 import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 import LocationField from "./location-field";
 import CaptionField from "./caption-field";
 import HideLikesField from "./hideLikes-field";
@@ -26,6 +19,7 @@ import { useDropzone } from "@uploadthing/react/hooks";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import ProfileCard from "@/components/profile-card";
+import ImageSlider from "@/components/image-slider";
 
 const defaultValues = {
   caption: "",
@@ -122,24 +116,13 @@ const CreateForm = () => {
         <form className="flex">
           <div className="min-h-[300px] w-full">
             {selectedImages?.length > 0 ? (
-              <Carousel>
-                <CarouselContent>
-                  {selectedImages?.map((image) => (
-                    <CarouselItem
-                      key={image}
-                      className={cn("flex h-[300px] w-full justify-center")}
-                    >
-                      <Image
-                        src={image}
-                        alt="image"
-                        width={300}
-                        height={300}
-                        className="aspect-square h-full rounded-md object-cover"
-                      />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-              </Carousel>
+              <div className="flex w-full justify-center">
+                <ImageSlider
+                  images={selectedImages}
+                  imageClassName="h-[280px] rounded-md"
+                  sliderClassName="w-[300px]"
+                />
+              </div>
             ) : (
               <div
                 {...getRootProps()}

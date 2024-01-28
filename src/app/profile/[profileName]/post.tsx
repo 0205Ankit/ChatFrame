@@ -1,24 +1,18 @@
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
 import { AiFillHeart } from "react-icons/ai";
 import { IoChatbubble } from "react-icons/io5";
 import { cn } from "@/lib/utils";
 import { type api } from "@/trpc/server";
 import { type inferAsyncReturnType } from "@trpc/server";
+import PostDialog from "@/components/post-dialog";
 
-type AllPostType = NonNullable<
+type PostType = NonNullable<
   inferAsyncReturnType<typeof api.post.getAllPostOfUser.query>[0]
 >;
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
-  post: AllPostType;
+  post: PostType;
 };
 
 const Post = ({ className, post }: PropType) => {
@@ -41,7 +35,9 @@ const Post = ({ className, post }: PropType) => {
           </div>
         </div>
       </DialogTrigger>
-      <DialogContent></DialogContent>
+      <DialogContent className="min-w-[850px] overflow-hidden border-none p-0">
+        <PostDialog post={post} />
+      </DialogContent>
     </Dialog>
   );
 };
