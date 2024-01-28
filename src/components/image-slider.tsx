@@ -38,10 +38,7 @@ const ImageSlider = ({
   }, [api]);
 
   return (
-    <Carousel
-      className={cn("h-full w-[400px]", sliderClassName)}
-      setApi={setApi}
-    >
+    <Carousel className={cn("h-full", sliderClassName)} setApi={setApi}>
       <CarouselContent className="">
         {images.map((image, index) => (
           <CarouselItem key={index}>

@@ -18,11 +18,11 @@ const ProfileCard = ({ className, imageSize }: PropType) => {
               height: `${imageSize ?? 30}px`,
               width: `${imageSize ?? 30}px`,
             }}
-            className="animate-pulse rounded-full bg-slate-400"
+            className="animate-pulse rounded-full bg-slate-200"
           />
           <div className="flex flex-col">
-            <h1 className="mb-1 w-20 animate-pulse rounded-sm bg-slate-400 py-1"></h1>
-            <h1 className="w-10 animate-pulse rounded-sm bg-slate-400 py-1"></h1>
+            <h1 className="mb-1 w-20 animate-pulse rounded-sm bg-slate-200 py-1"></h1>
+            <h1 className="w-10 animate-pulse rounded-sm bg-slate-200 py-1"></h1>
           </div>
         </div>
       ) : (

@@ -35,7 +35,7 @@ const Post = ({ className, post }: PropType) => {
           </div>
         </div>
       </DialogTrigger>
-      <DialogContent className="min-w-[850px] overflow-hidden border-none p-0">
+      <DialogContent className="min-w-[900px] overflow-hidden border-none p-0">
         <PostDialog post={post} />
       </DialogContent>
     </Dialog>
