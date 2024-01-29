@@ -13,4 +13,10 @@ export const commentsRouter = createTRPCRouter({
         },
       });
     }),
+
+  delete: protectedProcedure
+    .input(z.object({ commentId: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.comment.delete({ where: { id: input.commentId } });
+    }),
 });

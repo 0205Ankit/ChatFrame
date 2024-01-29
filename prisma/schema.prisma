@@ -51,6 +51,10 @@ model Comment {
     likes  Int    @default(0)
     author User   @relation(fields: [userId], references: [id])
     userId String
+
+    replyToId String?
+    replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    replies   Comment[] @relation("ReplyTo")
 }
 
 // Necessary for Next auth

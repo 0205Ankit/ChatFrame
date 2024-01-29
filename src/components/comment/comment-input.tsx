@@ -1,6 +1,6 @@
 "use client";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import EmojiPicker from "emoji-picker-react";
 import {
   Popover,
@@ -9,17 +9,34 @@ import {
 } from "@/components/ui/popover";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Loader2 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { api } from "@/trpc/react";
 import { cn } from "@/lib/utils";
-export const CommentInput = ({ postId }: { postId: string }) => {
+import { useRouter } from "next/navigation";
+export const CommentInput = ({
+  postId,
+  replyTo,
+}: {
+  postId: string;
+  replyTo?: string;
+}) => {
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const [comment, setComment] = React.useState("");
+  const router = useRouter();
   const disableCommenting = comment.length === 0 || comment.length > 200;
   const { mutate, isLoading } = api.comments.create.useMutation({
     onSuccess: () => {
+      router.refresh();
       setComment("");
     },
   });
+
+  useEffect(() => {
+    if (replyTo) {
+      setComment(`@${replyTo} `);
+    }
+  }, [replyTo]);
+
   return (
     <div className="relative flex items-center gap-2 px-4 ">
       <Popover>
@@ -33,7 +50,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
         </PopoverContent>
       </Popover>
       <Input
-        className="border-none px-0 text-base focus-visible:ring-0"
+        className="border-none px-0 text-sm focus-visible:ring-0"
         onChange={(e) => setComment(e.target.value)}
         value={comment}
         placeholder="Add a comment..."

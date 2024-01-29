@@ -6,7 +6,7 @@ import { IoChatbubble } from "react-icons/io5";
 import { cn } from "@/lib/utils";
 import { type api } from "@/trpc/server";
 import { type inferAsyncReturnType } from "@trpc/server";
-import PostDialog from "@/components/post-dialog";
+import PostDialog from "@/components/post-dialog/post-dialog";
 
 type PostType = NonNullable<
   inferAsyncReturnType<typeof api.post.getAllPostOfUser.query>[0]
