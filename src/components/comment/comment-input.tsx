@@ -18,11 +18,12 @@ export const CommentInput = ({
   replyTo,
 }: {
   postId: string;
-  replyTo?: string;
+  replyTo?: { username: string };
 }) => {
   // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const [comment, setComment] = React.useState("");
   const router = useRouter();
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const disableCommenting = comment.length === 0 || comment.length > 200;
   const { mutate, isLoading } = api.comments.create.useMutation({
     onSuccess: () => {
@@ -33,7 +34,8 @@ export const CommentInput = ({
 
   useEffect(() => {
     if (replyTo) {
-      setComment(`@${replyTo} `);
+      setComment(`@${replyTo.username} `);
+      inputRef.current?.focus();
     }
   }, [replyTo]);
 
@@ -53,6 +55,7 @@ export const CommentInput = ({
         className="border-none px-0 text-sm focus-visible:ring-0"
         onChange={(e) => setComment(e.target.value)}
         value={comment}
+        ref={inputRef}
         placeholder="Add a comment..."
       />
       <Button

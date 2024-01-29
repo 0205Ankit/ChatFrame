@@ -7,14 +7,17 @@ import { Separator } from "../ui/separator";
 import { type PostType } from "@/types/post-type";
 import CaptionFormattedText from "./caption-formatted-text";
 import CommentFormattedText from "../comment/comment-formatted-text";
-import {CommentInput} from "../comment/comment-input";
+import { CommentInput } from "../comment/comment-input";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   post: PostType;
 };
 
 const PostDialog = ({ post }: PropType) => {
-  const [replyToUser, setReplyToUser] = React.useState<string>("");
+  const [replyToUser, setReplyToUser] = React.useState<{ username: string }>({
+    username: "",
+  }); // using state like this so that the component re-renders even if the replyToUser.username is the same as before
+
   return (
     <div className={cn("flex")}>
       <ImageSlider
@@ -36,14 +39,15 @@ const PostDialog = ({ post }: PropType) => {
           <>
             {post.comments.map((comment) => (
               <div key={comment.id} className="mb-7 px-4">
-                <CommentFormattedText comment={comment} setReplyToUser={setReplyToUser} />
+                <CommentFormattedText
+                  comment={comment}
+                  setReplyToUser={setReplyToUser}
+                />
               </div>
             ))}
           </>
         )}
-        <div className="">
-          <CommentInput postId={post.id} replyTo={replyToUser} />
-        </div>
+        <CommentInput postId={post.id} replyTo={replyToUser} />
       </div>
     </div>
   );

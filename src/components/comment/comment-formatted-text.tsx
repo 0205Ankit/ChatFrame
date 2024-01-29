@@ -12,7 +12,7 @@ type CommentType = PostType["comments"][number];
 
 type PropType = {
   comment: CommentType;
-  setReplyToUser: React.Dispatch<React.SetStateAction<string>>;
+  setReplyToUser: React.Dispatch<React.SetStateAction<{username:string}>>;
 };
 
 const CommentFormattedText = ({ comment, setReplyToUser }: PropType) => {
@@ -44,7 +44,7 @@ const CommentFormattedText = ({ comment, setReplyToUser }: PropType) => {
         <div className="group flex items-center gap-2 text-xs">
           <span>12h</span>
           <Button
-            onClick={() => setReplyToUser(data?.userName ?? "")}
+            onClick={() => setReplyToUser({username: data?.userName ?? ""})}
             variant={"noStyle"}
             className="font-semibold text-slate-500"
             size={"smallest"}
