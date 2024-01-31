@@ -41,4 +41,11 @@ export const userRouter = createTRPCRouter({
     });
     return user;
   }),
+
+  checkUserExistByUserName: protectedProcedure.input(z.object({ profileName: z.string() })).query(({ ctx, input }) => {
+    const user = ctx.db.user.findUnique({
+      where: { userName: input.profileName },
+    });
+    return user;
+  })
 });
