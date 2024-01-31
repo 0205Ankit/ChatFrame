@@ -16,28 +16,56 @@ import { useRouter } from "next/navigation";
 export const CommentInput = ({
   postId,
   replyTo,
+  commentId,
 }: {
   postId: string;
   replyTo?: { username: string };
+  commentId?: string;
 }) => {
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-  const [comment, setComment] = React.useState("");
+  const [commentContent, setCommentContent] = React.useState("");
   const router = useRouter();
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const disableCommenting = comment.length === 0 || comment.length > 200;
+  const disableCommenting =
+    commentContent.length === 0 || commentContent.length > 200;
+  const { mutate: replyToCommentMutation } =
+    api.comments.createReplyTo.useMutation({
+      onSuccess: () => {
+        router.refresh();
+        setCommentContent("");
+      },
+    });
   const { mutate, isLoading } = api.comments.create.useMutation({
     onSuccess: () => {
       router.refresh();
-      setComment("");
+      setCommentContent("");
     },
   });
 
   useEffect(() => {
-    if (replyTo) {
-      setComment(`@${replyTo.username} `);
+    if (replyTo?.username) {
+      setCommentContent(`@${replyTo.username} `);
       inputRef.current?.focus();
     }
   }, [replyTo]);
+
+  const postCommentHandler = () => {
+    if (
+      commentContent.startsWith("@") &&
+      commentContent.includes(" ") &&
+      commentId
+    ) {
+      replyToCommentMutation({
+        postId: postId,
+        content: commentContent,
+        commentId: commentId,
+      });
+      return;
+    }
+    mutate({
+      postId: postId,
+      content: commentContent,
+    });
+  };
 
   return (
     <div className="relative flex items-center gap-2 px-4 ">
@@ -47,19 +75,21 @@ export const CommentInput = ({
         </PopoverTrigger>
         <PopoverContent className="w-fit overflow-scroll rounded-xl border-0 p-0">
           <EmojiPicker
-            onEmojiClick={(emoji) => setComment(comment + emoji.emoji)}
+            onEmojiClick={(emoji) =>
+              setCommentContent(commentContent + emoji.emoji)
+            }
           />
         </PopoverContent>
       </Popover>
       <Input
         className="border-none px-0 text-sm focus-visible:ring-0"
-        onChange={(e) => setComment(e.target.value)}
-        value={comment}
+        onChange={(e) => setCommentContent(e.target.value)}
+        value={commentContent}
         ref={inputRef}
         placeholder="Add a comment..."
       />
       <Button
-        onClick={() => mutate({ content: comment, postId: postId })}
+        onClick={postCommentHandler}
         variant={"noStyle"}
         className="justify-self-end font-bold text-primary"
         disabled={disableCommenting}

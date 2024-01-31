@@ -24,6 +24,7 @@ export const postRouter = createTRPCRouter({
       include: {
         comments: {
           orderBy: { createdAt: "desc" },
+          where: { replyToId: null },
         },
         likes: true,
       },

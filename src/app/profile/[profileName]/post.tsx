@@ -1,9 +1,7 @@
 import React from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Image from "next/image";
 import { AiFillHeart } from "react-icons/ai";
 import { IoChatbubble } from "react-icons/io5";
-import { cn } from "@/lib/utils";
 import { type api } from "@/trpc/server";
 import { type inferAsyncReturnType } from "@trpc/server";
 import PostDialog from "@/components/post-dialog/post-dialog";
@@ -15,10 +13,10 @@ type PropType = React.HTMLAttributes<HTMLDivElement> & {
   post: PostType;
 };
 
-const Post = ({ className, post }: PropType) => {
+const Post = ({ post }: PropType) => {
   return (
-    <Dialog>
-      <DialogTrigger className={cn("group relative", { className })}>
+    <PostDialog post={post}>
+      <>
         <Image
           src={post?.images[0] ?? "/empty-profile-photo.jpeg"}
           alt="post"
@@ -34,11 +32,8 @@ const Post = ({ className, post }: PropType) => {
             <IoChatbubble className="text-xl" /> 0
           </div>
         </div>
-      </DialogTrigger>
-      <DialogContent className="min-w-[900px] overflow-hidden border-none p-0">
-        <PostDialog post={post} />
-      </DialogContent>
-    </Dialog>
+      </>
+    </PostDialog>
   );
 };
 

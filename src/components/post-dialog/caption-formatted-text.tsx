@@ -11,7 +11,7 @@ const CaptionFormattedText = ({ caption }: { caption: string }) => {
         <AvatarImage src={data?.profilePhoto ?? "/empty-profile-photo.jpeg"} />
         <AvatarFallback>CF</AvatarFallback>
       </Avatar>
-      <pre className="w-[400px] font-sans text-sm">
+      <pre className="font-sans text-sm">
         <span className="pr-3 font-semibold">{data?.userName}</span>
         {caption}
       </pre>
