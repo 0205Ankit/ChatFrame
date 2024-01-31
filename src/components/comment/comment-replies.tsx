@@ -10,10 +10,10 @@ import { type ReplyCommentsType } from "@/types/comment-type";
 
 const CommentReplies = ({
   comments,
-  commentId,
+  repliedCommentId,
 }: {
   comments: ReplyCommentsType[];
-  commentId: string;
+  repliedCommentId: string;
 }) => {
   return (
     <Accordion type="single" collapsible>
@@ -29,8 +29,7 @@ const CommentReplies = ({
             <CommentFormattedText
               key={comment.id}
               comment={comment}
-              setReplyToUser={() => comment.author.userName}
-              setCommentId={() => commentId}
+              mainCommentId={repliedCommentId}
               className="mt-4"
               isReply
             />

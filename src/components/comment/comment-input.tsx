@@ -13,15 +13,13 @@ import React, { useEffect } from "react";
 import { api } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useComment } from "./comment-provider";
 export const CommentInput = ({
   postId,
-  replyTo,
-  commentId,
 }: {
   postId: string;
-  replyTo?: { username: string };
-  commentId?: string;
 }) => {
+  const {repliedCommentId,replyToUser} =useComment()
   const [commentContent, setCommentContent] = React.useState("");
   const router = useRouter();
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -42,22 +40,22 @@ export const CommentInput = ({
   });
 
   useEffect(() => {
-    if (replyTo?.username) {
-      setCommentContent(`@${replyTo.username} `);
+    if (replyToUser?.username) {
+      setCommentContent(`@${replyToUser.username} `);
       inputRef.current?.focus();
     }
-  }, [replyTo]);
+  }, [replyToUser]);
 
   const postCommentHandler = () => {
     if (
       commentContent.startsWith("@") &&
       commentContent.includes(" ") &&
-      commentId
+      repliedCommentId
     ) {
       replyToCommentMutation({
         postId: postId,
         content: commentContent,
-        commentId: commentId,
+        commentId: repliedCommentId,
       });
       return;
     }

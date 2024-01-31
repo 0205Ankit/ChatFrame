@@ -1,5 +1,4 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { type inferAsyncReturnType } from "@trpc/server";
 import { z } from "zod";
 
 export const commentsRouter = createTRPCRouter({
@@ -40,14 +39,13 @@ export const commentsRouter = createTRPCRouter({
       });
     }),
 
-  getReplies: protectedProcedure.input(z.object({ commentId: z.string() })).query(
-    ({ ctx, input }) => {
+  getReplies: protectedProcedure
+    .input(z.object({ commentId: z.string() }))
+    .query(({ ctx, input }) => {
       return ctx.db.comment.findMany({
         where: { replyToId: input.commentId },
         include: { author: true },
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt: "asc" },
       });
-    }
-  )
+    }),
 });
-

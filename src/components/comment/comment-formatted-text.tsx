@@ -9,22 +9,22 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import CommentReplies from "./comment-replies";
 import { cn, getCommentWithMentions } from "@/lib/utils";
+import { useComment } from "./comment-provider";
 
 type CommentType = PostType["comments"][number];
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   comment: CommentType;
-  setReplyToUser: React.Dispatch<React.SetStateAction<{ username: string }>>;
-  setCommentId: React.Dispatch<React.SetStateAction<string>>;
+  mainCommentId: string;
   isReply?: boolean;
 };
 
 const CommentFormattedText = ({
   comment,
-  setReplyToUser,
-  setCommentId,
   className,
+  mainCommentId,
 }: PropType) => {
+  const { setRepliedCommentId, setReplyToUser } = useComment();
   const { data } = api.user.get.useQuery();
   const { data: replyComments } = api.comments.getReplies.useQuery({
     commentId: comment.id,
@@ -46,7 +46,7 @@ const CommentFormattedText = ({
 
   const replyCommentHandler = () => {
     setReplyToUser({ username: data?.userName ?? "" });
-    setCommentId(comment.id);
+    setRepliedCommentId(mainCommentId);
   };
 
   return (
@@ -80,7 +80,7 @@ const CommentFormattedText = ({
           </Button>
         </div>
         {replyComments && replyComments?.length > 0 && (
-          <CommentReplies comments={replyComments} commentId={comment.id} />
+          <CommentReplies comments={replyComments} repliedCommentId={mainCommentId} />
         )}
       </div>
     </div>
