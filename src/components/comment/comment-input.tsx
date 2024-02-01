@@ -14,24 +14,27 @@ import { api } from "@/trpc/react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useComment } from "./comment-provider";
-export const CommentInput = ({
-  postId,
-}: {
-  postId: string;
-}) => {
-  const {repliedCommentId,replyToUser} =useComment()
+
+export const CommentInput = ({ postId }: { postId: string }) => {
+  const { repliedCommentId, replyToUser, focusCommentInput } = useComment();
+  const utils = api.useUtils();
   const [commentContent, setCommentContent] = React.useState("");
   const router = useRouter();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const disableCommenting =
     commentContent.length === 0 || commentContent.length > 200;
+
   const { mutate: replyToCommentMutation } =
     api.comments.createReplyTo.useMutation({
       onSuccess: () => {
         router.refresh();
         setCommentContent("");
       },
+      onSettled: () => {
+        void utils.comments.getReplies.invalidate();
+      },
     });
+
   const { mutate, isLoading } = api.comments.create.useMutation({
     onSuccess: () => {
       router.refresh();
@@ -44,7 +47,10 @@ export const CommentInput = ({
       setCommentContent(`@${replyToUser.username} `);
       inputRef.current?.focus();
     }
-  }, [replyToUser]);
+    if (focusCommentInput) {
+      inputRef.current?.focus();
+    }
+  }, [replyToUser , focusCommentInput]);
 
   const postCommentHandler = () => {
     if (
@@ -66,7 +72,7 @@ export const CommentInput = ({
   };
 
   return (
-    <div className="relative flex items-center gap-2 px-4 ">
+    <div className="relative flex items-center gap-2 px-4 py-2 ">
       <Popover>
         <PopoverTrigger>
           <BsEmojiSmile className="text-xl" />

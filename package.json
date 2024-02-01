@@ -43,6 +43,7 @@
     "embla-carousel-react": "^8.0.0-rc20",
     "emoji-picker-react": "^4.7.10",
     "lodash.debounce": "^4.0.8",
+    "lottie-react": "^2.4.0",
     "lucide-react": "^0.314.0",
     "nanoid": "^4.0.2",
     "next": "^14.0.4",

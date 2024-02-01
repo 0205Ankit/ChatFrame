@@ -25,12 +25,13 @@ const CommentFormattedText = ({
   mainCommentId,
 }: PropType) => {
   const { setRepliedCommentId, setReplyToUser } = useComment();
+  const utils = api.useUtils();
+  const { toast } = useToast();
+  const router = useRouter();
   const { data } = api.user.get.useQuery();
   const { data: replyComments } = api.comments.getReplies.useQuery({
     commentId: comment.id,
   });
-  const { toast } = useToast();
-  const router = useRouter();
   const { mutate } = api.comments.delete.useMutation({
     onError: (err) => {
       console.log(err);
@@ -41,6 +42,9 @@ const CommentFormattedText = ({
     },
     onSuccess: () => {
       router.refresh();
+    },
+    onSettled: () => {
+      void utils.comments.getReplies.invalidate();
     },
   });
 
@@ -80,7 +84,10 @@ const CommentFormattedText = ({
           </Button>
         </div>
         {replyComments && replyComments?.length > 0 && (
-          <CommentReplies comments={replyComments} repliedCommentId={mainCommentId} />
+          <CommentReplies
+            comments={replyComments}
+            repliedCommentId={mainCommentId}
+          />
         )}
       </div>
     </div>

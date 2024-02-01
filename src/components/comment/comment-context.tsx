@@ -10,7 +10,9 @@ type CommentContextType = {
     }>
   >;
   repliedCommentId: string;
+  focusCommentInput: boolean;
   setRepliedCommentId: React.Dispatch<React.SetStateAction<string>>;
+  setFocusCommentInput: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CommentContext = createContext<CommentContextType | null>(null);

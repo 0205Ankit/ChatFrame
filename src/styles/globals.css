@@ -7,17 +7,17 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #334155;
+  background-color: #ffffff;
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background-color: rgb(15 23 42);
+  background-color: #ffffff;
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-corner {
-  background-color: #334155;
+  background-color: #ffffff;
 }
 
 @layer base {

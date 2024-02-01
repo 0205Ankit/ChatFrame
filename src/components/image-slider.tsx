@@ -15,30 +15,32 @@ const ImageSlider = ({
   images,
   imageClassName,
   sliderClassName,
+  onDoubleClick
 }: {
   images: string[];
   imageClassName?: string;
   sliderClassName?: string;
+  onDoubleClick: () => void;
 }) => {
-  const [api, setApi] = React.useState<CarouselApi>();
+  const [sliderApi, setSliderApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    if (!api) {
+    if (!sliderApi) {
       return;
     }
 
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
+    setCount(sliderApi.scrollSnapList().length);
+    setCurrent(sliderApi.selectedScrollSnap() + 1);
 
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap() + 1);
+    sliderApi.on("select", () => {
+      setCurrent(sliderApi.selectedScrollSnap() + 1);
     });
-  }, [api]);
+  }, [sliderApi]);
 
   return (
-    <Carousel className={cn("h-full", sliderClassName)} setApi={setApi}>
+    <Carousel onDoubleClick={()=>onDoubleClick()} className={cn("h-full", sliderClassName)} setApi={setSliderApi}>
       <CarouselContent className="">
         {images.map((image, index) => (
           <CarouselItem key={index}>
@@ -47,10 +49,7 @@ const ImageSlider = ({
               alt="image"
               width={100}
               height={100}
-              className={cn(
-                "aspect-square h-full w-full object-cover",
-                imageClassName,
-              )}
+              className={cn("h-full w-full object-cover", imageClassName)}
             />
           </CarouselItem>
         ))}

@@ -12,6 +12,7 @@ export const CommentProvider = ({
     username: "",
   }); // using state like this so that the component re-renders even if the replyToUser.username is the same as before
   const [repliedCommentId, setRepliedCommentId] = useState<string>("");
+  const [focusCommentInput, setFocusCommentInput] = useState<boolean>(false);
   return (
     <CommentContext.Provider
       value={{
@@ -19,6 +20,8 @@ export const CommentProvider = ({
         setReplyToUser,
         repliedCommentId,
         setRepliedCommentId,
+        focusCommentInput,
+        setFocusCommentInput,
       }}
     >
       {children}

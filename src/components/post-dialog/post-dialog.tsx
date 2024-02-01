@@ -1,5 +1,5 @@
 "use client";
-import React, { type PropsWithChildren } from "react";
+import React, { useState, type PropsWithChildren, useEffect } from "react";
 import ImageSlider from "../image-slider";
 import { cn } from "@/lib/utils";
 import ProfileCard from "../profile-card";
@@ -8,56 +8,82 @@ import { type PostType } from "@/types/post-type";
 import CaptionFormattedText from "./caption-formatted-text";
 import CommentFormattedText from "../comment/comment-formatted-text";
 import { CommentInput } from "../comment/comment-input";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CommentProvider } from "../comment/comment-provider";
+import NoComments from "./no-comments";
+import PostActions from "./post-actions";
+import { useRouter } from "next/navigation";
+import { api } from "@/trpc/react";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> &
   PropsWithChildren & {
     post: PostType;
   };
 
-const PostDialog = ({ post, children, className }: PropType) => {
+const PostDialog = ({ post }: PropType) => {
+  const router = useRouter();
+  const utils = api.useUtils();
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const { data } = api.likes.likedByuser.useQuery({ postId: post.id });
+
+  useEffect(() => {
+    setIsLiked(Boolean(data));
+  }, [data]);
+
+  const { mutate } = api.likes.like.useMutation({
+    onMutate: () => {
+      setIsLiked(true);
+    },
+    onSettled: () => {
+      router.refresh();
+      void utils.likes.likedByuser.invalidate();
+    },
+  });
   return (
-    <Dialog>
-      <DialogTrigger className={cn("group relative", { className })}>
-        {children}
-      </DialogTrigger>
-      <DialogContent className="min-w-[900px] overflow-visible border-none p-0 ">
-        <div className={cn("flex")}>
-          <CommentProvider>
-            <ImageSlider
-              images={post.images ?? []}
-              imageClassName="h-[calc(100vh-80px)]"
-              sliderClassName="min-w-[400px] max-w-[400px]"
-            />
-            <div className="grow">
-              <div className="px-4 pt-3">
-                <ProfileCard />
+    <CommentProvider>
+      <div className={cn("flex")}>
+        <ImageSlider
+          images={post.images ?? []}
+          imageClassName="sm:h-[450px] xl:h-[550px] 2xl:h-[650px]"
+          sliderClassName="min-w-[400px] max-w-[400px]"
+          onDoubleClick={() => mutate({ postId: post.id })}
+        />
+        <div className="flex grow flex-col justify-between">
+          <div className="px-4 pt-3">
+            <ProfileCard />
+          </div>
+          <Separator className="my-2" />
+          <div className="custom-scrollbar overflow-auto sm:h-[250px] xl:h-[350px] 2xl:h-[450px]">
+            {post.caption && (
+              <div className="mb-5 px-4">
+                <CaptionFormattedText caption={post.caption} />
               </div>
-              <Separator className="my-3" />
-              {post.caption && (
-                <div className="mb-5 px-4">
-                  <CaptionFormattedText caption={post.caption} />
-                </div>
-              )}
-              {post.comments && (
-                <div className="px-4">
-                  {post.comments.map((comment) => (
-                    <CommentFormattedText
-                      key={comment.id}
-                      comment={comment}
-                      mainCommentId={comment.id}
-                      className="mb-5"
-                    />
-                  ))}
-                </div>
-              )}
-              <CommentInput postId={post.id} />
-            </div>
-          </CommentProvider>
+            )}
+            {post.comments.length > 0 ? (
+              <div className="px-4">
+                {post.comments.map((comment) => (
+                  <CommentFormattedText
+                    key={comment.id}
+                    comment={comment}
+                    mainCommentId={comment.id}
+                    className="mb-5"
+                  />
+                ))}
+              </div>
+            ) : (
+              <NoComments />
+            )}
+          </div>
+          <div className="">
+            <PostActions
+              post={post}
+              isLiked={isLiked}
+              setIsLiked={setIsLiked}
+            />
+            <CommentInput postId={post.id} />
+          </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </CommentProvider>
   );
 };
 
