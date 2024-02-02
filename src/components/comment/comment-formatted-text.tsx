@@ -8,7 +8,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import CommentReplies from "./comment-replies";
-import { cn, getCommentWithMentions, getFormattedTime } from "@/lib/utils";
+import { cn, getCommentWithMentions, getElapsedTime } from "@/lib/utils";
 import { useComment } from "./comment-provider";
 import { getUserDetails } from "@/app/queries";
 
@@ -30,6 +30,7 @@ const CommentFormattedText = ({
   const utils = api.useUtils();
   const { toast } = useToast();
   const router = useRouter();
+
   useEffect(() => {
     const asyncFunction = async () => {
       const user = await getUserDetails();
@@ -77,7 +78,7 @@ const CommentFormattedText = ({
           userName: data?.userName ?? "",
         })}
         <div className="group flex items-center gap-2 text-xs">
-          <span>{getFormattedTime(comment.createdAt)}</span>
+          <span>{getElapsedTime(comment.createdAt)}</span>
           <Button
             onClick={replyCommentHandler}
             variant={"noStyle"}

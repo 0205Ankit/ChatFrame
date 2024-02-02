@@ -1,6 +1,13 @@
 import { type ClassValue, clsx } from "clsx";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  differenceInMonths,
+  differenceInYears,
+} from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -77,10 +84,24 @@ export const getCommentWithMentions = ({
   );
 };
 
-export const getFormattedTime = (time: Date) => {
-  return time.toLocaleString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
-};
+export function getElapsedTime(startDate: Date) {
+  const currentDate = new Date();
+
+  const minutesDiff = differenceInMinutes(currentDate, startDate);
+  const hoursDiff = differenceInHours(currentDate, startDate);
+  const daysDiff = differenceInDays(currentDate, startDate);
+  const monthsDiff = differenceInMonths(currentDate, startDate);
+  const yearsDiff = differenceInYears(currentDate, startDate);
+
+  if (minutesDiff < 60) {
+    return `${minutesDiff} m`;
+  } else if (hoursDiff < 24) {
+    return `${hoursDiff} h`;
+  } else if (daysDiff < 30) {
+    return `${daysDiff} d`;
+  } else if (monthsDiff < 12) {
+    return `${monthsDiff} mo`;
+  } else {
+    return `${yearsDiff} y`;
+  }
+}
