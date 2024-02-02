@@ -27,6 +27,13 @@ const PostActions = ({
   const router = useRouter();
   const utils = api.useUtils();
   const { toast } = useToast();
+  let totalLikesCount = null;
+  if (!post.hideLikes) {
+    const { data: totalLikes } = api.likes.getTotalLikes.useQuery({
+      postId: post.id,
+    });
+    totalLikesCount = totalLikes;
+  }
 
   const { mutate } = api.likes.like.useMutation({
     onMutate: () => {
@@ -35,6 +42,7 @@ const PostActions = ({
     onSettled: () => {
       router.refresh();
       void utils.likes.likedByuser.invalidate();
+      void utils.likes.getTotalLikes.invalidate();
     },
   });
 
@@ -44,6 +52,7 @@ const PostActions = ({
     },
     onSettled: () => {
       router.refresh();
+      void utils.likes.getTotalLikes.invalidate();
       void utils.likes.likedByuser.invalidate();
     },
   });
@@ -75,37 +84,53 @@ const PostActions = ({
   });
 
   return (
-    <div className="flex items-center justify-between border-y border-input px-4 py-3 text-2xl">
-      <div className="flex items-center gap-2">
-        {isLiked ? (
-          <AiFillHeart
-            className="cursor-pointer text-primary"
-            onClick={() => removeLikeMutation({ postId: post.id })}
+    <div className="border-y border-input px-4 py-3">
+      <div className="flex items-center justify-between text-2xl">
+        <div className="flex items-center gap-2">
+          {isLiked ? (
+            <AiFillHeart
+              className="cursor-pointer text-primary"
+              onClick={() => removeLikeMutation({ postId: post.id })}
+            />
+          ) : (
+            <AiOutlineHeart
+              className="cursor-pointer"
+              onClick={() => mutate({ postId: post.id })}
+            />
+          )}
+          <RiChat3Line
+            className="cursor-pointer"
+            onClick={() => setFocusCommentInput(true)}
+          />
+        </div>
+        {isSaved ? (
+          <GoBookmarkFill
+            className="cursor-pointer"
+            onClick={() => unsavePostMutation({ postId: post.id })}
           />
         ) : (
-          <AiOutlineHeart
+          <GoBookmark
             className="cursor-pointer"
-            onClick={() => mutate({ postId: post.id })}
+            onClick={() => savePostMutation({ postId: post.id })}
           />
         )}
-        <RiChat3Line
-          className="cursor-pointer"
-          onClick={() => setFocusCommentInput(true)}
-        />
       </div>
-      {isSaved ? (
-        <GoBookmarkFill
-          className="cursor-pointer"
-          onClick={() => unsavePostMutation({ postId: post.id })}
-        />
-      ) : (
-        <GoBookmark
-          className="cursor-pointer"
-          onClick={() => savePostMutation({ postId: post.id })}
-        />
+      {totalLikesCount !== null && totalLikesCount !== undefined && (
+        <p className="pl-1 pt-1 text-sm font-semibold">
+          {totalLikesCount
+            ? `${totalLikesCount} like${totalLikesCount > 1 ? "s" : ""}`
+            : "Be the first one to like."}
+        </p>
       )}
     </div>
   );
 };
 
-export default PostActions;
+export default React.memo(PostActions, (prevProp, nextProp) => {
+  return (
+    prevProp.isLiked === nextProp.isLiked &&
+    prevProp.isSaved === nextProp.isSaved
+  );
+});
+
+// export default PostActions;

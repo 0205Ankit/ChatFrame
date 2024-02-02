@@ -41,6 +41,7 @@ const PostDialog = ({ post }: PropType) => {
     onSettled: () => {
       router.refresh();
       void utils.likes.likedByuser.invalidate();
+      void utils.likes.getTotalLikes.invalidate();
     },
   });
 

@@ -43,4 +43,12 @@ export const likesRouter = createTRPCRouter({
         },
       });
     }),
+
+    getTotalLikes: protectedProcedure.input(z.object({ postId: z.string() })).query(async ({ ctx, input }) => {
+      return ctx.db.like.count({
+        where: {
+          postId: input.postId
+        }
+      })
+    })
 });
