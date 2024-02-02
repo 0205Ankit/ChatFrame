@@ -24,10 +24,21 @@ model Post {
     likes        Like[]
     comments     Comment[]
     location     String?
-    hideLikes    Boolean?  @default(false)
-    hideComments Boolean?  @default(false)
+    hideLikes    Boolean?    @default(false)
+    hideComments Boolean?    @default(false)
+    savedPost    savedPost[]
 
     @@index([createdById])
+}
+
+model savedPost {
+    id String @id @default(uuid())
+
+    User   User?   @relation(fields: [userId], references: [id])
+    userId String?
+
+    Post   Post?   @relation(fields: [postId], references: [id])
+    postId String?
 }
 
 model Like {
@@ -85,20 +96,21 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String      @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?     @unique
     emailVerified DateTime?
     image         String?
-    userName      String?   @unique
+    userName      String?     @unique
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
     Comments      Comment[]
     likes         Like[]
     profilePhoto  String?
-    followedBy    Follows[] @relation("followedBy")
-    following     Follows[] @relation("following")
+    followedBy    Follows[]   @relation("followedBy")
+    following     Follows[]   @relation("following")
+    savedPost     savedPost[]
 
     @@index([userName])
 }

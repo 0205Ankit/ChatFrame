@@ -45,7 +45,8 @@ const PostDialog = ({ post }: PropType) => {
           images={post.images ?? []}
           imageClassName="sm:h-[450px] xl:h-[550px] 2xl:h-[650px]"
           sliderClassName="min-w-[400px] max-w-[400px]"
-          onDoubleClick={() => mutate({ postId: post.id })}
+          likePost={() => mutate({ postId: post.id })}
+          isLiked={isLiked}
         />
         <div className="flex grow flex-col justify-between">
           <div className="px-4 pt-3">

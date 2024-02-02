@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Carousel,
   type CarouselApi,
@@ -10,21 +10,27 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import likeAnimation from "../../public/animations/like-animation.json";
+import Lottie from "lottie-react";
+// import debounce from "lodash.debounce";
 
 const ImageSlider = ({
   images,
   imageClassName,
   sliderClassName,
-  onDoubleClick
+  likePost,
+  isLiked,
 }: {
   images: string[];
   imageClassName?: string;
   sliderClassName?: string;
-  onDoubleClick: () => void;
+  likePost: () => void;
+  isLiked?: boolean;
 }) => {
   const [sliderApi, setSliderApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
+  const [showLikeAnimation, setShowLikeAnimation] = React.useState(false);
 
   React.useEffect(() => {
     if (!sliderApi) {
@@ -39,8 +45,18 @@ const ImageSlider = ({
     });
   }, [sliderApi]);
 
+  const likePostHandler = useCallback(() => {
+    setShowLikeAnimation(true);
+    if (isLiked) return;
+    likePost();
+  }, [isLiked, likePost]);
+
   return (
-    <Carousel onDoubleClick={()=>onDoubleClick()} className={cn("h-full", sliderClassName)} setApi={setSliderApi}>
+    <Carousel
+      onDoubleClick={likePostHandler}
+      className={cn("relative h-full", sliderClassName)}
+      setApi={setSliderApi}
+    >
       <CarouselContent className="">
         {images.map((image, index) => (
           <CarouselItem key={index}>
@@ -72,8 +88,22 @@ const ImageSlider = ({
           </div>
         </>
       )}
+      {showLikeAnimation && (
+        <div
+          className={cn(
+            "absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-[40%]",
+          )}
+        >
+          <Lottie
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            animationData={JSON.parse(JSON.stringify(likeAnimation))}
+            loop={false}
+            onComplete={() => setShowLikeAnimation(false)}
+          />
+        </div>
+      )}
     </Carousel>
   );
 };
 
-export default ImageSlider;
+export default React.memo(ImageSlider);
