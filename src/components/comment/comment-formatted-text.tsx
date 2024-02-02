@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { api } from "@/trpc/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { type PostType } from "@/types/post-type";
@@ -8,8 +8,9 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import CommentReplies from "./comment-replies";
-import { cn, getCommentWithMentions } from "@/lib/utils";
+import { cn, getCommentWithMentions, getFormattedTime } from "@/lib/utils";
 import { useComment } from "./comment-provider";
+import { getUserDetails } from "@/app/queries";
 
 type CommentType = PostType["comments"][number];
 
@@ -24,10 +25,21 @@ const CommentFormattedText = ({
   className,
   mainCommentId,
 }: PropType) => {
+  const showDelete = useRef(false);
   const { setRepliedCommentId, setReplyToUser } = useComment();
   const utils = api.useUtils();
   const { toast } = useToast();
   const router = useRouter();
+  useEffect(() => {
+    const asyncFunction = async () => {
+      const user = await getUserDetails();
+      if (comment.userId === user?.id) {
+        showDelete.current = true;
+      }
+    };
+    void asyncFunction();
+  }, [comment.userId]);
+
   const { data } = api.user.get.useQuery();
   const { data: replyComments } = api.comments.getReplies.useQuery({
     commentId: comment.id,
@@ -65,7 +77,7 @@ const CommentFormattedText = ({
           userName: data?.userName ?? "",
         })}
         <div className="group flex items-center gap-2 text-xs">
-          <span>12h</span>
+          <span>{getFormattedTime(comment.createdAt)}</span>
           <Button
             onClick={replyCommentHandler}
             variant={"noStyle"}
@@ -74,14 +86,16 @@ const CommentFormattedText = ({
           >
             Reply
           </Button>
-          <Button
-            onClick={() => mutate({ commentId: comment.id })}
-            className="hidden text-sm group-hover:block"
-            variant={"noStyle"}
-            size={"smallest"}
-          >
-            <AiOutlineDelete />
-          </Button>
+          {showDelete && (
+            <Button
+              onClick={() => mutate({ commentId: comment.id })}
+              className="hidden text-sm group-hover:block"
+              variant={"noStyle"}
+              size={"smallest"}
+            >
+              <AiOutlineDelete />
+            </Button>
+          )}
         </div>
         {replyComments && replyComments?.length > 0 && (
           <CommentReplies

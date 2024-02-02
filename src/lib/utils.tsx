@@ -75,5 +75,12 @@ export const getCommentWithMentions = ({
       {!comment.includes(" ") && !comment.includes("@") && comment}
     </pre>
   );
-  // }
+};
+
+export const getFormattedTime = (time: Date) => {
+  return time.toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
 };
