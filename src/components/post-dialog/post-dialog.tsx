@@ -23,11 +23,16 @@ const PostDialog = ({ post }: PropType) => {
   const router = useRouter();
   const utils = api.useUtils();
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
   const { data } = api.likes.likedByuser.useQuery({ postId: post.id });
+  const { data: savedData } = api.post.isPostSaved.useQuery({
+    postId: post.id,
+  });
 
   useEffect(() => {
     setIsLiked(Boolean(data));
-  }, [data]);
+    setIsSaved(Boolean(savedData));
+  }, [data, savedData]);
 
   const { mutate } = api.likes.like.useMutation({
     onMutate: () => {
@@ -38,6 +43,7 @@ const PostDialog = ({ post }: PropType) => {
       void utils.likes.likedByuser.invalidate();
     },
   });
+
   return (
     <CommentProvider>
       <div className={cn("flex")}>
@@ -79,6 +85,8 @@ const PostDialog = ({ post }: PropType) => {
               post={post}
               isLiked={isLiked}
               setIsLiked={setIsLiked}
+              isSaved={isSaved}
+              setIsSaved={setIsSaved}
             />
             <CommentInput postId={post.id} />
           </div>

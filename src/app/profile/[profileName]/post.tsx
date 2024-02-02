@@ -11,11 +11,12 @@ import { cn } from "@/lib/utils";
 type PostType = NonNullable<
   inferAsyncReturnType<typeof api.post.getAllPostOfUser.query>[0]
 >;
+
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   post: PostType;
 };
 
-const Post = ({ post ,className }: PropType) => {
+const Post = ({ post, className }: PropType) => {
   return (
     <Dialog>
       <DialogTrigger className={cn("group relative", { className })}>

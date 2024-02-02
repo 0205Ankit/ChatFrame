@@ -1,24 +1,32 @@
 import React from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { LuBookmark } from "react-icons/lu";
+import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import { RiChat3Line } from "react-icons/ri";
 import { useComment } from "../comment/comment-provider";
 import { type PostType } from "@/types/post-type";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   post: PostType;
   isLiked: boolean;
   setIsLiked: React.Dispatch<React.SetStateAction<boolean>>;
+  isSaved: boolean;
+  setIsSaved: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const PostActions = ({ post, isLiked, setIsLiked }: PropType) => {
-    console.log(isLiked);
-    
+const PostActions = ({
+  post,
+  isLiked,
+  setIsLiked,
+  isSaved,
+  setIsSaved,
+}: PropType) => {
   const { setFocusCommentInput } = useComment();
   const router = useRouter();
   const utils = api.useUtils();
+  const { toast } = useToast();
 
   const { mutate } = api.likes.like.useMutation({
     onMutate: () => {
@@ -37,6 +45,32 @@ const PostActions = ({ post, isLiked, setIsLiked }: PropType) => {
     onSettled: () => {
       router.refresh();
       void utils.likes.likedByuser.invalidate();
+    },
+  });
+
+  const { mutate: savePostMutation } = api.post.savePost.useMutation({
+    onMutate: () => {
+      setIsSaved(true);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Post saved",
+        description: "You can view it in your saved posts.",
+      });
+    },
+    onSettled: () => {
+      router.refresh();
+      void utils.post.getAllPostOfUser.invalidate();
+    },
+  });
+
+  const { mutate: unsavePostMutation } = api.post.unsavePost.useMutation({
+    onMutate: () => {
+      setIsSaved(false);
+    },
+    onSettled: () => {
+      router.refresh();
+      void utils.post.getAllPostOfUser.invalidate();
     },
   });
 
@@ -59,7 +93,17 @@ const PostActions = ({ post, isLiked, setIsLiked }: PropType) => {
           onClick={() => setFocusCommentInput(true)}
         />
       </div>
-      <LuBookmark className="cursor-pointer" />
+      {isSaved ? (
+        <GoBookmarkFill
+          className="cursor-pointer"
+          onClick={() => unsavePostMutation({ postId: post.id })}
+        />
+      ) : (
+        <GoBookmark
+          className="cursor-pointer"
+          onClick={() => savePostMutation({ postId: post.id })}
+        />
+      )}
     </div>
   );
 };

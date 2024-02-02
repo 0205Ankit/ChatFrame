@@ -39,4 +39,60 @@ export const postRouter = createTRPCRouter({
       where: { createdBy: { id: ctx.session.user.id } },
     });
   }),
+
+  savePost: protectedProcedure
+    .input(z.object({ postId: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.savedPost.create({
+        data: {
+          postId: input.postId,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
+
+  unsavePost: protectedProcedure
+    .input(z.object({ postId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const savedPost = await ctx.db.savedPost.findFirst({
+        where: {
+          postId: input.postId,
+          userId: ctx.session.user.id,
+        },
+      });
+      if (!savedPost) return;
+      return ctx.db.savedPost.delete({
+        where: {
+          id: savedPost.id,
+        },
+      });
+    }),
+
+  getAllSavedPost: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.savedPost.findMany({
+      where: { userId: ctx.session.user.id },
+      include: {
+        Post: {
+          include: {
+            comments: {
+              orderBy: { createdAt: "desc" },
+              where: { replyToId: null },
+            },
+            likes: true,
+          },
+        },
+      },
+    });
+  }),
+
+  isPostSaved: protectedProcedure
+    .input(z.object({ postId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.savedPost.findFirst({
+        where: {
+          postId: input.postId,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
 });
