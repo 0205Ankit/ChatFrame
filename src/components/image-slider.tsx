@@ -14,6 +14,8 @@ import likeAnimation from "../../public/animations/like-animation.json";
 import Lottie from "lottie-react";
 // import debounce from "lodash.debounce";
 
+const LottieMemo = React.memo(Lottie);
+
 const ImageSlider = ({
   images,
   imageClassName,
@@ -94,7 +96,7 @@ const ImageSlider = ({
             "absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-[40%]",
           )}
         >
-          <Lottie
+          <LottieMemo
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             animationData={JSON.parse(JSON.stringify(likeAnimation))}
             loop={false}
@@ -106,4 +108,6 @@ const ImageSlider = ({
   );
 };
 
-export default React.memo(ImageSlider);
+export default React.memo(ImageSlider, (prevProp, nextProp) => {
+  return prevProp.isLiked === nextProp.isLiked;
+});

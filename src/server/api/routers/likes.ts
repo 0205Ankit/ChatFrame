@@ -34,19 +34,13 @@ export const likesRouter = createTRPCRouter({
   removeLike: protectedProcedure
     .input(z.object({ postId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const likeToDelete = await ctx.db.like.findFirst({
+      return ctx.db.like.delete({
         where: {
-          postId: input.postId,
-          userId: ctx.session.user.id,
+          postId_userId: {
+            postId: input.postId,
+            userId: ctx.session.user.id,
+          },
         },
       });
-
-      if (likeToDelete) {
-        await ctx.db.like.delete({
-          where: {
-            id: likeToDelete.id,
-          },
-        });
-      }
     }),
 });

@@ -32,23 +32,24 @@ model Post {
 }
 
 model savedPost {
-    id String @id @default(uuid())
+    id     String @id @default(cuid())
+    User   User   @relation(fields: [userId], references: [id])
+    userId String
 
-    User   User?   @relation(fields: [userId], references: [id])
-    userId String?
+    Post   Post   @relation(fields: [postId], references: [id])
+    postId String
 
-    Post   Post?   @relation(fields: [postId], references: [id])
-    postId String?
+    @@unique([postId, userId])
 }
 
 model Like {
-    id String @id @default(cuid())
+    User   User   @relation(fields: [userId], references: [id])
+    userId String
 
-    User   User?   @relation(fields: [userId], references: [id])
-    userId String?
+    Post   Post   @relation(fields: [postId], references: [id])
+    postId String
 
-    Post   Post?   @relation(fields: [postId], references: [id])
-    postId String?
+    @@id([postId, userId])
 }
 
 model Comment {
@@ -116,6 +117,7 @@ model User {
 }
 
 model Follows {
+    id           String @unique @default(uuid())
     followedBy   User   @relation("followedBy", fields: [followedById], references: [id])
     followedById String
     following    User   @relation("following", fields: [followingId], references: [id])
