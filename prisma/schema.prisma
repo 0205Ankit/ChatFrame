@@ -52,6 +52,17 @@ model Like {
     @@id([postId, userId])
 }
 
+model SearchHistory {
+    targetUserId String
+    createdAt    DateTime @default(now())
+    userId       String
+
+    targetUser User @relation("TargetUser", fields: [targetUserId], references: [id])
+    User       User @relation(fields: [userId], references: [id])
+
+    @@id([userId, targetUserId])
+}
+
 model Comment {
     id        String   @id @default(uuid())
     createdAt DateTime @default(now())
@@ -112,8 +123,12 @@ model User {
     followedBy    Follows[]   @relation("followedBy")
     following     Follows[]   @relation("following")
     savedPost     savedPost[]
+    userId        String?
 
-    @@index([userName])
+    search       SearchHistory[]
+    targetSearch SearchHistory[] @relation("TargetUser")
+
+    @@index([userName, email])
 }
 
 model Follows {

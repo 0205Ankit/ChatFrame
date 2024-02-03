@@ -6,9 +6,9 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "../../../components/ui/sheet";
+} from "../../../../components/ui/sheet";
 import { cn } from "@/lib/utils";
-import InputWithCloseField from "../../../components/input-with-close-field";
+import SearchDropdown from "./search-dropdown";
 
 type PropTypes = {
   shrink: boolean;
@@ -49,7 +49,7 @@ const Search = ({ shrink, setShrink }: PropTypes) => {
           <SheetHeader>
             <div>
               <SheetTitle className="text-2xl font-bold">Search</SheetTitle>
-              <InputWithCloseField placeholder="Search" className="mt-5" />
+              <SearchDropdown setSheetOpen={setOpen} setShrink={setShrink} />
             </div>
           </SheetHeader>
         </SheetContent>

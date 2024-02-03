@@ -22,12 +22,14 @@ const ImageSlider = ({
   sliderClassName,
   likePost,
   isLiked,
+  isPostSlider
 }: {
   images: string[];
   imageClassName?: string;
   sliderClassName?: string;
-  likePost: () => void;
+  likePost?: () => void;
   isLiked?: boolean;
+  isPostSlider?: boolean;
 }) => {
   const [sliderApi, setSliderApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
@@ -48,10 +50,12 @@ const ImageSlider = ({
   }, [sliderApi]);
 
   const likePostHandler = useCallback(() => {
-    setShowLikeAnimation(true);
-    if (isLiked) return;
-    likePost();
-  }, [isLiked, likePost]);
+   if(isPostSlider && likePost) {
+     setShowLikeAnimation(true);
+     if (isLiked) return;
+     likePost();
+   }
+  }, [isLiked, likePost ,isPostSlider]);
 
   return (
     <Carousel

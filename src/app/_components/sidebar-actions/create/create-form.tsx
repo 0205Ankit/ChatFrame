@@ -55,7 +55,8 @@ const CreateForm = () => {
 
   const { mutate } = api.post.create.useMutation({
     onSuccess: () => {
-      router.refresh();
+      router.refresh()
+      router.replace("/");
     },
     onError: () => {
       toast({

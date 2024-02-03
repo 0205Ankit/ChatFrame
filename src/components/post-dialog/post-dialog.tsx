@@ -49,6 +49,7 @@ const PostDialog = ({ post }: PropType) => {
     <CommentProvider>
       <div className={cn("flex")}>
         <ImageSlider
+          isPostSlider
           images={post.images ?? []}
           imageClassName="sm:h-[450px] xl:h-[550px] 2xl:h-[650px]"
           sliderClassName="min-w-[400px] max-w-[400px]"
