@@ -9,7 +9,12 @@ type PropType = React.HTMLAttributes<HTMLImageElement> & {
   userName?: string | null;
 };
 
-const ProfileCard = ({ className, imageSize , userImage , userName }: PropType) => {
+const ProfileCard = ({
+  className,
+  imageSize,
+  userImage,
+  userName,
+}: PropType) => {
   const { data, isLoading } = api.user.get.useQuery();
   return (
     <>
@@ -30,7 +35,7 @@ const ProfileCard = ({ className, imageSize , userImage , userName }: PropType) 
       ) : (
         <div className="flex items-center gap-3">
           <Image
-            src={userImage ??data?.profilePhoto ?? "/empty-profile-photo.jpeg"}
+            src={userImage ?? data?.profilePhoto ?? "/empty-profile-photo.jpeg"}
             alt="profile"
             width={100}
             height={100}
@@ -41,7 +46,7 @@ const ProfileCard = ({ className, imageSize , userImage , userName }: PropType) 
             className="rounded-full object-cover"
           />
           <h1 className={cn({ className })}>
-            {(userName ?? data?.userName) ?? "user"}
+            {userName ?? data?.userName ?? "user"}
           </h1>
         </div>
       )}

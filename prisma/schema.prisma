@@ -113,7 +113,7 @@ model User {
     email         String?     @unique
     emailVerified DateTime?
     image         String?
-    userName      String?     @unique
+    userName      String      @unique
     accounts      Account[]
     sessions      Session[]
     posts         Post[]

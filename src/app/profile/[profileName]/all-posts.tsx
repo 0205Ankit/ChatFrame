@@ -3,8 +3,8 @@ import NoPosts from "./no-posts";
 import { api } from "@/trpc/server";
 import Post from "./post";
 
-const AllPosts = async () => {
-  const post = await api.post.getAllPostOfUser.query();
+const AllPosts = async ({ profileName }: { profileName: string }) => {
+  const post = await api.post.getAllPostOfUser.query({ profileName });
 
   return (
     <div className="mx-auto w-11/12">

@@ -18,20 +18,25 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  getAllPostOfUser: protectedProcedure.query(({ ctx }) => {
-    const posts = ctx.db.post.findMany({
-      where: { createdById: ctx.session.user.id },
-      orderBy: { createdAt: "desc" },
-      include: {
-        comments: {
-          orderBy: { createdAt: "desc" },
-          where: { replyToId: null },
+  getAllPostOfUser: protectedProcedure
+    .input(z.object({ profileName: z.string().max(20) }))
+    .query(({ ctx, input }) => {
+      const posts = ctx.db.post.findMany({
+        where: { createdBy: { userName: input.profileName } },
+        orderBy: { createdAt: "desc" },
+        include: {
+          comments: {
+            orderBy: { createdAt: "desc" },
+            where: { replyToId: null },
+            include:{
+              author: true
+            }
+          },
+          likes: true,
         },
-        likes: true,
-      },
-    });
-    return posts;
-  }),
+      });
+      return posts;
+    }),
 
   getLatest: protectedProcedure.query(({ ctx }) => {
     return ctx.db.post.findFirst({

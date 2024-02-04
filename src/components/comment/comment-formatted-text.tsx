@@ -41,7 +41,9 @@ const CommentFormattedText = ({
     void asyncFunction();
   }, [comment.userId]);
 
-  const { data } = api.user.get.useQuery();
+  const { data } = api.user.getByUserName.useQuery({
+    profileName: comment.author.userName,
+  });
   const { data: replyComments } = api.comments.getReplies.useQuery({
     commentId: comment.id,
   });

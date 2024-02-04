@@ -12,7 +12,6 @@ import LocationField from "./location-field";
 import CaptionField from "./caption-field";
 import HideLikesField from "./hideLikes-field";
 import HideCommentsField from "./hideComments-field";
-import { Badge } from "@/components/ui/badge";
 import LoadingScreen from "@/components/loading-screen";
 import { useToast } from "@/hooks/use-toast";
 import { useDropzone } from "@uploadthing/react/hooks";
@@ -55,7 +54,7 @@ const CreateForm = () => {
 
   const { mutate } = api.post.create.useMutation({
     onSuccess: () => {
-      router.refresh()
+      router.refresh();
       router.replace("/");
     },
     onError: () => {
@@ -105,12 +104,15 @@ const CreateForm = () => {
       <div className="relative bg-primary py-3 text-center text-primary-foreground">
         Create new post
         {selectedImages?.length > 0 && (
-          <Badge
+          <Button
+            size={"smallest"}
             onClick={() => startUpload(files)}
-            className="absolute right-10 cursor-pointer"
+            variant={"noStyle"}
+            disabled={isUploadingPost}
+            className="absolute right-10 cursor-pointer bg-primaryDark px-2 py-1 text-xs text-white"
           >
             Share
-          </Badge>
+          </Button>
         )}
       </div>
       <FormProvider {...form}>

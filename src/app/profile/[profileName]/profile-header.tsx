@@ -6,7 +6,7 @@ import React from "react";
 import { IoIosSettings } from "react-icons/io";
 
 const ProfileHeader = async ({ profileName }: { profileName: string }) => {
-  const user = await api.user.get.query();
+  const user = await api.user.getByUserName.query({ profileName });
 
   return (
     <div className="mx-auto mt-8 flex w-10/12 items-center gap-10">

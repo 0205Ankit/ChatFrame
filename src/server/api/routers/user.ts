@@ -2,9 +2,12 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 
 export const userRouter = createTRPCRouter({
+  
   get: protectedProcedure.query(({ ctx }) => {
     const user = ctx.db.user.findUnique({
-      where: { id: ctx.session.user.id },
+      where: {
+        id: ctx.session.user.id,
+      },
       include: {
         posts: true,
         likes: true,
@@ -15,6 +18,23 @@ export const userRouter = createTRPCRouter({
     });
     return user;
   }),
+
+
+  getByUserName: protectedProcedure
+    .input(z.object({ profileName: z.string().max(20) }))
+    .query(({ ctx, input }) => {
+      const user = ctx.db.user.findUnique({
+        where: { userName: input.profileName },
+        include: {
+          posts: true,
+          likes: true,
+          Comments: true,
+          following: true,
+          followedBy: true,
+        },
+      });
+      return user;
+    }),
 
   updateProfilePhoto: protectedProcedure
     .input(z.object({ profilePhoto: z.string() }))
@@ -49,6 +69,20 @@ export const userRouter = createTRPCRouter({
         where: { userName: input.profileName },
       });
       return user;
+    }),
+
+  checkUserLoggedIn: protectedProcedure
+    .input(z.object({ profileName: z.string().max(20) }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: { userName: input.profileName },
+      });
+
+      if (user?.id === ctx.session.user.id) {
+        return true;
+      } else {
+        return false;
+      }
     }),
 
   searchUser: protectedProcedure

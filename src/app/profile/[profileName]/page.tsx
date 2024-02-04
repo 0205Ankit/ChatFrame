@@ -14,7 +14,10 @@ const tabsTriggerStyle =
 const ProfilePage = async ({ params }: { params: { profileName: string } }) => {
   const { profileName } = params;
   const user = await api.user.checkUserExistByUserName.query({
-    profileName: profileName,
+    profileName,
+  });
+  const isUserLoggedIn = await api.user.checkUserLoggedIn.query({
+    profileName,
   });
 
   if (!user) {
@@ -44,16 +47,20 @@ const ProfilePage = async ({ params }: { params: { profileName: string } }) => {
             <TabsTrigger value="posts" className={tabsTriggerStyle}>
               <LuGrid className="mr-1" /> Posts
             </TabsTrigger>
-            <TabsTrigger value="saved" className={tabsTriggerStyle}>
-              <LuBookmark className="mr-1" /> Saved
-            </TabsTrigger>
+            {isUserLoggedIn && (
+              <TabsTrigger value="saved" className={tabsTriggerStyle}>
+                <LuBookmark className="mr-1" /> Saved
+              </TabsTrigger>
+            )}
           </TabsList>
           <TabsContent value="posts" className="w-full">
-            <AllUserPosts />
+            <AllUserPosts profileName={profileName} />
           </TabsContent>
-          <TabsContent value="saved" className="w-full">
-            <SavedPosts />
-          </TabsContent>
+          {isUserLoggedIn && (
+            <TabsContent value="saved" className="w-full">
+              <SavedPosts />
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </div>
