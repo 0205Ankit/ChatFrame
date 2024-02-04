@@ -61,4 +61,24 @@ export const userRouter = createTRPCRouter({
       });
       return users;
     }),
+
+  createRecentSearch: protectedProcedure
+    .input(z.object({ targetUserId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const alreadyInRecentSearch = await ctx.db.searchHistory.findFirst({
+        where: {
+          targetUserId: input.targetUserId,
+          userId: ctx.session.user.id,
+        },
+      });
+
+      if (alreadyInRecentSearch) return;
+
+      return ctx.db.searchHistory.create({
+        data: {
+          targetUserId: input.targetUserId,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
 });

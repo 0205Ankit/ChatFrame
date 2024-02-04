@@ -12,7 +12,6 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import likeAnimation from "../../public/animations/like-animation.json";
 import Lottie from "lottie-react";
-// import debounce from "lodash.debounce";
 
 const LottieMemo = React.memo(Lottie);
 
@@ -22,7 +21,7 @@ const ImageSlider = ({
   sliderClassName,
   likePost,
   isLiked,
-  isPostSlider
+  isPostSlider,
 }: {
   images: string[];
   imageClassName?: string;
@@ -50,12 +49,12 @@ const ImageSlider = ({
   }, [sliderApi]);
 
   const likePostHandler = useCallback(() => {
-   if(isPostSlider && likePost) {
-     setShowLikeAnimation(true);
-     if (isLiked) return;
-     likePost();
-   }
-  }, [isLiked, likePost ,isPostSlider]);
+    if (isPostSlider && likePost) {
+      setShowLikeAnimation(true);
+      if (isLiked) return;
+      likePost();
+    }
+  }, [isLiked, likePost, isPostSlider]);
 
   return (
     <Carousel

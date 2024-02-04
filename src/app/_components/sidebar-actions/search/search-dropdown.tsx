@@ -22,11 +22,20 @@ const SearchDropdown = ({
       enabled: !!value,
     },
   );
-  //   console.log(isLoading);
+
+  const { mutateAsync: createRecentSearch } =
+    api.user.createRecentSearch.useMutation();
 
   const searchHandler = debounce((value: string) => {
     setValue(value);
   }, 500);
+
+  const setRecentSearchHandler = async (userName: string, userId: string) => {
+    await createRecentSearch({ targetUserId: userId });
+    router.replace(`/profile/${userName}`);
+    setSheetOpen(false);
+    setShrink(false);
+  };
 
   return (
     <div
@@ -40,7 +49,7 @@ const SearchDropdown = ({
         onChange={(e) => searchHandler(e.target.value)}
       />
       <IoCloseCircle
-        // onClick={}
+        onClick={() => setValue("")}
         className="text-bg-primaryDark cursor-pointer rounded-full text-xl"
       />
       {value && (
@@ -70,11 +79,12 @@ const SearchDropdown = ({
                       <div
                         key={user.id}
                         className="mb-3 cursor-pointer"
-                        onClick={() => {
-                          router.replace(`/profile/${user.userName}`);
-                          setSheetOpen(false);
-                          setShrink(false);
-                        }}
+                        onClick={() =>
+                          setRecentSearchHandler(
+                            user.userName ?? "user",
+                            user.id,
+                          )
+                        }
                       >
                         <ProfileCard
                           userImage={
