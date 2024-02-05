@@ -38,6 +38,7 @@ const CreateForm = () => {
   });
   const selectedImages = form.getValues("images");
   const router = useRouter();
+  // console.log(selectedImages);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
