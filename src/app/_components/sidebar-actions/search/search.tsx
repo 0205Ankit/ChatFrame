@@ -53,7 +53,7 @@ const Search = ({ shrink, setShrink }: PropTypes) => {
             <SearchDropdown setSheetOpen={setOpen} setShrink={setShrink} />
           </SheetHeader>
           <Separator />
-          <RecentSearch className="" />
+          <RecentSearch setSheetOpen={setOpen} setShrink={setShrink} />
         </SheetContent>
       </Sheet>
     </>

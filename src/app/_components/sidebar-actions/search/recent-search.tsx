@@ -6,8 +6,11 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { IoClose } from "react-icons/io5";
 
-type PropType = React.HTMLAttributes<HTMLDivElement>;
-const RecentSearch = ({ className }: PropType) => {
+type PropType = React.HTMLAttributes<HTMLDivElement> & {
+  setSheetOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setShrink: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const RecentSearch = ({ className, setSheetOpen, setShrink }: PropType) => {
   const router = useRouter();
   const { data } = api.search.getRecentSearch.useQuery();
   const utils = api.useUtils();
@@ -49,9 +52,11 @@ const RecentSearch = ({ className }: PropType) => {
             <div
               key={search.targetUserId}
               className="group flex cursor-pointer items-center justify-between rounded-lg px-3 py-4 transition-all hover:bg-black/10"
-              onClick={() =>
-                router.replace(`/profile/${search.targetUser?.userName}`)
-              }
+              onClick={() => {
+                router.replace(`/profile/${search.targetUser?.userName}`);
+                setSheetOpen(false);
+                setShrink(false);
+              }}
             >
               <ProfileCard
                 imageSize={40}
