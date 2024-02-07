@@ -2,7 +2,6 @@ import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 
 export const userRouter = createTRPCRouter({
-  
   get: protectedProcedure.query(({ ctx }) => {
     const user = ctx.db.user.findUnique({
       where: {
@@ -18,7 +17,6 @@ export const userRouter = createTRPCRouter({
     });
     return user;
   }),
-
 
   getByUserName: protectedProcedure
     .input(z.object({ profileName: z.string().max(20) }))
@@ -112,6 +110,25 @@ export const userRouter = createTRPCRouter({
         data: {
           targetUserId: input.targetUserId,
           userId: ctx.session.user.id,
+        },
+      });
+    }),
+
+  updateUserProfileName: protectedProcedure
+    .input(z.object({ profileName: z.string().max(20).min(3) }))
+    .mutation(async ({ ctx, input }) => {
+      const isUsernameExist = await ctx.db.user.findFirst({
+        where: {
+          userName: input.profileName
+        }
+      })
+      if(isUsernameExist) return null
+      return ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id,
+        },
+        data: {
+          userName: input.profileName,
         },
       });
     }),

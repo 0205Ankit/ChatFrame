@@ -69,7 +69,7 @@ const ProfilePhoto = ({ image, className }: PropTypes) => {
               alt="profile"
               width={100}
               height={100}
-              className={cn("h-full w-full object-cover")}
+              className={cn("h-full w-full rounded-full object-cover")}
             />
             {(isUploadingPhoto || isLoading) && (
               <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-black/50">

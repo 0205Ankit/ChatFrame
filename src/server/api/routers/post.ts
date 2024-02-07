@@ -28,9 +28,9 @@ export const postRouter = createTRPCRouter({
           comments: {
             orderBy: { createdAt: "desc" },
             where: { replyToId: null },
-            include:{
-              author: true
-            }
+            include: {
+              author: true,
+            },
           },
           likes: true,
         },
@@ -82,6 +82,9 @@ export const postRouter = createTRPCRouter({
             comments: {
               orderBy: { createdAt: "desc" },
               where: { replyToId: null },
+              include: {
+                author: true,
+              },
             },
             likes: true,
           },

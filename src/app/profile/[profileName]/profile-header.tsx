@@ -1,11 +1,16 @@
 import EmptyProfilePhoto from "@/components/empty-profile-photo";
 import ProfilePhoto from "@/components/profile-photo";
-import { Button } from "@/components/ui/button";
 import { api } from "@/trpc/server";
 import React from "react";
-import { IoIosSettings } from "react-icons/io";
+import EditProfile from "./edit-profile";
 
-const ProfileHeader = async ({ profileName }: { profileName: string }) => {
+const ProfileHeader = async ({
+  profileName,
+  isUserLoggedIn,
+}: {
+  profileName: string;
+  isUserLoggedIn: boolean;
+}) => {
   const user = await api.user.getByUserName.query({ profileName });
 
   return (
@@ -22,13 +27,15 @@ const ProfileHeader = async ({ profileName }: { profileName: string }) => {
       </div>
       <div className="flex flex-col gap-5">
         <div className="flex items-center gap-2">
-          <h1 className="mr-5 text-2xl">{profileName}</h1>
-          <Button size={"sm"} className="px-5">
-            Edit Profile
-          </Button>
-          <Button size={"sm"}>
-            <IoIosSettings className="text-2xl" />
-          </Button>
+          <h1 className="text-3xl">{profileName}</h1>
+          {isUserLoggedIn ? (
+            <EditProfile
+              profileName={profileName}
+              userImage={user?.profilePhoto ?? "/empty-profile-photo.jpeg"}
+            />
+          ) : (
+            <></>
+          )}
         </div>
         <div className="flex items-center gap-6">
           <p className="font-medium">

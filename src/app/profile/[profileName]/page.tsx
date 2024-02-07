@@ -39,7 +39,7 @@ const ProfilePage = async ({ params }: { params: { profileName: string } }) => {
 
   return (
     <div>
-      <ProfileHeader profileName={profileName} />
+      <ProfileHeader profileName={profileName} isUserLoggedIn={isUserLoggedIn} />
       <Separator className="mt-20" />
       <div className="mb-20 flex justify-center">
         <Tabs defaultValue="posts" className="w-full">

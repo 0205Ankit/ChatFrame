@@ -14,7 +14,7 @@ const SavedPosts = async () => {
       ) : (
         <div className="grid w-full grid-cols-3 gap-1">
           {savedPost?.map((individualPost) => (
-            <Post key={individualPost.id} post={individualPost.Post!} /> //TODO: fix this dont put !
+            <Post key={individualPost.id} post={individualPost.Post} />
           ))}
         </div>
       )}
