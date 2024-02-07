@@ -53,9 +53,9 @@ const SearchDropdown = ({
         className="text-bg-primaryDark cursor-pointer rounded-full text-xl"
       />
       {value && (
-        <div className="absolute inset-x-0 top-full min-h-[200px] w-full rounded-md px-3 py-5">
+        <div className="custom-scrollbar absolute inset-x-0 top-[calc(100%+5px)] max-h-[300px] w-full overflow-y-auto rounded-md bg-white shadow-xl">
           {isLoading ? (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 px-4 py-3">
               <div
                 style={{
                   height: `${40}px`,
@@ -71,14 +71,16 @@ const SearchDropdown = ({
           ) : (
             <>
               {Array.isArray(users) && users.length === 0 ? (
-                <p className="text-center">No results found</p>
+                <div className="flex h-[100px] items-center justify-center">
+                  No results found
+                </div>
               ) : (
                 <>
                   {users?.map((user) => {
                     return (
                       <div
                         key={user.id}
-                        className="mb-3 cursor-pointer"
+                        className="cursor-pointer px-4 py-3 transition-all hover:bg-black/10"
                         onClick={() =>
                           setRecentSearchHandler(
                             user.userName ?? "user",

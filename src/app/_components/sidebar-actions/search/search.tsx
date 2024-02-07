@@ -9,6 +9,8 @@ import {
 } from "../../../../components/ui/sheet";
 import { cn } from "@/lib/utils";
 import SearchDropdown from "./search-dropdown";
+import { Separator } from "@/components/ui/separator";
+import RecentSearch from "./recent-search";
 
 type PropTypes = {
   shrink: boolean;
@@ -42,16 +44,16 @@ const Search = ({ shrink, setShrink }: PropTypes) => {
         <SheetContent
           side={"left"}
           className={cn(
-            "left-20 z-[60] rounded-br-2xl rounded-tr-2xl data-[state=open]:slide-in-from-left-10 ",
+            "overlflow-y-scroll left-20 z-[60] rounded-br-2xl rounded-tr-2xl p-0 data-[state=open]:slide-in-from-left-10 ",
             { "z-[30]": !open },
           )}
         >
-          <SheetHeader>
-            <div>
-              <SheetTitle className="text-2xl font-bold">Search</SheetTitle>
-              <SearchDropdown setSheetOpen={setOpen} setShrink={setShrink} />
-            </div>
+          <SheetHeader className="p-5">
+            <SheetTitle className="text-2xl font-bold">Search</SheetTitle>
+            <SearchDropdown setSheetOpen={setOpen} setShrink={setShrink} />
           </SheetHeader>
+          <Separator />
+          <RecentSearch className="" />
         </SheetContent>
       </Sheet>
     </>
