@@ -33,20 +33,20 @@ model Post {
 
 model savedPost {
     id     String @id @default(cuid())
-    User   User   @relation(fields: [userId], references: [id])
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 
-    Post   Post   @relation(fields: [postId], references: [id])
+    Post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
     postId String
 
     @@unique([postId, userId])
 }
 
 model Like {
-    User   User   @relation(fields: [userId], references: [id])
+    User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 
-    Post   Post   @relation(fields: [postId], references: [id])
+    Post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
     postId String
 
     @@id([postId, userId])
@@ -69,10 +69,10 @@ model Comment {
     updatedAt DateTime @updatedAt
     text      String
 
-    Post   Post   @relation(fields: [postId], references: [id])
+    Post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
     postId String
     likes  Int    @default(0)
-    author User   @relation(fields: [userId], references: [id])
+    author User   @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId String
 
     replyToId String?
