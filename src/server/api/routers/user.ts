@@ -170,5 +170,21 @@ export const userRouter = createTRPCRouter({
         },
       },
     });
-  })
+  }),
+
+  isFollowingUser: protectedProcedure
+    .input(z.object({ targetUserId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const isFollowing = await ctx.db.follows.findFirst({
+        where: {
+          followingId: input.targetUserId,
+          followedById: ctx.session.user.id,
+        },
+      });
+      if (isFollowing) {
+        return true;
+      } else {
+        return false;
+      }
+    }),
 });

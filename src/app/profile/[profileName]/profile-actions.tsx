@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 
-const ProfileActions = () => {
+const ProfileActions = ({ userId }: { userId: string }) => {
+    
   return (
     <div className="ml-2 flex items-center gap-2">
       {true ? (

@@ -8,9 +8,11 @@ import ProfileActions from "./profile-actions";
 const ProfileHeader = async ({
   profileName,
   isUserLoggedIn,
+  userId
 }: {
   profileName: string;
   isUserLoggedIn: boolean;
+  userId: string
 }) => {
   const user = await api.user.getByUserName.query({ profileName });
 
@@ -35,7 +37,7 @@ const ProfileHeader = async ({
               userImage={user?.profilePhoto ?? "/empty-profile-photo.jpeg"}
             />
           ) : (
-            <ProfileActions />
+            <ProfileActions userId={userId}/>
           )}
         </div>
         <div className="flex items-center gap-6">
