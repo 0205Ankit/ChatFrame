@@ -34,8 +34,6 @@ const CommentFormattedText = ({
   useEffect(() => {
     const asyncFunction = async () => {
       const user = await getUserDetails();
-      console.log("comment", comment.userId);
-      console.log("user", user?.id);
       if (comment.userId === user?.id) {
         showDelete.current = true;
       }

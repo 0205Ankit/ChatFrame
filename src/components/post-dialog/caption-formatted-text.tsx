@@ -3,8 +3,14 @@ import React from "react";
 import { api } from "@/trpc/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const CaptionFormattedText = ({ caption }: { caption: string }) => {
-  const { data } = api.user.get.useQuery();
+const CaptionFormattedText = ({
+  caption,
+  userId,
+}: {
+  caption: string;
+  userId: string;
+}) => {
+  const { data } = api.user.getByUserId.useQuery({ userId });
   return (
     <div className="flex-start flex gap-3">
       <Avatar className="h-7 w-7">

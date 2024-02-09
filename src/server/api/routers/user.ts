@@ -34,6 +34,22 @@ export const userRouter = createTRPCRouter({
       return user;
     }),
 
+  getByUserId: protectedProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(({ ctx, input }) => {
+      const user = ctx.db.user.findUnique({
+        where: { id: input.userId },
+        include: {
+          posts: true,
+          likes: true,
+          Comments: true,
+          following: true,
+          followedBy: true,
+        },
+      });
+      return user;
+    }),
+
   updateProfilePhoto: protectedProcedure
     .input(z.object({ profilePhoto: z.string() }))
     .mutation(({ ctx, input }) => {

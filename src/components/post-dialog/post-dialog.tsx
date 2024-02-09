@@ -64,7 +64,10 @@ const PostDialog = ({ post }: PropType) => {
           <div className="custom-scrollbar overflow-auto sm:h-[250px] xl:h-[350px] 2xl:h-[450px]">
             {post.caption && (
               <div className="mb-5 px-4">
-                <CaptionFormattedText caption={post.caption} />
+                <CaptionFormattedText
+                  caption={post.caption}
+                  userId={post.createdById}
+                />
               </div>
             )}
             {post.comments.length > 0 ? (
