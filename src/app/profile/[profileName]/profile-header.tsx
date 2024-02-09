@@ -3,6 +3,7 @@ import ProfilePhoto from "@/components/profile-photo";
 import { api } from "@/trpc/server";
 import React from "react";
 import EditProfile from "./edit-profile";
+import ProfileActions from "./profile-actions";
 
 const ProfileHeader = async ({
   profileName,
@@ -34,7 +35,7 @@ const ProfileHeader = async ({
               userImage={user?.profilePhoto ?? "/empty-profile-photo.jpeg"}
             />
           ) : (
-            <></>
+            <ProfileActions />
           )}
         </div>
         <div className="flex items-center gap-6">
