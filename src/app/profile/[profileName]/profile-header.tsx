@@ -8,13 +8,15 @@ import ProfileActions from "./profile-actions";
 const ProfileHeader = async ({
   profileName,
   isUserLoggedIn,
-  userId
+  userId,
 }: {
   profileName: string;
   isUserLoggedIn: boolean;
-  userId: string
+  userId: string;
 }) => {
   const user = await api.user.getByUserName.query({ profileName });
+  console.log(user?.followedBy);
+  console.log(user?.following);
 
   return (
     <div className="mx-auto mt-8 flex w-10/12 items-center gap-10">
@@ -37,7 +39,7 @@ const ProfileHeader = async ({
               userImage={user?.profilePhoto ?? "/empty-profile-photo.jpeg"}
             />
           ) : (
-            <ProfileActions userId={userId}/>
+            <ProfileActions userId={userId} />
           )}
         </div>
         <div className="flex items-center gap-6">

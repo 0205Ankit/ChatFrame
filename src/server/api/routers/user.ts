@@ -138,8 +138,8 @@ export const userRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.db.follows.create({
         data: {
-          followedById: ctx.session.user.id,
-          followingId: input.targetUserId,
+          followingId: ctx.session.user.id,
+          followedById: input.targetUserId,
         },
       });
     }),
@@ -150,8 +150,8 @@ export const userRouter = createTRPCRouter({
       return ctx.db.follows.delete({
         where: {
           followingId_followedById: {
-            followedById: ctx.session.user.id,
-            followingId: input.targetUserId,
+            followingId: ctx.session.user.id,
+            followedById: input.targetUserId,
           },
         },
       });
@@ -159,7 +159,7 @@ export const userRouter = createTRPCRouter({
 
   getFollowers: protectedProcedure.query(({ ctx }) => {
     return ctx.db.follows.findMany({
-      where: { followedById: ctx.session.user.id },
+      where: { followingId: ctx.session.user.id },
       include: {
         following: {
           include: {
@@ -177,8 +177,8 @@ export const userRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const isFollowing = await ctx.db.follows.findFirst({
         where: {
-          followingId: input.targetUserId,
-          followedById: ctx.session.user.id,
+          followingId: ctx.session.user.id,
+          followedById: input.targetUserId,
         },
       });
       if (isFollowing) {
