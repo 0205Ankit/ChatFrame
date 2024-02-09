@@ -119,10 +119,10 @@ export const userRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const isUsernameExist = await ctx.db.user.findFirst({
         where: {
-          userName: input.profileName
-        }
-      })
-      if(isUsernameExist) return null
+          userName: input.profileName,
+        },
+      });
+      if (isUsernameExist) return null;
       return ctx.db.user.update({
         where: {
           id: ctx.session.user.id,
@@ -132,4 +132,43 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
+
+  followUser: protectedProcedure
+    .input(z.object({ targetUserId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.follows.create({
+        data: {
+          followedById: ctx.session.user.id,
+          followingId: input.targetUserId,
+        },
+      });
+    }),
+
+  unfollowUser: protectedProcedure
+    .input(z.object({ targetUserId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.follows.delete({
+        where: {
+          followingId_followedById: {
+            followedById: ctx.session.user.id,
+            followingId: input.targetUserId,
+          },
+        },
+      });
+    }),
+
+  getFollowers: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.follows.findMany({
+      where: { followedById: ctx.session.user.id },
+      include: {
+        following: {
+          include: {
+            posts: true,
+            likes: true,
+            Comments: true,
+          },
+        },
+      },
+    });
+  })
 });
