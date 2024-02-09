@@ -34,6 +34,8 @@ const CommentFormattedText = ({
   useEffect(() => {
     const asyncFunction = async () => {
       const user = await getUserDetails();
+      console.log("comment", comment.userId);
+      console.log("user", user?.id);
       if (comment.userId === user?.id) {
         showDelete.current = true;
       }
@@ -89,7 +91,7 @@ const CommentFormattedText = ({
           >
             Reply
           </Button>
-          {showDelete && (
+          {showDelete.current && (
             <Button
               onClick={() => mutate({ commentId: comment.id })}
               className="hidden text-sm group-hover:block"
