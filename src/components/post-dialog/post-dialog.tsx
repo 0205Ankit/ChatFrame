@@ -13,14 +13,19 @@ import NoComments from "./no-comments";
 import PostActions from "./post-actions";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
+import { getUserDetails } from "@/app/queries";
+import { Button } from "../ui/button";
+import { AiOutlineDelete } from "react-icons/ai";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> &
   PropsWithChildren & {
     post: PostType;
+    closeDialogHandler: () => void;
   };
 
-const PostDialog = ({ post }: PropType) => {
+const PostDialog = ({ post,closeDialogHandler }: PropType) => {
   const router = useRouter();
+  const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null);
   const utils = api.useUtils();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
@@ -32,7 +37,13 @@ const PostDialog = ({ post }: PropType) => {
   useEffect(() => {
     setIsLiked(Boolean(data));
     setIsSaved(Boolean(savedData));
-  }, [data, savedData]);
+    const asyncFunction = async () => {
+      const user = await getUserDetails();
+      if (!user) return;
+      setLoggedInUserId(user?.id);
+    };
+    void asyncFunction();
+  }, [data, savedData, post]);
 
   const { mutate } = api.likes.like.useMutation({
     onMutate: () => {
@@ -42,6 +53,15 @@ const PostDialog = ({ post }: PropType) => {
       router.refresh();
       void utils.likes.likedByuser.invalidate();
       void utils.likes.getTotalLikes.invalidate();
+    },
+  });
+
+  const { mutate: deletePost } = api.post.deletePost.useMutation({
+    onSuccess: () => {
+      router.refresh();
+      void utils.post.getAllPostOfUser.invalidate();
+      void utils.post.getAllSavedPost.invalidate();
+      closeDialogHandler();
     },
   });
 
@@ -57,10 +77,19 @@ const PostDialog = ({ post }: PropType) => {
           isLiked={isLiked}
         />
         <div className="flex grow flex-col justify-between">
-          <div className="px-4 pt-3">
+          <div className="flex items-center justify-between px-4 pt-3">
             <ProfileCard />
+            {loggedInUserId === post.createdById && (
+              <Button
+                onClick={() => deletePost({ postId: post.id })}
+                size={"sm"}
+                className="mr-7 h-fit rounded-full p-1"
+              >
+                <AiOutlineDelete />
+              </Button>
+            )}
           </div>
-          <Separator className="my-2" />
+          <Separator className="mb-2 mt-1" />
           <div className="custom-scrollbar overflow-auto sm:h-[250px] xl:h-[350px] 2xl:h-[450px]">
             {post.caption && (
               <div className="mb-5 px-4">

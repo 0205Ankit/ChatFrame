@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import { AiFillHeart } from "react-icons/ai";
@@ -5,7 +6,7 @@ import { IoChatbubble } from "react-icons/io5";
 import { type api } from "@/trpc/server";
 import { type inferAsyncReturnType } from "@trpc/server";
 import PostDialog from "@/components/post-dialog/post-dialog";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 type PostType = NonNullable<
@@ -17,9 +18,13 @@ type PropType = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const Post = ({ post, className }: PropType) => {
+  const [open, setOpen] = React.useState(false);
   return (
-    <Dialog>
-      <DialogTrigger className={cn("group relative", { className })}>
+    <>
+      <div
+        onClick={() => setOpen(true)}
+        className={cn("group relative", { className })}
+      >
         <Image
           src={post?.images[0] ?? "/empty-profile-photo.jpeg"}
           alt="post"
@@ -35,11 +40,13 @@ const Post = ({ post, className }: PropType) => {
             <IoChatbubble className="text-xl" /> {post?.comments?.length ?? 0}
           </div>
         </div>
-      </DialogTrigger>
-      <DialogContent className="min-w-[900px] overflow-visible border-none p-0 2xl:min-w-[1200px] ">
-        <PostDialog post={post} />
-      </DialogContent>
-    </Dialog>
+      </div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="min-w-[900px] overflow-visible border-none p-0 2xl:min-w-[1200px] ">
+          <PostDialog post={post} closeDialogHandler={() => setOpen(false)} />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
