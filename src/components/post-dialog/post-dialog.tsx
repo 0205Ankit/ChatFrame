@@ -10,7 +10,7 @@ import CommentFormattedText from "../comment/comment-formatted-text";
 import { CommentInput } from "../comment/comment-input";
 import { CommentProvider } from "../comment/comment-provider";
 import NoComments from "./no-comments";
-import PostActions from "./post-actions";
+import PostActions from "./post-actions/post-actions";
 import { useRouter } from "next/navigation";
 import { api } from "@/trpc/react";
 import { getUserDetails } from "@/app/queries";
@@ -23,7 +23,7 @@ type PropType = React.HTMLAttributes<HTMLDivElement> &
     closeDialogHandler: () => void;
   };
 
-const PostDialog = ({ post,closeDialogHandler }: PropType) => {
+const PostDialog = ({ post, closeDialogHandler }: PropType) => {
   const router = useRouter();
   const [loggedInUserId, setLoggedInUserId] = useState<string | null>(null);
   const utils = api.useUtils();

@@ -15,8 +15,6 @@ const ProfileHeader = async ({
   userId: string;
 }) => {
   const user = await api.user.getByUserName.query({ profileName });
-  console.log(user?.followedBy);
-  console.log(user?.following);
 
   return (
     <div className="mx-auto mt-8 flex w-10/12 items-center gap-10">

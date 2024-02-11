@@ -96,7 +96,7 @@ const ImageSlider = ({
       {showLikeAnimation && (
         <div
           className={cn(
-            "absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-[40%]",
+            "absolute left-1/2 top-1/2 h-full w-full -translate-x-1/2 -translate-y-[50%]",
           )}
         >
           <LottieMemo

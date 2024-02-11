@@ -25,6 +25,7 @@ export const postRouter = createTRPCRouter({
         where: { createdBy: { userName: input.profileName } },
         orderBy: { createdAt: "desc" },
         include: {
+          createdBy: true,
           comments: {
             orderBy: { createdAt: "desc" },
             where: { replyToId: null },
@@ -79,6 +80,7 @@ export const postRouter = createTRPCRouter({
       include: {
         Post: {
           include: {
+            createdBy: true,
             comments: {
               orderBy: { createdAt: "desc" },
               where: { replyToId: null },
@@ -113,4 +115,39 @@ export const postRouter = createTRPCRouter({
         },
       });
     }),
+
+  getPostForHomePage: protectedProcedure
+    .input(z.object({ pageSize: z.number() }))
+    .query(async ({ ctx, input }) => {
+      const followedUser = await ctx.db.follows.findMany({
+        where: {
+          followingId: ctx.session.user.id,
+        },
+      });
+
+      const modifiedFollowedUser = followedUser.map((user) => {
+        return user.followedById;
+      });
+
+      const posts = await ctx.db.post.findMany({
+        where: { createdBy: { id: { in: modifiedFollowedUser } } },
+        orderBy: { createdAt: "desc" },
+        take: input.pageSize,
+        include: {
+          createdBy: true,
+          comments: {
+            orderBy: { createdAt: "desc" },
+            where: { replyToId: null },
+            include: {
+              author: true,
+            },
+          },
+          likes: true,
+        },
+      });
+
+      return posts;
+    }),
+
+  ////////////////////////////////////////////////////////////////////////////////
 });
