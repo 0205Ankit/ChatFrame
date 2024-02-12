@@ -5,6 +5,7 @@ import Post from "./post/post";
 import { useInView } from "react-intersection-observer";
 import { Loader2 } from "lucide-react";
 import { LuBadgeCheck } from "react-icons/lu";
+import { TbPhotoVideo } from "react-icons/tb";
 
 const HomePage = () => {
   const { ref: lastPostRef, inView } = useInView({
@@ -25,6 +26,17 @@ const HomePage = () => {
       void fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
+
+  if (data?.pages[0]?.posts.length === 0) {
+    return (
+      <div className="mt-10 flex w-full flex-col items-center justify-center gap-1">
+        <TbPhotoVideo className="h-16 w-16" />
+        <p className="text-center text-lg tracking-wide">
+          Follow someone to see <br /> posts on your feed
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto my-10 w-10/12">
