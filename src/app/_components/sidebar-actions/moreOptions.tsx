@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { GoBookmark } from "react-icons/go";
 import { TbActivity } from "react-icons/tb";
+import { IoLogOutOutline } from "react-icons/io5";
+import { signOut } from "next-auth/react";
 
 type PropTypes = {
   shrink: boolean;
@@ -33,8 +35,11 @@ const MoreOptions = ({ shrink }: PropTypes) => {
           <TbActivity /> Your Activity
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer gap-2 text-base font-medium">
-          Log out
+        <DropdownMenuItem
+          onClick={() => signOut()}
+          className="cursor-pointer gap-2 text-lg font-medium"
+        >
+          <IoLogOutOutline /> Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
