@@ -117,8 +117,15 @@ export const postRouter = createTRPCRouter({
     }),
 
   getPostForHomePage: protectedProcedure
-    .input(z.object({ pageSize: z.number() }))
+    .input(
+      z.object({
+        pageSize: z.number(),
+        cursor: z.string().nullish(),
+        skip: z.number().optional(),
+      }),
+    )
     .query(async ({ ctx, input }) => {
+      const { cursor, pageSize, skip } = input;
       const followedUser = await ctx.db.follows.findMany({
         where: {
           followingId: ctx.session.user.id,
@@ -130,9 +137,13 @@ export const postRouter = createTRPCRouter({
       });
 
       const posts = await ctx.db.post.findMany({
-        where: { createdBy: { id: { in: modifiedFollowedUser } } },
+        where: {
+          createdBy: { id: { in: modifiedFollowedUser } },
+        },
         orderBy: { createdAt: "desc" },
-        take: input.pageSize,
+        take: pageSize + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        skip: skip,
         include: {
           createdBy: true,
           comments: {
@@ -146,7 +157,16 @@ export const postRouter = createTRPCRouter({
         },
       });
 
-      return posts;
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (posts.length > pageSize) {
+        const nextPost = posts.pop(); // return the last item from the array
+        nextCursor = nextPost?.id;
+      }
+
+      return {
+        posts,
+        nextCursor,
+      };
     }),
 
   ////////////////////////////////////////////////////////////////////////////////
