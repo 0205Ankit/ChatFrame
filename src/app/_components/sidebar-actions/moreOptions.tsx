@@ -36,7 +36,7 @@ const MoreOptions = ({ shrink }: PropTypes) => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
-          onClick={() => signOut()}
+          onClick={() => signOut({ callbackUrl: "/" })}
           className="cursor-pointer gap-2 text-lg font-medium"
         >
           <IoLogOutOutline /> Log out
