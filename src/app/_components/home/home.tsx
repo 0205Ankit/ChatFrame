@@ -61,7 +61,7 @@ const HomePage = () => {
         {data && !hasNextPage && (
           <div className="flex w-full flex-col items-center justify-center gap-1">
             <LuBadgeCheck className="h-10 w-10 text-primary" />
-            <p className="text-lg tracking-wider">You are all caught up!</p>
+            <p className="text-lg tracking-wide">You are all caught up!</p>
           </div>
         )}
       </div>
