@@ -125,8 +125,10 @@ model User {
     savedPost     savedPost[]
     userId        String?
 
-    search       SearchHistory[]
-    targetSearch SearchHistory[] @relation("TargetUser")
+    search          SearchHistory[]
+    targetSearch    SearchHistory[]   @relation("TargetUser")
+    Message         Message[]
+    ChatParticipant ChatParticipant[]
 
     @@index([userName, email])
 }
@@ -139,6 +141,41 @@ model Follows {
     followingId  String
 
     @@id([followingId, followedById])
+}
+
+model Message {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    text      String
+    sender    User     @relation(fields: [senderId], references: [id])
+    senderId  String
+    chat      Chat     @relation(fields: [chatId], references: [id])
+    chatId    String
+}
+
+model Chat {
+    id           String            @id @default(uuid())
+    createdAt    DateTime          @default(now())
+    updatedAt    DateTime          @updatedAt
+    type         ChatType
+    messages     Message[]
+    participants ChatParticipant[]
+}
+
+model ChatParticipant {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    chat      Chat     @relation(fields: [chatId], references: [id])
+    chatId    String
+}
+
+enum ChatType {
+    ONE_TO_ONE
+    GROUP
 }
 
 model VerificationToken {
