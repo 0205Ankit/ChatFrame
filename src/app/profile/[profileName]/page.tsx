@@ -38,7 +38,7 @@ const ProfilePage = async ({ params }: { params: { profileName: string } }) => {
   }
 
   return (
-    <div>
+    <div className="mx-auto pl-[100px] md:w-[700px] lg:w-[800px] xl:w-[1000px]">
       <ProfileHeader
         profileName={profileName}
         isUserLoggedIn={isUserLoggedIn}

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import AppLogo from "../../components/app-logo";
 import Search from "./sidebar-actions/search/search";
 import Messages from "./sidebar-actions/messages";
@@ -17,10 +17,17 @@ type PropTypes = React.HTMLAttributes<HTMLDivElement> & {
 const SideBar = ({ className }: PropTypes) => {
   const pathname = usePathname();
   const [shrink, setShrink] = React.useState(false);
+  useEffect(() => {
+    if (pathname.startsWith("/direct")) {
+      setShrink(true);
+      return;
+    }
+    setShrink(false);
+  }, [pathname]);
   return (
     <div
       className={cn(
-        "fixed inset-y-0 left-0 z-40 box-border flex min-h-screen flex-col justify-between bg-primaryDark px-4 py-10 text-primaryDark-foreground transition-all duration-300",
+        "fixed inset-y-0 left-0 z-40 box-border flex min-h-screen w-[250px] flex-col justify-between bg-primaryDark px-4 py-10 text-primaryDark-foreground transition-all duration-300",
         className,
         { "w-[80px] items-center": shrink },
       )}

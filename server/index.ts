@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
+import globalRouter from "./routes";
 
 dotenv.config({
   path: "./.env",
@@ -18,6 +19,7 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+app.use("/api", globalRouter);
 
 io.on("connection", (socket) => {
   console.log("a user connected");
@@ -31,5 +33,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("Server started on port 3000");
+  console.log(`Server started on port ${PORT}`);
 });
