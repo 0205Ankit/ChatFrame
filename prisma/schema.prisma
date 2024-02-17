@@ -171,6 +171,7 @@ model ChatParticipant {
     userId    String
     chat      Chat     @relation(fields: [chatId], references: [id])
     chatId    String
+    isAdmin   Boolean
 }
 
 enum ChatType {
