@@ -10,7 +10,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Messages",
+  title: "Chat",
   description: "A social network built with Next.js, React, and tRPC.",
   icons: [{ rel: "icon", url: "/logo.png" }],
 };

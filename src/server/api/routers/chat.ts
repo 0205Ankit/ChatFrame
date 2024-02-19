@@ -13,4 +13,55 @@ export const chatRouter = createTRPCRouter({
       },
     });
   }),
+
+  createChat: protectedProcedure
+    .input(
+      z.object({
+        type: z.enum(["ONE_TO_ONE", "GROUP"]),
+        participantId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { type, participantId } = input;
+
+      const totalParticipants = [participantId, ctx.session.user.id];
+
+      if (totalParticipants.length < 2) {
+        throw new Error("Cannot create a chat without participants.");
+      }
+
+      const chatTransaction = await ctx.db.$transaction(async () => {
+        const existingChat = await ctx.db.chat.findFirst({
+          where: {
+            participants: {
+              every: {
+                userId: {
+                  in: totalParticipants,
+                },
+              },
+            },
+          },
+        });
+
+        if (existingChat) return existingChat;
+
+        const chat = await ctx.db.chat.create({
+          data: {
+            type,
+          },
+        });
+
+        await ctx.db.chatParticipant.createMany({
+          data: totalParticipants.map((participantId) => ({
+            chatId: chat.id,
+            userId: participantId,
+            isAdmin: true,
+          })),
+        });
+
+        return chat;
+      });
+
+      return chatTransaction;
+    }),
 });

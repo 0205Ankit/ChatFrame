@@ -164,7 +164,7 @@ model Chat {
 }
 
 model ChatParticipant {
-    id        String   @id @default(uuid())
+    // id        String   @id @default(uuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     user      User     @relation(fields: [userId], references: [id])
@@ -172,6 +172,8 @@ model ChatParticipant {
     chat      Chat     @relation(fields: [chatId], references: [id])
     chatId    String
     isAdmin   Boolean
+
+    @@id([userId, chatId])
 }
 
 enum ChatType {

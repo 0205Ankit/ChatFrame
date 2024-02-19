@@ -1,10 +1,40 @@
 import { prisma } from "../prisma";
 import { type Request, type Response } from "express";
 
+interface CustomRequest extends Request {
+  body: {
+    userId: string;
+  };
+}
+
 export default class ChatController {
-  static getChats = async (req: Request, res: Response) => {
-    const chats = await prisma.chat.findMany();
-    res.status(200).send({ chats });
-    return;
+  static getChats = async (req: CustomRequest, res: Response) => {
+    const { userId } = req.body;
+    console.log("userId", userId);
+    console.log(userId);
+    try {
+      const chats = await prisma.chat.findMany({
+        where: {
+          participants: {
+            some: {
+              userId,
+            },
+          },
+        },
+        include: {
+          participants: {
+            include: {
+              user: true,
+            },
+          },
+          messages: true,
+        },
+      });
+      res.status(200).send({ chats });
+      return;
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send(null);
+    }
   };
 }
