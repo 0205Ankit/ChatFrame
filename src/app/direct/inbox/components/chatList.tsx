@@ -1,27 +1,20 @@
-"use client";
-import React, { useEffect } from "react";
-import axios from "axios";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { IoMdAdd } from "react-icons/io";
-import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+import axios from "axios";
+import { getServerAuthSession } from "@/server/auth";
+import { type GetAllChat } from "@/types/chat-type";
 
-const ChatList = () => {
-  // const session = await getServerAuthSession();
-  const { data: authData } = useSession();
-  const { data } = useQuery({
-    queryKey: ["sdkcj"],
-    queryFn: () =>
-      axios.get("http://localhost:8000/api/chat", {
-        data: { userId: authData?.user.id },
-      }),
-  });
-  console.log(data?.data);
-  // const data = await axios.get("http://localhost:8000/api/chat", {
-  //   data: {
-  //     userId: session?.user.id,
-  //   },
-  // });
+const ChatList = async () => {
+  const session = await getServerAuthSession();
+  const { data } = await axios.get<GetAllChat>(
+    "http://localhost:8000/api/chat",
+    {
+      data: {
+        userId: session?.user.id,
+      },
+    },
+  );
 
   return (
     <div className="w-[450px] border-r-2 border-input p-5">

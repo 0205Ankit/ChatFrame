@@ -10,8 +10,6 @@ interface CustomRequest extends Request {
 export default class ChatController {
   static getChats = async (req: CustomRequest, res: Response) => {
     const { userId } = req.body;
-    console.log("userId", userId);
-    console.log(userId);
     try {
       const chats = await prisma.chat.findMany({
         where: {
@@ -30,7 +28,7 @@ export default class ChatController {
           messages: true,
         },
       });
-      res.status(200).send({ chats });
+      res.status(200).send({ ...chats });
       return;
     } catch (err) {
       console.log(err);
