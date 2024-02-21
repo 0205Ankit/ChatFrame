@@ -78,7 +78,10 @@ const PostDialog = ({ post, closeDialogHandler }: PropType) => {
         />
         <div className="flex grow flex-col justify-between">
           <div className="flex items-center justify-between px-4 pt-3">
-            <ProfileCard />
+            <ProfileCard
+              userImage={post.createdBy.profilePhoto}
+              userName={post.createdBy.userName}
+            />
             {loggedInUserId === post.createdById && (
               <Button
                 onClick={() => deletePost({ postId: post.id })}
