@@ -28,4 +28,18 @@ export default class MessagesController {
     }
   };
   ///////////////////////////////////////////////////////////////////////////////////////
+  static getMessagesByChatId = async (req: Request, res: Response) => {
+    const { chatId } = req.params;
+    try {
+      const messages = await prisma.message.findMany({
+        where: {
+          chatId,
+        },
+      });
+      res.status(200).send(messages);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).send(null);
+    }
+  };
 }
