@@ -1,14 +1,17 @@
-import {
-  type Message,
-  type ChatType,
-  type ChatParticipant,
-} from "@prisma/client";
+import { type Message, type ChatType, type User } from "@prisma/client";
 
-export type GetAllChat = {
+export type GetChat = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   type: ChatType;
   messages: Message[];
-  participants: ChatParticipant[];
-}[];
+  participants: {
+    createdAt: Date;
+    updatedAt: Date;
+    userId: string;
+    chatId: string;
+    isAdmin: boolean;
+    user: User;
+  }[];
+};

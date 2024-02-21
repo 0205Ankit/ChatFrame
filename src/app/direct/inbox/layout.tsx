@@ -23,16 +23,14 @@ export default async function InboxLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={cn(
-          "flex min-h-screen bg-background pl-20 font-sans antialiased",
-          inter.variable,
-        )}
-      >
-        <ChatList />
-        <div className="h-full w-full antialiased">{children}</div>
-      </body>
-    </html>
+    <div
+      className={cn(
+        "flex min-h-screen bg-background pl-20 font-sans antialiased",
+        inter.variable,
+      )}
+    >
+      <ChatList />
+      <div className="h-full w-full antialiased">{children}</div>
+    </div>
   );
 }

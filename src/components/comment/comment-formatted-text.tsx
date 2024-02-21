@@ -71,7 +71,10 @@ const CommentFormattedText = ({
   return (
     <div className={cn("flex-start flex gap-3", className)}>
       <Avatar className="h-7 w-7">
-        <AvatarImage src={data?.profilePhoto ?? "/empty-profile-photo.jpeg"} />
+        <AvatarImage
+          className="object-cover"
+          src={data?.profilePhoto ?? "/empty-profile-photo.jpeg"}
+        />
         <AvatarFallback>CF</AvatarFallback>
       </Avatar>
       <div className="flex w-full flex-col gap-1">
