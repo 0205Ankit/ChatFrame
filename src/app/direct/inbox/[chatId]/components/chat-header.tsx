@@ -1,16 +1,19 @@
 "use client";
 import { type GetChat } from "@/types/chat-type";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { AiOutlinePhone } from "react-icons/ai";
 import { HiOutlineVideoCamera } from "react-icons/hi";
 
-const ChatHeader = ({ chat }: { chat: GetChat }) => {
-  const { data } = useSession();
+type PropType = {
+  chat: GetChat;
+  currUserId: string;
+}
+
+const ChatHeader = ({ chat, currUserId }: PropType) => {
   const senderPaticipant = chat.participants.find((user) => {
-    return user.userId !== data?.user?.id;
+    return user.userId !== currUserId;
   });
   return (
     <div className="flex items-center justify-between px-8 py-3">
