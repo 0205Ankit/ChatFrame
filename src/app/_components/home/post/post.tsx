@@ -7,11 +7,8 @@ import { type inferAsyncReturnType } from "@trpc/server";
 import Image from "next/image";
 import PostActions from "./post-actions";
 import { useRouter } from "next/navigation";
-import React, {
-  forwardRef,
-  useEffect,
-  useState,
-} from "react";
+import React, { forwardRef, useEffect, useState } from "react";
+import Link from "next/link";
 
 type PostType = NonNullable<
   inferAsyncReturnType<typeof serverApi.post.getAllPostOfUser.query>[0]
@@ -50,7 +47,10 @@ const Post = forwardRef(
 
     return (
       <div ref={ref} className="mb-10 w-full">
-        <div className="mb-2 flex items-center gap-2">
+        <Link
+          href={`/profile/${post?.createdBy?.userName}`}
+          className="mb-2 flex items-center gap-2"
+        >
           <Image
             src={post?.createdBy?.profilePhoto ?? "/empty-profile-photo.jpeg"}
             alt="profile"
@@ -59,7 +59,7 @@ const Post = forwardRef(
             className="h-10 w-10 rounded-full object-cover"
           />
           <h1 className={cn("")}>{post?.createdBy?.userName ?? "user"}</h1>
-        </div>
+        </Link>
         <ImageSlider
           isPostSlider
           images={post?.images}
