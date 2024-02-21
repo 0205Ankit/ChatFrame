@@ -37,8 +37,11 @@ export const CommentInput = ({ postId }: { postId: string }) => {
 
   const { mutate, isLoading } = api.comments.create.useMutation({
     onSuccess: () => {
-      router.refresh();
       setCommentContent("");
+    },
+    onSettled: () => {
+      router.refresh();
+      void utils.post.getAllPostOfUser.invalidate();
     },
   });
 
@@ -50,7 +53,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
     if (focusCommentInput) {
       inputRef.current?.focus();
     }
-  }, [replyToUser , focusCommentInput]);
+  }, [replyToUser, focusCommentInput]);
 
   const postCommentHandler = () => {
     if (
@@ -80,7 +83,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
         <PopoverContent className="w-fit overflow-scroll rounded-xl border-0 p-0">
           <EmojiPicker
             onEmojiClick={(emoji) =>
-              setCommentContent(commentContent + emoji.emoji)
+              setCommentContent((prev) => prev + emoji.emoji)
             }
           />
         </PopoverContent>
