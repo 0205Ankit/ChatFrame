@@ -3,8 +3,9 @@ import ChatHeader from "./components/chat-header";
 import axios from "axios";
 import { type GetChat } from "@/types/chat-type";
 import { Separator } from "@/components/ui/separator";
-import MessageInput from "./components/message-input";
+import MessageInput from "./components/messages/message-input";
 import { getServerAuthSession } from "@/server/auth";
+import Messages from "./components/messages/messages";
 
 const ChatPage = async ({ params }: { params: { chatId: string } }) => {
   const { data } = await axios.get<GetChat>(
@@ -17,10 +18,19 @@ const ChatPage = async ({ params }: { params: { chatId: string } }) => {
   return (
     <div className="relative flex h-screen flex-col">
       <div>
-        <ChatHeader currUserId={session?.user.id}  chat={data} />
+        <ChatHeader currUserId={session?.user.id} chat={data} />
         <Separator />
       </div>
-      <MessageInput chatId={params.chatId} senderId={session?.user.id} className="absolute inset-x-0 bottom-0 z-10 mb-5" />
+      <Messages
+        chatId={params.chatId}
+        chat={data}
+        currUserId={session?.user.id}
+      />
+      <MessageInput
+        chatId={params.chatId}
+        senderId={session?.user.id}
+        className="absolute inset-x-0 bottom-0 z-10 mb-5"
+      />
     </div>
   );
 };

@@ -35,6 +35,9 @@ export default class MessagesController {
         where: {
           chatId,
         },
+        orderBy: {
+          createdAt: "asc",
+        },
       });
       res.status(200).send(messages);
     } catch (err) {
