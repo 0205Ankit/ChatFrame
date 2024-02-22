@@ -19,6 +19,14 @@ export default class MessagesController {
           senderId,
           chatId,
         },
+        include: {
+          chat: {
+            include: {
+              participants: true,
+            },
+          },
+          sender: true,
+        },
       });
       res.status(200).send(message);
       return;

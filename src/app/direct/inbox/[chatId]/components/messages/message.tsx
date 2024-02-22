@@ -20,9 +20,9 @@ const Message = ({ text, isSender }: PropType) => {
     >
       <pre
         className={cn(
-          "relative w-fit max-w-[400px] rounded-[12px_12px_0_12px] bg-primary px-4 py-2 text-right font-sans font-medium text-white",
+          "relative w-fit max-w-[400px] rounded-[14px_14px_0_14px] bg-primary px-4 py-2 text-right font-sans font-medium text-white",
           {
-            "rounded-[12px_12px_12px_0] bg-slate-300 text-black": !isSender,
+            "rounded-[14px_14px_14px_0] bg-slate-300 text-black": !isSender,
           },
         )}
       >
