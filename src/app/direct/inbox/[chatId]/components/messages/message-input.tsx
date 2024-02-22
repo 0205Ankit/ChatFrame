@@ -65,7 +65,7 @@ const MessageInput = ({ className, chatId, senderId }: PropType) => {
       <Textarea
         placeholder="Type a message"
         onKeyDown={sendMessageHandler}
-        className="h-6 w-full resize-none border-none bg-transparent px-1 py-0 text-base focus-visible:ring-0 focus-visible:ring-offset-0"
+        className="h-6 w-full resize-none border-none px-1 py-0 text-base focus-visible:ring-0 focus-visible:ring-offset-0"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />

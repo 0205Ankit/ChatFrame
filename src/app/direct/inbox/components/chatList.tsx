@@ -29,12 +29,11 @@ const ChatList = async () => {
       <Separator className="my-6" />
       <div className="">
         {data?.map((chat) => {
-          // return chat.messages.length > 0 ? (
-          //   <ChatItem key={chat.id} chat={chat} />
-          // ) : (
-          //   <></>
-          // );
-          return <ChatItem key={chat.id} chat={chat} />;
+          return chat.messages.length > 0 ? (
+            <ChatItem key={chat.id} chat={chat} />
+          ) : (
+            <></>
+          );
         })}
       </div>
     </div>

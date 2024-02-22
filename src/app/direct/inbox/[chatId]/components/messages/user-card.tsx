@@ -13,7 +13,7 @@ const UserCard = ({
   profilePhoto: string;
 }) => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="mb-10 mt-5 flex flex-col items-center">
       <Image
         src={profilePhoto}
         alt="profile photo"

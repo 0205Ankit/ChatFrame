@@ -5,7 +5,7 @@ import { type GetChat } from "@/types/chat-type";
 import { Separator } from "@/components/ui/separator";
 import MessageInput from "./components/messages/message-input";
 import { getServerAuthSession } from "@/server/auth";
-import Messages from "./components/messages/messages";
+import MessagesContainer from "./components/messages/messages-container";
 
 const ChatPage = async ({ params }: { params: { chatId: string } }) => {
   const { data } = await axios.get<GetChat>(
@@ -21,16 +21,20 @@ const ChatPage = async ({ params }: { params: { chatId: string } }) => {
         <ChatHeader currUserId={session?.user.id} chat={data} />
         <Separator />
       </div>
-      <Messages
-        chatId={params.chatId}
-        chat={data}
-        currUserId={session?.user.id}
-      />
-      <MessageInput
-        chatId={params.chatId}
-        senderId={session?.user.id}
-        className="absolute inset-x-0 bottom-0 z-10 mb-5"
-      />
+      <div className="custom-scrollbar h-[calc(100%-160px)] overflow-y-scroll">
+        <MessagesContainer
+          chatId={params.chatId}
+          chat={data}
+          currUserId={session?.user.id}
+        />
+      </div>
+      <div className="absolute inset-x-0 bottom-0 z-10 bg-white py-4">
+        <MessageInput
+          chatId={params.chatId}
+          senderId={session?.user.id}
+          className=""
+        />
+      </div>
     </div>
   );
 };
