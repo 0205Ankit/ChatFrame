@@ -56,7 +56,7 @@ const MessagesContainer = ({
   }, [socketConnected, queryClient, chatId, router]);
 
   return (
-    <div className="p-5 ">
+    <div className="p-5">
       <UserCard
         userName={senderPaticipants[0]?.user.userName ?? "User"}
         profilePhoto={

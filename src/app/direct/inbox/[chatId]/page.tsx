@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 let socket;
 
@@ -60,7 +61,7 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
         <ChatHeader currUserId={userData?.user.id} chat={data} />
         <Separator />
       </div>
-      <div className="custom-scrollbar relative h-[calc(100%-160px)] overflow-y-scroll">
+      <ScrollArea className="relative h-[calc(100%-160px)]">
         <MessagesContainer
           socketConnected={socketConnected}
           chatId={params.chatId}
@@ -87,7 +88,7 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
         </Button>
         <div ref={isInViewRef} className=" bg-red-400" />
         <div ref={messagesEndRef} />
-      </div>
+      </ScrollArea>
       <div className="absolute inset-x-0 bottom-0 z-10 bg-white py-4">
         <MessageInput
           socketConnected={socketConnected}
