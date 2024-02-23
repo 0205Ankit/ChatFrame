@@ -19,15 +19,15 @@ const ChatList = async () => {
   );
   if (!data) return;
   return (
-    <div className="w-[450px] border-r-2 border-input">
-      <div className="flex items-center justify-between px-4 pt-5 text-2xl font-bold">
-        Chat
+    <div className="w-[450px] border-r-2 border-input max-md:w-[100px]">
+      <div className="flex items-center justify-between px-4 pt-5 text-2xl font-bold max-md:justify-center">
+        <p className="text-2xl font-bold max-md:hidden">Chat</p>
         <Button className="rounded-full bg-primary" size={"sm"}>
           <IoMdAdd className="text-xl" />
         </Button>
       </div>
       <Separator className="my-6" />
-      <div className="">
+      <div className="flex flex-col items-center justify-center">
         {data?.map((chat) => {
           return chat.messages.length > 0 ? (
             <ChatItem key={chat.id} chat={chat} />

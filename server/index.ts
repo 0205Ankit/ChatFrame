@@ -38,11 +38,11 @@ io.on("connection", (socket) => {
   });
 
   socket.on("typing", (room: string) => {
-    socket.in(room).emit("typing");
+    socket.in(room).emit("typing", room);
   });
 
   socket.on("stop typing", (room: string) => {
-    socket.in(room).emit("stop typing");
+    socket.in(room).emit("stop typing", room);
   });
 
   socket.on("new message", (room: string) => {

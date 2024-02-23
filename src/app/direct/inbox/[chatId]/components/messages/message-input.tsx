@@ -58,16 +58,18 @@ const MessageInput = ({
 
   useEffect(() => {
     if (!socketConnected) return;
-    const handleTyping = () => {
+    const handleTyping = (roomId: string) => {
+      if (roomId !== chatId) return;
       setIsTyping(true);
     };
 
-    const handleStopTyping = () => {
+    const handleStopTyping = (roomId: string) => {
+      if (roomId !== chatId) return;
       setIsTyping(false);
     };
     socket.emit("join chat", chatId);
-    socket.on("typing", handleTyping);
-    socket.on("stop typing", handleStopTyping);
+    socket.on("typing", (roomId: string) => handleTyping(roomId));
+    socket.on("stop typing", (roomId: string) => handleStopTyping(roomId));
     return () => {
       socket.off("typing", handleTyping);
       socket.off("stop typing", handleStopTyping);
