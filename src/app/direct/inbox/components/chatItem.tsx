@@ -1,4 +1,5 @@
 "use client";
+import { getFormattedDateTime } from "@/lib/utils";
 import { type GetChat } from "@/types/chat-type";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -35,7 +36,13 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
         </div>
       </div>
       <div className="flex flex-col items-end">
-        <p className="mb-3 text-xs font-semibold text-slate-500">11:00 AM</p>
+        <p className="mb-3 text-xs font-semibold text-slate-500">
+          {
+            getFormattedDateTime(
+              chat.messages[chat.messages.length - 1]?.createdAt ?? new Date(),
+            ).time
+          }
+        </p>
         <p className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-right text-xs font-medium text-white">
           2
         </p>

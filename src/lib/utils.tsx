@@ -8,6 +8,7 @@ import {
   differenceInMonths,
   differenceInYears,
 } from "date-fns";
+import moment from "moment";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -104,4 +105,20 @@ export function getElapsedTime(startDate: Date) {
   } else {
     return `${yearsDiff} y`;
   }
+}
+
+export function getFormattedDateTime(date: Date) {
+  // Get the current date and time in local timezone
+  const momentDate = date ? moment(date) : moment().local();
+
+  // Format the weekday as "ddd" (e.g., "Wed")
+  const formattedWeekday = momentDate.format("ddd");
+
+  // Format the time as "h:mm A" (e.g., "11:45 AM")
+  const formattedTime = momentDate.format("h:mm A");
+
+  return {
+    weekday: formattedWeekday,
+    time: formattedTime,
+  };
 }

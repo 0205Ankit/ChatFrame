@@ -7,6 +7,7 @@ import axios from "axios";
 import { type Message as MessageType } from "@prisma/client";
 import Message from "./message";
 import io from "socket.io-client";
+import { useRouter } from "next/navigation";
 const socket = io("http://localhost:8000");
 
 type PropType = {
@@ -28,6 +29,7 @@ const MessagesContainer = ({
     return user.userId !== currUserId;
   });
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { data } = useQuery({
     queryKey: ["messages"],
@@ -45,12 +47,13 @@ const MessagesContainer = ({
     if (!socketConnected) return;
 
     socket.on("message recieved", () => {
+      router.refresh();
       void queryClient.invalidateQueries({ queryKey: ["messages"] });
     });
     return () => {
       socket.off("message recieved");
     };
-  }, [socketConnected, queryClient, chatId]);
+  }, [socketConnected, queryClient, chatId, router]);
 
   return (
     <div className="p-5 ">
