@@ -13,7 +13,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      userName?: string | null;
+      userName: string | null;
       profilePhoto?: string | null;
     } & DefaultSession["user"];
   }
@@ -22,7 +22,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
-    userName?: string | null;
+    userName: string | null;
     picture?: string | null;
     email?: string | null;
     name?: string | null;
@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async session({ session, token }) {
+      console.log(token);
       if (token) {
         session.user.id = token.id;
         session.user.userName = token.userName;
@@ -72,7 +73,7 @@ export const authOptions: NextAuthOptions = {
 
       if (!dbUser) {
         token.id = user.id;
-        token.userName = user.name;
+        token.userName = nanoid(10);
         return token;
       }
 
