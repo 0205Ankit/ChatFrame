@@ -34,6 +34,18 @@ export default class ChatController {
           messages: true,
         },
       });
+      // const sortedChats =
+      //   chats.length > 1
+      //     ? chats.sort((a, b) => {
+      //         return (
+      //           new Date(
+      //             b.messages[b.messages.length - 1]?.createdAt,
+      //           ).getTime() -
+      //           new Date(a.messages[a.messages.length - 1]?.createdAt).getTime()
+      //         );
+      //       })
+      //     : chats;
+
       res.status(200).send(chats);
       return;
     } catch (err) {
