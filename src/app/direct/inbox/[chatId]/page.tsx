@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ChatHeader from "./components/chat-header";
 import axios from "axios";
 import { type GetChat } from "@/types/chat-type";
@@ -15,6 +15,7 @@ let socket;
 const ChatPage = ({ params }: { params: { chatId: string } }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: userData } = useSession();
   const { data } = useQuery({
     queryKey: ["getChat"],
@@ -27,6 +28,7 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
   });
 
   useEffect(() => {
+    messagesEndRef.current?.scrollIntoView();
     if (!userData?.user) return;
     socket = io("http://localhost:8000");
     socket.emit("setup", userData?.user);
@@ -52,6 +54,7 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
           currUserId={userData?.user.id}
           isTyping={isTyping}
         />
+        <div ref={messagesEndRef} />
       </div>
       <div className="absolute inset-x-0 bottom-0 z-10 bg-white py-4">
         <MessageInput
