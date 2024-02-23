@@ -30,7 +30,7 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
           <h5 className="mb-1 font-semibold">
             {senderPaticipant?.user.userName ?? "User"}
           </h5>
-          <p className="w-[100px] truncate text-sm font-medium text-slate-500">
+          <p className="w-[140px] truncate text-sm font-medium text-slate-500">
             {chat.messages[chat.messages.length - 1]?.text}
           </p>
         </div>
