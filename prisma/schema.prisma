@@ -144,14 +144,15 @@ model Follows {
 }
 
 model Message {
-    id        String   @id @default(uuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    text      String
-    sender    User     @relation(fields: [senderId], references: [id])
-    senderId  String
-    chat      Chat     @relation(fields: [chatId], references: [id])
-    chatId    String
+    id               String   @id @default(uuid())
+    createdAt        DateTime @default(now())
+    updatedAt        DateTime @updatedAt
+    text             String
+    isReadByReciever Boolean  @default(false)
+    sender           User     @relation(fields: [senderId], references: [id])
+    senderId         String
+    chat             Chat     @relation(fields: [chatId], references: [id])
+    chatId           String
 }
 
 model Chat {

@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import SearchDropdown from "./search-dropdown";
 import { Separator } from "@/components/ui/separator";
 import RecentSearch from "./recent-search";
+import { usePathname } from "next/navigation";
 
 type PropTypes = {
   shrink: boolean;
@@ -18,6 +19,7 @@ type PropTypes = {
 };
 const Search = ({ shrink, setShrink }: PropTypes) => {
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
   const openSheetHandler = () => {
     setOpen(true);
     setShrink(true);
@@ -25,6 +27,7 @@ const Search = ({ shrink, setShrink }: PropTypes) => {
 
   const closeSheetHandler = () => {
     setOpen(false);
+    if (pathname.startsWith("/direct")) return;
     setShrink(false);
   };
 
