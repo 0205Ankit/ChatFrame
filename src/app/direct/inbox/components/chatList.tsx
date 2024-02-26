@@ -1,23 +1,27 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { IoMdAdd } from "react-icons/io";
 import axios from "axios";
-import { getServerAuthSession } from "@/server/auth";
 import { type GetChat } from "@/types/chat-type";
 import ChatItem from "./chatItem";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useQuery } from "@tanstack/react-query";
+import { getUserDetails } from "@/app/queries";
 
-const ChatList = async () => {
-  const session = await getServerAuthSession();
-  const { data } = await axios.get<GetChat[]>(
-    "http://localhost:8000/api/chat",
-    {
-      data: {
-        userId: session?.user.id,
-      },
+const ChatList = () => {
+  const { data } = useQuery({
+    queryKey: ["getChats"],
+    queryFn: async () => {
+      const user = await getUserDetails();
+      const { data } = await axios.get<GetChat[]>(
+        `http://localhost:8000/api/chat?userId=${user?.id}`,
+      );
+      return data;
     },
-  );
+  });
+
   if (!data) return;
   const sortedChats = data.sort((a, b) => {
     return (

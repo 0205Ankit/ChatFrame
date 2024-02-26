@@ -6,18 +6,20 @@ interface CreateMessageRequest extends Request {
     senderId: string;
     chatId: string;
     text: string;
+    isReadByReciever?: boolean;
   };
 }
 
 export default class MessagesController {
   static createMessage = async (req: CreateMessageRequest, res: Response) => {
-    const { text, senderId, chatId } = req.body;
+    const { text, senderId, chatId, isReadByReciever } = req.body;
     try {
       const message = await prisma.message.create({
         data: {
           text,
           senderId,
           chatId,
+          isReadByReciever: isReadByReciever ?? false,
         },
         include: {
           chat: {

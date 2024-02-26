@@ -9,7 +9,7 @@ import {
   differenceInYears,
 } from "date-fns";
 import moment from "moment";
-import { Message } from "@prisma/client";
+import { type Message } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -133,8 +133,6 @@ export const getUnreadMessages = ({
 }): number => {
   let numberOfUnreadMessages = 0;
   if (!messages || !userId) numberOfUnreadMessages;
-
-  console.log(messages, userId);
 
   for (let i = messages.length - 1; i >= 0; i--) {
     if (messages[i]?.isReadByReciever === true) break;

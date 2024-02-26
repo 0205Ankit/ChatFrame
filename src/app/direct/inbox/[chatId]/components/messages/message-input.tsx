@@ -15,7 +15,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { type Message } from "@prisma/client";
 import io from "socket.io-client";
-import { useRouter } from "next/navigation";
 const socket = io("http://localhost:8000");
 
 //TODO: make the textarea resizable as the message grow
@@ -37,7 +36,7 @@ const MessageInput = ({
   const [message, setMessage] = useState("");
   const [typing, setTyping] = useState(false);
   const queryClient = useQueryClient();
-  const router = useRouter();
+  // const router = useRouter();
 
   const { mutate } = useMutation({
     mutationFn: () =>
@@ -46,12 +45,13 @@ const MessageInput = ({
           senderId,
           chatId,
           text: message,
+          // isReadByReciever: userInChat,
         })
         .then((res) => res.data),
     onSuccess: () => {
       setMessage("");
-      router.refresh();
       void queryClient.invalidateQueries({ queryKey: ["messages"] });
+      void queryClient.invalidateQueries({ queryKey: ["getChats"] });
       socket.emit("new message", chatId);
     },
   });
@@ -67,6 +67,7 @@ const MessageInput = ({
       if (roomId !== chatId) return;
       setIsTyping(false);
     };
+
     socket.emit("join chat", chatId);
     socket.on("typing", (roomId: string) => handleTyping(roomId));
     socket.on("stop typing", (roomId: string) => handleStopTyping(roomId));
@@ -78,8 +79,12 @@ const MessageInput = ({
 
   const sendMessageHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      socket.emit("stop typing", chatId);
       e.preventDefault();
+      socket.emit("stop typing", chatId);
+      if (message.trim().length === 0) {
+        setMessage("");
+        return;
+      }
       mutate();
     }
   };

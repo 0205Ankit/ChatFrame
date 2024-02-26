@@ -2,7 +2,7 @@ import { prisma } from "../prisma";
 import { type Request, type Response } from "express";
 
 interface GetChatsRequest extends Request {
-  body: {
+  query: {
     userId: string;
   };
 }
@@ -15,7 +15,7 @@ interface GetChatsByChatId extends Request {
 
 export default class ChatController {
   static getChats = async (req: GetChatsRequest, res: Response) => {
-    const { userId } = req.body;
+    const { userId } = req.query;
     try {
       const chats = await prisma.chat.findMany({
         where: {
@@ -34,6 +34,12 @@ export default class ChatController {
           messages: true,
         },
       });
+      // const filteredChats = chats.filter((chat) => {
+      //   return chat.participants.some((participant) => {
+      //     return participant.userId === userId;
+      //   });
+      // });
+
       // const sortedChats =
       //   chats.length > 1
       //     ? chats.sort((a, b) => {

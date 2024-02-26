@@ -1,13 +1,17 @@
 "use client";
 import { getFormattedDateTime, getUnreadMessages } from "@/lib/utils";
+import { api } from "@/trpc/react";
 import { type GetChat } from "@/types/chat-type";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const ChatItem = ({ chat }: { chat: GetChat }) => {
   const { data } = useSession();
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const senderPaticipant = chat.participants.find((user) => {
     return user.userId !== data?.user?.id;
   });
@@ -15,10 +19,18 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
     messages: chat.messages,
     userId: data?.user?.id ?? "",
   });
+  const { mutateAsync } = api.chat.unreadMessages.useMutation({
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["getChats"] });
+    },
+  });
 
   return (
-    <Link
-      href={`/direct/inbox/${chat.id}`}
+    <div
+      onClick={async () => {
+        await mutateAsync({ chatId: chat.id });
+        router.replace(`/direct/inbox/${chat.id}`);
+      }}
       className="flex justify-between rounded-sm px-4 py-4 hover:bg-slate-100 max-lg:justify-center max-lg:px-2"
     >
       <div className="flex items-center gap-3 max-lg:gap-0">
@@ -60,7 +72,7 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
           </p>
         )}
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -35,6 +35,7 @@ io.on("connection", (socket) => {
 
   socket.on("join chat", (room: string) => {
     void socket.join(room);
+    void socket.emit("joined chat", room);
   });
 
   socket.on("typing", (room: string) => {
@@ -46,7 +47,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new message", (room: string) => {
-    socket.in(room).emit("message recieved");
+    socket.in(room).emit("message recieved", room);
     // newMessage.chat.participants.forEach((participant) => {
     //   if (participant.userId !== newMessage.senderId) {
     //     return socket
