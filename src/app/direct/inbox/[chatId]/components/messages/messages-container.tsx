@@ -8,6 +8,7 @@ import { type Message as MessageType } from "@prisma/client";
 import Message from "./message";
 import io from "socket.io-client";
 import { useRouter } from "next/navigation";
+import { api } from "@/trpc/react";
 const socket = io("http://localhost:8000");
 
 type PropType = {
@@ -30,6 +31,11 @@ const MessagesContainer = ({
   });
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { mutate } = api.chat.unreadMessages.useMutation({
+    onSuccess: () => {
+      router.refresh();
+    },
+  });
 
   const { data } = useQuery({
     queryKey: ["messages"],
@@ -44,6 +50,7 @@ const MessagesContainer = ({
   });
 
   useEffect(() => {
+    mutate({ chatId });
     if (!socketConnected) return;
 
     socket.on("message recieved", () => {
@@ -53,7 +60,7 @@ const MessagesContainer = ({
     return () => {
       socket.off("message recieved");
     };
-  }, [socketConnected, queryClient, chatId, router]);
+  }, [socketConnected, queryClient, chatId, router, mutate]);
 
   return (
     <div className="p-5">

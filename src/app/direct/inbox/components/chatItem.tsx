@@ -1,5 +1,5 @@
 "use client";
-import { getFormattedDateTime } from "@/lib/utils";
+import { getFormattedDateTime, getUnreadMessages } from "@/lib/utils";
 import { type GetChat } from "@/types/chat-type";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -11,6 +11,11 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
   const senderPaticipant = chat.participants.find((user) => {
     return user.userId !== data?.user?.id;
   });
+  const unreadMessages = getUnreadMessages({
+    messages: chat.messages,
+    userId: data?.user?.id ?? "",
+  });
+
   return (
     <Link
       href={`/direct/inbox/${chat.id}`}
@@ -43,9 +48,17 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
             ).time
           }
         </p>
-        <p className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-right text-xs font-medium text-white">
-          2
-        </p>
+        {!!unreadMessages && (
+          <p className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-right text-xs font-medium text-white">
+            {unreadMessages > 9 ? (
+              <span className="flex items-start">
+                9<span className="text-[8px]">+</span>
+              </span>
+            ) : (
+              unreadMessages
+            )}
+          </p>
+        )}
       </div>
     </Link>
   );

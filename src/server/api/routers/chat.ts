@@ -64,4 +64,22 @@ export const chatRouter = createTRPCRouter({
 
       return chatTransaction;
     }),
+
+  unreadMessages: protectedProcedure
+    .input(
+      z.object({
+        chatId: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.message.updateMany({
+        where: {
+          chatId: input.chatId,
+          isReadByReciever: false,
+        },
+        data: {
+          isReadByReciever: true,
+        },
+      });
+    }),
 });

@@ -9,6 +9,7 @@ import {
   differenceInYears,
 } from "date-fns";
 import moment from "moment";
+import { Message } from "@prisma/client";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -122,3 +123,28 @@ export function getFormattedDateTime(date: Date) {
     time: formattedTime,
   };
 }
+
+export const getUnreadMessages = ({
+  messages,
+  userId,
+}: {
+  messages: Message[];
+  userId: string;
+}): number => {
+  let numberOfUnreadMessages = 0;
+  if (!messages || !userId) numberOfUnreadMessages;
+
+  console.log(messages, userId);
+
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i]?.isReadByReciever === true) break;
+    if (
+      messages[i]?.senderId !== userId &&
+      messages[i]?.isReadByReciever === false
+    ) {
+      numberOfUnreadMessages += 1;
+    }
+  }
+
+  return numberOfUnreadMessages;
+};
