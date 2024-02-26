@@ -108,20 +108,54 @@ export function getElapsedTime(startDate: Date) {
   }
 }
 
+// export function getFormattedDateTime(date: Date) {
+//   // Get the current date and time in local timezone
+//   const momentDate = date ? moment(date) : moment().local();
+
+//   // Format the weekday as "ddd" (e.g., "Wed")
+//   const formattedWeekday = momentDate.format("ddd");
+
+//   // Format the time as "h:mm A" (e.g., "11:45 AM")
+//   const formattedTime = momentDate.format("h:mm A");
+
+//   return {
+//     weekday: formattedWeekday,
+//     time: formattedTime,
+//   };
+// }
+
 export function getFormattedDateTime(date: Date) {
-  // Get the current date and time in local timezone
   const momentDate = date ? moment(date) : moment().local();
+  const now = moment();
 
-  // Format the weekday as "ddd" (e.g., "Wed")
-  const formattedWeekday = momentDate.format("ddd");
+  const timeDifference = now.diff(momentDate, "hours");
 
-  // Format the time as "h:mm A" (e.g., "11:45 AM")
-  const formattedTime = momentDate.format("h:mm A");
-
-  return {
-    weekday: formattedWeekday,
-    time: formattedTime,
-  };
+  if (timeDifference < 24) {
+    // Less than 24 hours ago, return only time
+    const formattedTime = momentDate.format("h:mm A");
+    return {
+      time: formattedTime,
+    };
+  } else if (timeDifference < 48) {
+    // Between 24 and 48 hours ago, return "yesterday" and time
+    const formattedTime = momentDate.format("h:mm A");
+    return {
+      time: `yesterday ${formattedTime}`,
+    };
+  } else if (timeDifference < 7 * 24) {
+    // Between 2 days and 1 week ago, return weekday and time
+    const formattedWeekday = momentDate.format("ddd");
+    const formattedTime = momentDate.format("h:mm A");
+    return {
+      time: `${formattedWeekday} ${formattedTime}`,
+    };
+  } else {
+    // More than a week ago, return date and time
+    const formattedDateTime = momentDate.format("DD/MM/YYYY h:mm A");
+    return {
+      time: formattedDateTime,
+    };
+  }
 }
 
 export const getUnreadMessages = ({

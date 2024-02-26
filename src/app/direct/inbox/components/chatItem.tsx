@@ -1,5 +1,5 @@
 "use client";
-import { getFormattedDateTime, getUnreadMessages } from "@/lib/utils";
+import { getElapsedTime, getUnreadMessages } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { type GetChat } from "@/types/chat-type";
 import { useQueryClient } from "@tanstack/react-query";
@@ -54,11 +54,9 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
       </div>
       <div className="flex flex-col items-end max-lg:hidden">
         <p className="mb-3 text-xs font-semibold text-slate-500">
-          {
-            getFormattedDateTime(
-              chat.messages[chat.messages.length - 1]?.createdAt ?? new Date(),
-            ).time
-          }
+          {getElapsedTime(
+            chat.messages[chat.messages.length - 1]?.createdAt ?? new Date(),
+          )}
         </p>
         {!!unreadMessages && (
           <p className="flex h-5 w-5 items-center justify-center rounded-full bg-primary text-right text-xs font-medium text-white">
