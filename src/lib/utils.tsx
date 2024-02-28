@@ -169,10 +169,11 @@ export const getUnreadMessages = ({
   if (!messages || !userId) numberOfUnreadMessages;
 
   for (let i = messages.length - 1; i >= 0; i--) {
-    if (messages[i]?.isReadByReciever === true) break;
+    const message = messages[i];
+    if ((message?.isReadByRecievers as string[]).includes(userId)) break;
     if (
-      messages[i]?.senderId !== userId &&
-      messages[i]?.isReadByReciever === false
+      message?.senderId !== userId &&
+      !(message?.isReadByRecievers as string[]).includes(userId)
     ) {
       numberOfUnreadMessages += 1;
     }

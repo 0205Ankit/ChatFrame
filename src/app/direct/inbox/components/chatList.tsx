@@ -2,25 +2,13 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { IoMdAdd } from "react-icons/io";
-import axios from "axios";
-import { type GetChat } from "@/types/chat-type";
 import ChatItem from "./chatItem";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useQuery } from "@tanstack/react-query";
-import { getUserDetails } from "@/app/queries";
+import { api } from "@/trpc/react";
 
 const ChatList = () => {
-  const { data } = useQuery({
-    queryKey: ["getChats"],
-    queryFn: async () => {
-      const user = await getUserDetails();
-      const { data } = await axios.get<GetChat[]>(
-        `http://localhost:8000/api/chat?userId=${user?.id}`,
-      );
-      return data;
-    },
-  });
+  const { data } = api.chat.getChats.useQuery();
 
   if (!data) return;
   const sortedChats = data.sort((a, b) => {
@@ -29,6 +17,7 @@ const ChatList = () => {
       new Date(a.messages[a.messages.length - 1]?.createdAt ?? 0).getTime()
     );
   });
+
   return (
     <div className="flex h-screen w-[450px] flex-col border-r-2 border-input max-lg:w-[100px]">
       <div className="flex items-center justify-between px-4 pt-5 text-2xl font-bold max-lg:justify-center">

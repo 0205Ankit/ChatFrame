@@ -65,20 +65,40 @@ export const chatRouter = createTRPCRouter({
       return chatTransaction;
     }),
 
-  unreadMessages: protectedProcedure
-    .input(
-      z.object({
-        chatId: z.string(),
-      }),
-    )
-    .mutation(({ ctx, input }) => {
-      return ctx.db.message.updateMany({
-        where: {
-          chatId: input.chatId,
-          isReadByReciever: false,
+  getChats: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.chat.findMany({
+      where: {
+        participants: {
+          some: {
+            userId: ctx.session.user.id,
+          },
         },
-        data: {
-          isReadByReciever: true,
+      },
+      include: {
+        participants: {
+          include: {
+            user: true,
+          },
+        },
+        messages: true,
+      },
+    });
+  }),
+
+  getChatsById: protectedProcedure
+    .input(z.object({ chatId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.chat.findUnique({
+        where: {
+          id: input.chatId,
+        },
+        include: {
+          participants: {
+            include: {
+              user: true,
+            },
+          },
+          messages: true,
         },
       });
     }),

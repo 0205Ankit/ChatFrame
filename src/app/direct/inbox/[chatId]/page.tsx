@@ -1,19 +1,17 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import ChatHeader from "./components/chat-header";
-import axios from "axios";
-import { type GetChat } from "@/types/chat-type";
 import { Separator } from "@/components/ui/separator";
 import MessageInput from "./components/messages/message-input";
 import MessagesContainer from "./components/messages/messages-container";
 import { useSession } from "next-auth/react";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import socket from "@/utils/socket";
+import { api } from "@/trpc/react";
 
 const ChatPage = ({ params }: { params: { chatId: string } }) => {
   const [socketConnected, setSocketConnected] = useState(false);
@@ -21,15 +19,7 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: userData } = useSession();
-  const { data } = useQuery({
-    queryKey: ["getChat"],
-    queryFn: async () => {
-      const { data } = await axios.get<GetChat>(
-        `http://localhost:8000/api/chat/${params.chatId}`,
-      );
-      return data;
-    },
-  });
+  const { data } = api.chat.getChatsById.useQuery({ chatId: params.chatId });
 
   const { ref: isInViewRef, inView } = useInView();
 

@@ -11,11 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { IoMicOutline } from "react-icons/io5";
 import { TbPhotoSquareRounded } from "react-icons/tb";
 import { cn } from "@/lib/utils";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { type Message } from "@prisma/client";
 import socket from "@/utils/socket";
-import { invalidateQuery } from "@/utils/query-invalidator";
+import { api } from "@/trpc/react";
 
 //TODO: make the textarea resizable as the message grow
 
@@ -35,22 +32,17 @@ const MessageInput = ({
 }: PropType) => {
   const [message, setMessage] = useState("");
   const [typing, setTyping] = useState(false);
-  const queryClient = useQueryClient();
+  const utils = api.useUtils();
+  const [usersInRoom, setUsersInRoom] = useState<string[]>([]);
 
-  const { mutate } = useMutation({
-    mutationFn: () =>
-      axios
-        .post<Message[]>("http://localhost:8000/api/messages/create", {
-          senderId,
-          chatId,
-          text: message,
-          // isReadByReciever: userInChat,
-        })
-        .then((res) => res.data),
-    onSuccess: async () => {
-      setMessage("");
-      await invalidateQuery(["messages", "getChats"], queryClient);
+  const usersInChat = usersInRoom.filter((userId) => userId !== senderId);
+
+  const { mutate } = api.messages.createMessage.useMutation({
+    onSuccess: () => {
+      void utils.chat.getChats.invalidate();
+      void utils.messages.getMessagesByChatId.invalidate();
       socket.emit("new message", chatId);
+      setMessage("");
     },
   });
 
@@ -66,14 +58,22 @@ const MessageInput = ({
       setIsTyping(false);
     };
 
+    // const handleUsersInRoom = (usersInRoom: string[]) => {
+    //   setUsersInRoom(usersInRoom);
+    // };
+
     socket.emit("join chat", chatId);
+    // socket.on("joined chat", (userIdsInRoom: string[]) =>
+    //   handleUsersInRoom(userIdsInRoom),
+    // );
     socket.on("typing", (roomId: string) => handleTyping(roomId));
     socket.on("stop typing", (roomId: string) => handleStopTyping(roomId));
     return () => {
       socket.off("typing", handleTyping);
       socket.off("stop typing", handleStopTyping);
+      // socket.emit("leave chat", chatId);
     };
-  }, [socketConnected, chatId, setIsTyping]);
+  }, [socketConnected, chatId, setIsTyping, senderId]);
 
   const sendMessageHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -83,7 +83,12 @@ const MessageInput = ({
         setMessage("");
         return;
       }
-      mutate();
+      mutate({
+        senderId,
+        chatId,
+        text: message,
+        isReadByRecievers: usersInChat,
+      });
     }
   };
 

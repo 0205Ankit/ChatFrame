@@ -1,8 +1,7 @@
 import express from "express";
 import { createServer } from "node:http";
-import { Server } from "socket.io";
+import { Server, type Socket } from "socket.io";
 import dotenv from "dotenv";
-import globalRouter from "./routes";
 import cors from "cors";
 
 dotenv.config({
@@ -25,17 +24,42 @@ const io = new Server(server, {
 
 app.use(cors(corsConfig));
 app.use(express.json());
-app.use("/api", globalRouter);
+
+app.get("/", (req, res) => {
+  res.send("Hello!");
+});
+
+interface CustomSocket extends Socket {
+  data: {
+    userId: string;
+  };
+}
 
 io.on("connection", (socket) => {
   socket.on("setup", (userData: { id: string }) => {
     void socket.join(userData.id);
+    socket.data = {
+      userId: userData.id,
+    };
     socket.emit("connected");
   });
 
   socket.on("join chat", (room: string) => {
+    const userIdsInRoom = [] as string[];
     void socket.join(room);
-    void socket.emit("joined chat", room);
+    const socketsInRoom = io.sockets.adapter.rooms.get(room);
+    if (socketsInRoom) {
+      socketsInRoom.forEach((socketId) => {
+        const userSocket = io.sockets.sockets.get(socketId) as CustomSocket;
+        userIdsInRoom.push(userSocket?.data.userId);
+      });
+    }
+    console.log(room, userIdsInRoom);
+    void socket.in(room).emit("joined chat", userIdsInRoom);
+  });
+
+  socket.on("leave chat", (room: string) => {
+    void socket.leave(room);
   });
 
   socket.on("typing", (room: string) => {

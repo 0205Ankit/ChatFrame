@@ -2,7 +2,6 @@
 import { getElapsedTime, getUnreadMessages } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { type GetChat } from "@/types/chat-type";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -11,7 +10,7 @@ import React from "react";
 const ChatItem = ({ chat }: { chat: GetChat }) => {
   const { data } = useSession();
   const router = useRouter();
-  const queryClient = useQueryClient();
+  const utils = api.useUtils();
   const senderPaticipant = chat.participants.find((user) => {
     return user.userId !== data?.user?.id;
   });
@@ -19,9 +18,9 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
     messages: chat.messages,
     userId: data?.user?.id ?? "",
   });
-  const { mutateAsync } = api.chat.unreadMessages.useMutation({
+  const { mutateAsync } = api.messages.unreadMessages.useMutation({
     onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ["getChats"] });
+      void utils.chat.getChats.invalidate();
     },
   });
 

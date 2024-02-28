@@ -144,17 +144,17 @@ model Follows {
 }
 
 model Message {
-    id               String   @id @default(uuid())
-    createdAt        DateTime @default(now())
-    updatedAt        DateTime @updatedAt
-    text             String
-    isReadByReciever Boolean  @default(false)
-    sender           User     @relation(fields: [senderId], references: [id])
-    senderId         String
-    chat             Chat     @relation(fields: [chatId], references: [id])
-    chatId           String
-    type             MsgType  @default(AUDIO)
-    reaction         String?  @default("")
+    id                String   @id @default(uuid())
+    createdAt         DateTime @default(now())
+    updatedAt         DateTime @updatedAt
+    text              String
+    isReadByRecievers String[] @default([])
+    sender            User     @relation(fields: [senderId], references: [id])
+    senderId          String
+    chat              Chat     @relation(fields: [chatId], references: [id])
+    chatId            String
+    type              MsgType  @default(AUDIO)
+    reaction          String?  @default("")
 
     repliedToMessage   Message?  @relation("RepliedTo", fields: [repliedToMessageId], references: [id])
     repliedToMessageId String?

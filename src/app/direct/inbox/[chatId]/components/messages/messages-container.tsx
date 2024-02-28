@@ -1,16 +1,13 @@
 "use client";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import UserCard from "./user-card";
 import { type GetChat } from "@/types/chat-type";
-import axios from "axios";
-import { type Message as MessageType } from "@prisma/client";
 import Message from "./message";
 import { useRouter } from "next/navigation";
 import { getFormattedDateTime } from "@/lib/utils";
 import socket from "@/utils/socket";
 import { differenceInMinutes } from "date-fns";
-import { invalidateQuery } from "@/utils/query-invalidator";
+import { api } from "@/trpc/react";
 
 type PropType = {
   chatId: string;
@@ -30,33 +27,32 @@ const MessagesContainer = ({
   const senderPaticipants = chat.participants.filter((user) => {
     return user.userId !== currUserId;
   });
-  const queryClient = useQueryClient();
   const router = useRouter();
+  const utils = api.useUtils();
 
-  const { data } = useQuery({
-    queryKey: ["messages"],
-    queryFn: async () => {
-      const { data } = await axios.get<MessageType[]>(
-        `http://localhost:8000/api/messages/${chatId}`,
-      );
-      if (!socketConnected) return data;
-      socket.emit("join chat", chatId);
-      return data;
+  const { data } = api.messages.getMessagesByChatId.useQuery(
+    { chatId },
+    {
+      onSuccess: () => {
+        socket.emit("join chat", chatId);
+      },
     },
-  });
+  );
 
   useEffect(() => {
     if (!socketConnected) return;
-    socket.on("message recieved", async () => {
-      await invalidateQuery(["messages", "getChats"], queryClient);
+    socket.on("message recieved", () => {
+      void utils.chat.getChats.invalidate();
+      void utils.messages.getMessagesByChatId.invalidate();
     });
-    socket.on("message reaction recieved", async () => {
-      await invalidateQuery(["messages", "getChats"], queryClient);
+    socket.on("message reaction recieved", () => {
+      void utils.chat.getChats.invalidate();
+      void utils.messages.getMessagesByChatId.invalidate();
     });
     return () => {
       socket.off("message recieved");
     };
-  }, [socketConnected, queryClient, chatId, router]);
+  }, [socketConnected, chatId, router, utils]);
 
   return (
     <div className="p-5">
@@ -73,7 +69,7 @@ const MessagesContainer = ({
             new Date(messagesArray[index - 1]?.createdAt ?? 0),
           ) >= 30;
         return (
-          <>
+          <React.Fragment key={message.id}>
             {(index === 0 || shouldShowTime) && (
               <div className=" flex w-full justify-center text-sm">
                 {getFormattedDateTime(message.createdAt).time}
@@ -85,7 +81,7 @@ const MessagesContainer = ({
               chatId={chatId}
               isSender={message.senderId === currUserId}
             />
-          </>
+          </React.Fragment>
         );
       })}
       {isTyping && (

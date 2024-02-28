@@ -8,9 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { api } from "@/trpc/react";
-import { useQueryClient } from "@tanstack/react-query";
 import socket from "@/utils/socket";
-import { invalidateQuery } from "@/utils/query-invalidator";
 
 const MessageReactionPicker = ({
   messageId,
@@ -19,10 +17,10 @@ const MessageReactionPicker = ({
   messageId: string;
   chatId: string;
 }) => {
-  const queryClient = useQueryClient();
+  const utils = api.useUtils();
   const { mutate } = api.chat.updateMessageReaction.useMutation({
     onSuccess: async () => {
-      await invalidateQuery(["messages"], queryClient);
+      void utils.messages.getMessagesByChatId.invalidate();
       socket.emit("new message reaction", chatId);
     },
   });
