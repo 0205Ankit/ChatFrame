@@ -13,6 +13,10 @@ import { TbPhotoSquareRounded } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 import socket from "@/utils/socket";
 import { api } from "@/trpc/react";
+import { useMessage } from "./messages-context/provider";
+import { useSession } from "next-auth/react";
+import { IoMdClose } from "react-icons/io";
+import { Button } from "@/components/ui/button";
 
 //TODO: make the textarea resizable as the message grow
 
@@ -31,9 +35,15 @@ const MessageInput = ({
   const [message, setMessage] = useState("");
   const [typing, setTyping] = useState(false);
   const utils = api.useUtils();
-  const [usersInRoom, setUsersInRoom] = useState<string[]>([]);
-
-  const usersInChat = usersInRoom.filter((userId) => userId !== senderId);
+  const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
+  const currUserName = useSession().data?.user?.userName;
+  const {
+    focusMessageInput,
+    replyMessageId,
+    replyMessageText,
+    replyMessageUsername,
+    reset,
+  } = useMessage();
 
   const { mutate } = api.messages.createMessage.useMutation({
     onSuccess: async () => {
@@ -43,10 +53,14 @@ const MessageInput = ({
       ]);
       socket.emit("new message", chatId);
       setMessage("");
+      replyMessageId && reset();
     },
   });
 
   useEffect(() => {
+    if (textAreaRef.current && focusMessageInput) {
+      textAreaRef.current.focus();
+    }
     const handleTyping = (roomId: string) => {
       if (roomId !== chatId) return;
       setIsTyping(true);
@@ -56,22 +70,13 @@ const MessageInput = ({
       if (roomId !== chatId) return;
       setIsTyping(false);
     };
-
-    // const handleUsersInRoom = (usersInRoom: string[]) => {
-    //   setUsersInRoom(usersInRoom);
-    // };
-
-    // socket.on("joined chat", (userIdsInRoom: string[]) =>
-    //   handleUsersInRoom(userIdsInRoom),
-    // );
     socket.on("typing", (roomId: string) => handleTyping(roomId));
     socket.on("stop typing", (roomId: string) => handleStopTyping(roomId));
     return () => {
       socket.off("typing", handleTyping);
       socket.off("stop typing", handleStopTyping);
-      // socket.emit("leave chat", chatId);
     };
-  }, [chatId, setIsTyping, senderId]);
+  }, [chatId, setIsTyping, senderId, focusMessageInput]);
 
   const sendMessageHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -85,7 +90,7 @@ const MessageInput = ({
         senderId,
         chatId,
         text: message,
-        isReadByRecievers: usersInChat,
+        replyToMessageId: replyMessageId,
       });
     }
   };
@@ -109,35 +114,61 @@ const MessageInput = ({
   };
 
   return (
-    <div
-      className={cn(
-        "mx-5 flex items-center gap-2 rounded-3xl border border-input px-5 py-3",
-        className,
-      )}
-    >
-      <Popover>
-        <PopoverTrigger>
-          <BsEmojiSmile className="text-2xl" />
-        </PopoverTrigger>
-        <PopoverContent className="w-fit overflow-scroll rounded-xl border-0 p-0">
-          <EmojiPicker
-            onEmojiClick={(emoji) => setMessage((prev) => prev + emoji.emoji)}
-          />
-        </PopoverContent>
-      </Popover>
-      <Textarea
-        placeholder="Type a message"
-        onKeyDown={sendMessageHandler}
+    <div className="relative">
+      <div
         className={cn(
-          "h-6 w-full resize-none border-none px-1 py-0 text-base focus-visible:ring-0 focus-visible:ring-offset-0",
+          "mx-5 flex items-center gap-2 rounded-3xl border border-input px-5 py-3",
+          className,
         )}
-        value={message}
-        onChange={typingHandler}
-      />
-      <div className="flex items-center gap-1">
-        <IoMicOutline className="cursor-pointer text-2xl" />
-        <TbPhotoSquareRounded className="cursor-pointer text-2xl" />
+      >
+        <Popover>
+          <PopoverTrigger>
+            <BsEmojiSmile className="text-2xl" />
+          </PopoverTrigger>
+          <PopoverContent className="w-fit overflow-scroll rounded-xl border-0 p-0">
+            <EmojiPicker
+              onEmojiClick={(emoji) => setMessage((prev) => prev + emoji.emoji)}
+            />
+          </PopoverContent>
+        </Popover>
+        <Textarea
+          placeholder="Type a message"
+          onKeyDown={sendMessageHandler}
+          className={cn(
+            "h-6 w-full resize-none border-none px-1 py-0 text-base focus-visible:ring-0 focus-visible:ring-offset-0",
+          )}
+          value={message}
+          onChange={typingHandler}
+          ref={textAreaRef}
+        />
+        <div className="flex items-center gap-1">
+          <IoMicOutline className="cursor-pointer text-2xl" />
+          <TbPhotoSquareRounded className="cursor-pointer text-2xl" />
+        </div>
       </div>
+      {replyMessageId && (
+        <div className="absolute -top-2 w-full -translate-y-full border-t border-input bg-white p-2 px-5">
+          <div className="relative">
+            <p className="text-sm font-medium">
+              Replying to{" "}
+              {replyMessageUsername === currUserName ? (
+                "yourself"
+              ) : (
+                <strong>{replyMessageUsername}</strong>
+              )}
+            </p>
+            <p className="w-1/2 truncate text-xs">{replyMessageText}</p>
+            <Button
+              className="absolute -top-1 right-2"
+              size={"xs"}
+              variant={"noStyle"}
+              onClick={reset}
+            >
+              <IoMdClose />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

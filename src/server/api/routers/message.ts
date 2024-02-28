@@ -8,7 +8,8 @@ export const messagesRouter = createTRPCRouter({
         text: z.string(),
         senderId: z.string(),
         chatId: z.string(),
-        isReadByRecievers: z.array(z.string()),
+        isReadByRecievers: z.array(z.string()).optional(),
+        replyToMessageId: z.string().optional(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -18,6 +19,9 @@ export const messagesRouter = createTRPCRouter({
           senderId: input.senderId,
           chatId: input.chatId,
           isReadByRecievers: input.isReadByRecievers ?? [],
+          ...(!!input.replyToMessageId && {
+            repliedToMessageId: input.replyToMessageId,
+          }),
         },
         include: {
           chat: {
@@ -41,9 +45,21 @@ export const messagesRouter = createTRPCRouter({
         orderBy: {
           createdAt: "asc",
         },
+        include: {
+          chat: {
+            include: {
+              participants: true,
+            },
+          },
+          sender: true,
+          repliedToMessage: {
+            include: {
+              sender: true,
+            },
+          },
+        },
       });
     }),
-
   //////////////////////////////////////////////////
   unreadMessages: protectedProcedure
     .input(

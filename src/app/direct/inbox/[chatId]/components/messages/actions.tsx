@@ -7,27 +7,27 @@ import {
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 import { RxCopy } from "react-icons/rx";
-import { HiOutlineDotsVertical, HiOutlineReply } from "react-icons/hi";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import { LuSend } from "react-icons/lu";
 import { cn, getFormattedDateTime } from "@/lib/utils";
 import { AiOutlineDelete } from "react-icons/ai";
-import MessageReactionPicker from "./message-reaction-picker";
+import MessageReactionPicker from "./reaction-picker";
+import MessageReplyButton from "./reply-button";
+import { type Message } from "@prisma/client";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
-  messageId: string;
   createdAt: Date;
-  messageText: string;
   canDeleteMsg: boolean;
   chatId: string;
+  message: Message & { sender: { userName: string } };
 };
 
 const MessageActions = ({
   className,
-  messageId,
-  messageText,
   chatId,
   createdAt,
   canDeleteMsg,
+  message,
 }: PropType) => {
   return (
     <div className={cn("flex items-center gap-2", className)}>
@@ -47,7 +47,7 @@ const MessageActions = ({
             Forward <LuSend />
           </Button>
           <Button
-            onClick={() => navigator.clipboard.writeText(messageText)}
+            onClick={() => navigator.clipboard.writeText(message.text)}
             variant={"noStyle"}
             className="flex w-full items-center justify-between transition-all hover:bg-slate-200"
           >
@@ -64,10 +64,12 @@ const MessageActions = ({
           )}
         </PopoverContent>
       </Popover>
-      <Button variant={"noStyle"} className="p-0">
-        <HiOutlineReply />
-      </Button>
-      <MessageReactionPicker chatId={chatId} messageId={messageId} />
+      <MessageReplyButton
+        messageId={message.id}
+        messageUserName={message.sender.userName}
+        messageText={message.text}
+      />
+      <MessageReactionPicker chatId={chatId} messageId={message.id} />
     </div>
   );
 };

@@ -1,11 +1,15 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
-import MessageActions from "./message-actions";
+import MessageActions from "./actions";
 import { Message } from "@prisma/client";
+import ReplyMessageText from "./reply-message-text";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
-  message: Message;
+  message: Message & {
+    sender: { userName: string };
+    repliedToMessage: Message & { sender: { userName: string } } | null;
+  };
   isSender: boolean;
   chatId: string;
 };
@@ -15,12 +19,15 @@ const Message = ({ message, isSender, chatId }: PropType) => {
 
   return (
     <div
-      className={cn("group mb-[2px] flex", {
-        "justify-end": isSender,
+      className={cn("group mb-[2px] flex flex-col", {
+        "items-end": isSender,
       })}
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
+      {message.repliedToMessageId && message.repliedToMessage && (
+        <ReplyMessageText message={message} isSender={isSender} />
+      )}
       <pre
         className={cn(
           "relative w-fit max-w-[400px] rounded-[14px_14px_0_14px] bg-primary px-4 py-2 text-right font-sans font-medium text-white",
@@ -32,10 +39,9 @@ const Message = ({ message, isSender, chatId }: PropType) => {
         {message.text}
         {showActions && (
           <MessageActions
-            messageId={message.id}
+            message={message}
             createdAt={message.createdAt}
             canDeleteMsg={isSender}
-            messageText={message.text}
             chatId={chatId}
             className={cn(
               "absolute bottom-1/2 left-0 -translate-x-[calc(100%+10px)] translate-y-1/2 text-slate-700",

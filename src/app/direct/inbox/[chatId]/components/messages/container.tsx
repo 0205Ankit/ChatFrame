@@ -36,6 +36,7 @@ const MessagesContainer = ({
       },
     },
   );
+  const { mutate } = api.messages.unreadMessages.useMutation();
 
   useEffect(() => {
     socket.on("message reaction recieved", async () => {
@@ -44,10 +45,8 @@ const MessagesContainer = ({
         void utils.messages.getMessagesByChatId.invalidate(),
       ]);
     });
-    return () => {
-      socket.off("message recieved");
-    };
-  }, [chatId, router, utils]);
+    mutate({ chatId });
+  }, [chatId, router, utils, mutate, data]);
 
   return (
     <div className="p-5">
