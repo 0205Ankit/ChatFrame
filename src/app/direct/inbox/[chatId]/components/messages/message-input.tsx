@@ -19,7 +19,6 @@ import { api } from "@/trpc/react";
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   chatId: string;
   senderId: string;
-  socketConnected: boolean;
   setIsTyping: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -27,7 +26,6 @@ const MessageInput = ({
   className,
   chatId,
   senderId,
-  socketConnected,
   setIsTyping,
 }: PropType) => {
   const [message, setMessage] = useState("");
@@ -38,16 +36,17 @@ const MessageInput = ({
   const usersInChat = usersInRoom.filter((userId) => userId !== senderId);
 
   const { mutate } = api.messages.createMessage.useMutation({
-    onSuccess: () => {
-      void utils.chat.getChats.invalidate();
-      void utils.messages.getMessagesByChatId.invalidate();
+    onSuccess: async () => {
+      await Promise.all([
+        void utils.chat.getChats.invalidate(),
+        void utils.messages.getMessagesByChatId.invalidate(),
+      ]);
       socket.emit("new message", chatId);
       setMessage("");
     },
   });
 
   useEffect(() => {
-    if (!socketConnected) return;
     const handleTyping = (roomId: string) => {
       if (roomId !== chatId) return;
       setIsTyping(true);
@@ -62,7 +61,6 @@ const MessageInput = ({
     //   setUsersInRoom(usersInRoom);
     // };
 
-    socket.emit("join chat", chatId);
     // socket.on("joined chat", (userIdsInRoom: string[]) =>
     //   handleUsersInRoom(userIdsInRoom),
     // );
@@ -73,7 +71,7 @@ const MessageInput = ({
       socket.off("stop typing", handleStopTyping);
       // socket.emit("leave chat", chatId);
     };
-  }, [socketConnected, chatId, setIsTyping, senderId]);
+  }, [chatId, setIsTyping, senderId]);
 
   const sendMessageHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -94,8 +92,6 @@ const MessageInput = ({
 
   const typingHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
-    if (!socketConnected) return;
-
     if (!typing) {
       setTyping(true);
       socket.emit("typing", chatId);

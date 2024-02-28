@@ -45,22 +45,38 @@ io.on("connection", (socket) => {
   });
 
   socket.on("join chat", (room: string) => {
-    const userIdsInRoom = [] as string[];
+    // const userIdsInRoom = [] as string[];
     void socket.join(room);
-    const socketsInRoom = io.sockets.adapter.rooms.get(room);
-    if (socketsInRoom) {
-      socketsInRoom.forEach((socketId) => {
-        const userSocket = io.sockets.sockets.get(socketId) as CustomSocket;
-        userIdsInRoom.push(userSocket?.data.userId);
-      });
-    }
-    console.log(room, userIdsInRoom);
-    void socket.in(room).emit("joined chat", userIdsInRoom);
+    // const socketsInRoom = io.sockets.adapter.rooms.get(room);
+    // if (socketsInRoom) {
+    //   socketsInRoom.forEach((socketId) => {
+    //     const userSocket = io.sockets.sockets.get(socketId) as CustomSocket;
+    //     userIdsInRoom.push(userSocket?.data.userId);
+    //   });
+    // }
+    // console.log(room, userIdsInRoom);
+    void socket.in(room).emit("joined chat", room);
   });
 
-  socket.on("leave chat", (room: string) => {
-    void socket.leave(room);
-  });
+  // socket.on("in chat", (room: { roomId: string; userId: string }) => {
+  //   const userIdsInRoom = [] as string[];
+  //   const socketsInRoom = io.sockets.adapter.rooms.get(room.roomId);
+  //   if (socketsInRoom) {
+  //     socketsInRoom.forEach((socketId) => {
+  //       const userSocket = io.sockets.sockets.get(socketId) as CustomSocket;
+  //       userIdsInRoom.push(userSocket?.data.userId);
+  //     });
+  //   }
+  //   void socket.in(room.roomId).emit("in chat", userIdsInRoom);
+  // });
+
+  // socket.on("outside chat", (room: string) => {
+  //   const usersInRoom = io.sockets.adapter.rooms.get(room) || [];
+  //   const updatedUsersInRoom = usersInRoom.filter(
+  //     (userId) => userId !== socket.data.userId,
+  //   );
+  //   void socket.leave(room);
+  // });
 
   socket.on("typing", (room: string) => {
     socket.in(room).emit("typing", room);

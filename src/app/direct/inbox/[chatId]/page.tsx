@@ -10,11 +10,9 @@ import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import socket from "@/utils/socket";
 import { api } from "@/trpc/react";
 
 const ChatPage = ({ params }: { params: { chatId: string } }) => {
-  const [socketConnected, setSocketConnected] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -25,10 +23,6 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
 
   useEffect(() => {
     if (!userData?.user) return;
-    socket.emit("setup", userData?.user);
-    socket.on("connected", () => {
-      setSocketConnected(true);
-    });
   }, [userData]);
 
   useEffect(() => {
@@ -50,7 +44,6 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
       </div>
       <ScrollArea className="relative h-[calc(100%-160px)]">
         <MessagesContainer
-          socketConnected={socketConnected}
           chatId={params.chatId}
           chat={data}
           currUserId={userData?.user.id}
@@ -78,7 +71,6 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
       </ScrollArea>
       <div className="absolute inset-x-0 bottom-0 z-10 bg-white py-4">
         <MessageInput
-          socketConnected={socketConnected}
           chatId={params.chatId}
           senderId={userData?.user.id}
           setIsTyping={setIsTyping}

@@ -1,16 +1,19 @@
 "use client";
+import { useSocket } from "@/lib/socket.context";
 import { getElapsedTime, getUnreadMessages } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { type GetChat } from "@/types/chat-type";
+import socket from "@/utils/socket";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 const ChatItem = ({ chat }: { chat: GetChat }) => {
   const { data } = useSession();
   const router = useRouter();
   const utils = api.useUtils();
+  const { isSocketConnected } = useSocket();
   const senderPaticipant = chat.participants.find((user) => {
     return user.userId !== data?.user?.id;
   });
@@ -23,6 +26,11 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
       void utils.chat.getChats.invalidate();
     },
   });
+
+  useEffect(() => {
+    if (!isSocketConnected) return;
+    socket.emit("join chat", chat.id);
+  }, [chat.id, isSocketConnected]);
 
   return (
     <div

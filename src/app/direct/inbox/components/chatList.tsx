@@ -9,7 +9,6 @@ import { api } from "@/trpc/react";
 
 const ChatList = () => {
   const { data } = api.chat.getChats.useQuery();
-
   if (!data) return;
   const sortedChats = data.sort((a, b) => {
     return (

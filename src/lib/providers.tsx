@@ -6,6 +6,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { SessionProvider } from "next-auth/react";
 import React, { type PropsWithChildren } from "react";
 import { extractRouterConfig } from "uploadthing/server";
+import { SocketProvider } from "./socket.context";
 
 const Providers = (props: PropsWithChildren) => {
   //   const session = useSession();
@@ -20,7 +21,9 @@ const Providers = (props: PropsWithChildren) => {
          */
         routerConfig={extractRouterConfig(customFileRouter)}
       />
-      <TRPCReactProvider>{props.children}</TRPCReactProvider>
+      <TRPCReactProvider>
+        <SocketProvider>{props.children}</SocketProvider>
+      </TRPCReactProvider>
       <Toaster />
     </SessionProvider>
   );

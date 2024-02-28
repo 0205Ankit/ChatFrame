@@ -13,14 +13,12 @@ type PropType = {
   chatId: string;
   currUserId: string;
   chat: GetChat;
-  socketConnected: boolean;
   isTyping: boolean;
 };
 
 const MessagesContainer = ({
   chatId,
   currUserId,
-  socketConnected,
   chat,
   isTyping,
 }: PropType) => {
@@ -40,19 +38,16 @@ const MessagesContainer = ({
   );
 
   useEffect(() => {
-    if (!socketConnected) return;
-    socket.on("message recieved", () => {
-      void utils.chat.getChats.invalidate();
-      void utils.messages.getMessagesByChatId.invalidate();
-    });
-    socket.on("message reaction recieved", () => {
-      void utils.chat.getChats.invalidate();
-      void utils.messages.getMessagesByChatId.invalidate();
+    socket.on("message reaction recieved", async () => {
+      await Promise.all([
+        void utils.chat.getChats.invalidate(),
+        void utils.messages.getMessagesByChatId.invalidate(),
+      ]);
     });
     return () => {
       socket.off("message recieved");
     };
-  }, [socketConnected, chatId, router, utils]);
+  }, [chatId, router, utils]);
 
   return (
     <div className="p-5">
