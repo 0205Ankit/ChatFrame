@@ -82,4 +82,22 @@ export const chatRouter = createTRPCRouter({
         },
       });
     }),
+
+  updateMessageReaction: protectedProcedure
+    .input(
+      z.object({
+        messageId: z.string(),
+        reaction: z.string(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.db.message.update({
+        where: {
+          id: input.messageId,
+        },
+        data: {
+          reaction: input.reaction,
+        },
+      });
+    }),
 });

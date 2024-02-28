@@ -14,8 +14,8 @@ import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { type Message } from "@prisma/client";
-import io from "socket.io-client";
-const socket = io("http://localhost:8000");
+import socket from "@/utils/socket";
+import { invalidateQuery } from "@/utils/query-invalidator";
 
 //TODO: make the textarea resizable as the message grow
 
@@ -36,7 +36,6 @@ const MessageInput = ({
   const [message, setMessage] = useState("");
   const [typing, setTyping] = useState(false);
   const queryClient = useQueryClient();
-  // const router = useRouter();
 
   const { mutate } = useMutation({
     mutationFn: () =>
@@ -48,10 +47,9 @@ const MessageInput = ({
           // isReadByReciever: userInChat,
         })
         .then((res) => res.data),
-    onSuccess: () => {
+    onSuccess: async () => {
       setMessage("");
-      void queryClient.invalidateQueries({ queryKey: ["messages"] });
-      void queryClient.invalidateQueries({ queryKey: ["getChats"] });
+      await invalidateQuery(["messages", "getChats"], queryClient);
       socket.emit("new message", chatId);
     },
   });

@@ -6,9 +6,11 @@ import { type GetChat } from "@/types/chat-type";
 import axios from "axios";
 import { type Message as MessageType } from "@prisma/client";
 import Message from "./message";
-import io from "socket.io-client";
 import { useRouter } from "next/navigation";
-const socket = io("http://localhost:8000");
+import { getFormattedDateTime } from "@/lib/utils";
+import socket from "@/utils/socket";
+import { differenceInMinutes } from "date-fns";
+import { invalidateQuery } from "@/utils/query-invalidator";
 
 type PropType = {
   chatId: string;
@@ -45,9 +47,11 @@ const MessagesContainer = ({
 
   useEffect(() => {
     if (!socketConnected) return;
-    socket.on("message recieved", () => {
-      void queryClient.invalidateQueries({ queryKey: ["messages"] });
-      void queryClient.invalidateQueries({ queryKey: ["getChats"] });
+    socket.on("message recieved", async () => {
+      await invalidateQuery(["messages", "getChats"], queryClient);
+    });
+    socket.on("message reaction recieved", async () => {
+      await invalidateQuery(["messages", "getChats"], queryClient);
     });
     return () => {
       socket.off("message recieved");
@@ -62,13 +66,26 @@ const MessagesContainer = ({
           senderPaticipants[0]?.user.profilePhoto ?? "/empty-profile-photo.jpeg"
         }
       />
-      {data?.map((message) => {
+      {data?.map((message, index, messagesArray) => {
+        const shouldShowTime =
+          differenceInMinutes(
+            new Date(message.createdAt),
+            new Date(messagesArray[index - 1]?.createdAt ?? 0),
+          ) >= 30;
         return (
-          <Message
-            key={message.id}
-            text={message.text}
-            isSender={message.senderId === currUserId}
-          />
+          <>
+            {(index === 0 || shouldShowTime) && (
+              <div className=" flex w-full justify-center text-sm">
+                {getFormattedDateTime(message.createdAt).time}
+              </div>
+            )}
+            <Message
+              key={message.id}
+              message={message}
+              chatId={chatId}
+              isSender={message.senderId === currUserId}
+            />
+          </>
         );
       })}
       {isTyping && (

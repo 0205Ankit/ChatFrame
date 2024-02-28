@@ -34,15 +34,28 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
       className="flex justify-between rounded-sm px-4 py-4 hover:bg-slate-100 max-lg:justify-center max-lg:px-2"
     >
       <div className="flex items-center gap-3 max-lg:gap-0">
-        <Image
-          src={
-            senderPaticipant?.user.profilePhoto ?? "/empty-profile-photo.jpeg"
-          }
-          alt="Profile Picture"
-          width={50}
-          height={50}
-          className="h-14 w-14 rounded-full object-cover"
-        />
+        <div className="relative">
+          <Image
+            src={
+              senderPaticipant?.user.profilePhoto ?? "/empty-profile-photo.jpeg"
+            }
+            alt="Profile Picture"
+            width={50}
+            height={50}
+            className="h-14 w-14 rounded-full object-cover"
+          />
+          {!!unreadMessages && (
+            <span className="absolute -top-1 right-0 hidden h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white max-lg:flex">
+              {unreadMessages > 9 ? (
+                <span className="flex items-start">
+                  9<span className="text-[8px]">+</span>
+                </span>
+              ) : (
+                unreadMessages
+              )}
+            </span>
+          )}
+        </div>
         <div className="max-lg:hidden">
           <h5 className="mb-1 font-semibold">
             {senderPaticipant?.user.userName ?? "User"}

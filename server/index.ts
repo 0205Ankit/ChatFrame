@@ -46,15 +46,12 @@ io.on("connection", (socket) => {
     socket.in(room).emit("stop typing", room);
   });
 
+  socket.on("new message reaction", (room: string) => {
+    socket.in(room).emit("message reaction recieved", room);
+  });
+
   socket.on("new message", (room: string) => {
     socket.in(room).emit("message recieved", room);
-    // newMessage.chat.participants.forEach((participant) => {
-    //   if (participant.userId !== newMessage.senderId) {
-    //     return socket
-    //       .in(participant.userId)
-    //       .emit("message recieved", newMessage);
-    //   }
-    // });
   });
 
   socket.off("setup", (userData: { id: string }) => {

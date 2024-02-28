@@ -2,14 +2,17 @@
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import MessageActions from "./message-actions";
+import { Message } from "@prisma/client";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
-  text: string;
+  message: Message;
   isSender: boolean;
+  chatId: string;
 };
 
-const Message = ({ text, isSender }: PropType) => {
+const Message = ({ message, isSender, chatId }: PropType) => {
   const [showActions, setShowActions] = useState(false);
+
   return (
     <div
       className={cn("group mb-[2px] flex", {
@@ -26,13 +29,36 @@ const Message = ({ text, isSender }: PropType) => {
           },
         )}
       >
-        {text}
-        {isSender && showActions && (
+        {message.text}
+        {showActions && (
           <MessageActions
+            messageId={message.id}
+            createdAt={message.createdAt}
+            canDeleteMsg={isSender}
+            messageText={message.text}
+            chatId={chatId}
             className={cn(
               "absolute bottom-1/2 left-0 -translate-x-[calc(100%+10px)] translate-y-1/2 text-slate-700",
+              {
+                "right-0 translate-x-[calc(100%+10px)]": !isSender,
+              },
             )}
           />
+        )}
+        {message.reaction && (
+          <span
+            className={cn(
+              "absolute -bottom-[2px] flex h-5 w-5 items-center justify-center rounded-full bg-gray-700 text-xs",
+              {
+                "right-0": !isSender,
+              },
+              {
+                "left-0": isSender,
+              },
+            )}
+          >
+            {message.reaction}
+          </span>
         )}
       </pre>
     </div>

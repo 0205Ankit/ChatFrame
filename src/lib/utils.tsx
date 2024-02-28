@@ -128,30 +128,30 @@ export function getFormattedDateTime(date: Date) {
   const momentDate = date ? moment(date) : moment().local();
   const now = moment();
 
-  const timeDifference = now.diff(momentDate, "hours");
+  const timeDifference = now.diff(momentDate, "days");
 
-  if (timeDifference < 24) {
+  if (now.isSame(momentDate, "day")) {
     // Less than 24 hours ago, return only time
-    const formattedTime = momentDate.format("h:mm A");
+    const formattedTime = momentDate.format("HH:mm");
     return {
-      time: formattedTime,
+      time: `Today, ${formattedTime}`,
     };
-  } else if (timeDifference < 48) {
+  } else if (timeDifference < 2) {
     // Between 24 and 48 hours ago, return "yesterday" and time
-    const formattedTime = momentDate.format("h:mm A");
+    const formattedTime = momentDate.format("HH:mm");
     return {
-      time: `yesterday ${formattedTime}`,
+      time: `Yesterday, ${formattedTime}`,
     };
-  } else if (timeDifference < 7 * 24) {
+  } else if (timeDifference < 7) {
     // Between 2 days and 1 week ago, return weekday and time
     const formattedWeekday = momentDate.format("ddd");
-    const formattedTime = momentDate.format("h:mm A");
+    const formattedTime = momentDate.format("HH:mm");
     return {
-      time: `${formattedWeekday} ${formattedTime}`,
+      time: `${formattedWeekday}, ${formattedTime}`,
     };
   } else {
     // More than a week ago, return date and time
-    const formattedDateTime = momentDate.format("DD/MM/YYYY h:mm A");
+    const formattedDateTime = momentDate.format("DD/MM/YYYY HH:mm");
     return {
       time: formattedDateTime,
     };

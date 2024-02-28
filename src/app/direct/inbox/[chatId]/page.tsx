@@ -8,14 +8,12 @@ import MessageInput from "./components/messages/message-input";
 import MessagesContainer from "./components/messages/messages-container";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
-import io from "socket.io-client";
 import { Button } from "@/components/ui/button";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
 import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
-let socket;
+import socket from "@/utils/socket";
 
 const ChatPage = ({ params }: { params: { chatId: string } }) => {
   const [socketConnected, setSocketConnected] = useState(false);
@@ -37,7 +35,6 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
 
   useEffect(() => {
     if (!userData?.user) return;
-    socket = io("http://localhost:8000");
     socket.emit("setup", userData?.user);
     socket.on("connected", () => {
       setSocketConnected(true);
