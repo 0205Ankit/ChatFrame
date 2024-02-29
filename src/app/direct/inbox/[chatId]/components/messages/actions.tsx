@@ -11,20 +11,17 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { LuSend } from "react-icons/lu";
 import { cn, getFormattedDateTime } from "@/lib/utils";
 import { AiOutlineDelete } from "react-icons/ai";
-import MessageReactionPicker from "./reaction-picker";
 import MessageReplyButton from "./reply-button";
 import { type Message } from "@prisma/client";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   createdAt: Date;
   canDeleteMsg: boolean;
-  chatId: string;
   message: Message & { sender: { userName: string } };
 };
 
 const MessageActions = ({
   className,
-  chatId,
   createdAt,
   canDeleteMsg,
   message,
@@ -69,7 +66,8 @@ const MessageActions = ({
         messageUserName={message.sender.userName}
         messageText={message.text}
       />
-      <MessageReactionPicker chatId={chatId} messageId={message.id} />
+      {/* TODO: implement this feature later */}
+      {/* <MessageReactionPicker chatId={chatId} messageId={message.id} /> */}
     </div>
   );
 };

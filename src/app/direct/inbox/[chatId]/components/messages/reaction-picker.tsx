@@ -7,8 +7,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { api } from "@/trpc/react";
-import socket from "@/utils/socket";
 
 const MessageReactionPicker = ({
   messageId,
@@ -17,14 +15,6 @@ const MessageReactionPicker = ({
   messageId: string;
   chatId: string;
 }) => {
-  const utils = api.useUtils();
-  const { mutate } = api.chat.updateMessageReaction.useMutation({
-    onSuccess: async () => {
-      void utils.messages.getMessagesByChatId.invalidate();
-      socket.emit("new message reaction", chatId);
-    },
-  });
-
   return (
     <Popover>
       <PopoverTrigger>
@@ -33,9 +23,7 @@ const MessageReactionPicker = ({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-fit  rounded-full p-0">
-        <Picker
-          onEmojiClick={(emoji) => mutate({ messageId, reaction: emoji.emoji })}
-        />
+        <Picker />
       </PopoverContent>
     </Popover>
   );

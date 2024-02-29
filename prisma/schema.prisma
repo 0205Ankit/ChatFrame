@@ -153,8 +153,7 @@ model Message {
     senderId          String
     chat              Chat     @relation(fields: [chatId], references: [id])
     chatId            String
-    type              MsgType  @default(AUDIO)
-    reaction          String?  @default("")
+    type              MsgType  @default(TEXT)
 
     repliedToMessage   Message?  @relation("RepliedTo", fields: [repliedToMessageId], references: [id])
     repliedToMessageId String?
@@ -165,6 +164,7 @@ enum MsgType {
     AUDIO
     POST
     PHOTO
+    TEXT
 }
 
 model Chat {

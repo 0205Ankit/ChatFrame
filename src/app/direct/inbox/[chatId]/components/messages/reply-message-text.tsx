@@ -14,7 +14,7 @@ type PropType = {
 const ReplyMessageText = ({ message, isSender }: PropType) => {
   return (
     <>
-      <p className="mt-1 text-sm">
+      <p className="mt-1 text-xs">
         {message.repliedToMessage?.sender.userName ===
         message.sender.userName ? (
           <span>

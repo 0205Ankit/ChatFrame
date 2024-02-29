@@ -72,7 +72,6 @@ const MessagesContainer = ({
             <Message
               key={message.id}
               message={message}
-              chatId={chatId}
               isSender={message.senderId === currUserId}
             />
           </React.Fragment>

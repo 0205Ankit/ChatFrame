@@ -8,13 +8,12 @@ import ReplyMessageText from "./reply-message-text";
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   message: Message & {
     sender: { userName: string };
-    repliedToMessage: Message & { sender: { userName: string } } | null;
+    repliedToMessage: (Message & { sender: { userName: string } }) | null;
   };
   isSender: boolean;
-  chatId: string;
 };
 
-const Message = ({ message, isSender, chatId }: PropType) => {
+const Message = ({ message, isSender }: PropType) => {
   const [showActions, setShowActions] = useState(false);
 
   return (
@@ -42,7 +41,6 @@ const Message = ({ message, isSender, chatId }: PropType) => {
             message={message}
             createdAt={message.createdAt}
             canDeleteMsg={isSender}
-            chatId={chatId}
             className={cn(
               "absolute bottom-1/2 left-0 -translate-x-[calc(100%+10px)] translate-y-1/2 text-slate-700",
               {
