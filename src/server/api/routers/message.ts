@@ -1,27 +1,30 @@
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { MsgType } from "@prisma/client";
 import { z } from "zod";
 
 export const messagesRouter = createTRPCRouter({
   createMessage: protectedProcedure
     .input(
       z.object({
-        text: z.string(),
+        content: z.string(),
         senderId: z.string(),
         chatId: z.string(),
         isReadByRecievers: z.array(z.string()).optional(),
         replyToMessageId: z.string().optional(),
+        type: z.nativeEnum(MsgType).optional()
       }),
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.message.create({
         data: {
-          text: input.text,
+          content: input.content,
           senderId: input.senderId,
           chatId: input.chatId,
           isReadByRecievers: input.isReadByRecievers ?? [],
           ...(!!input.replyToMessageId && {
             repliedToMessageId: input.replyToMessageId,
           }),
+          type:input.type ?? "TEXT"
         },
         include: {
           chat: {

@@ -44,7 +44,7 @@ const MessageActions = ({
             Forward <LuSend />
           </Button>
           <Button
-            onClick={() => navigator.clipboard.writeText(message.text)}
+            onClick={() => navigator.clipboard.writeText(message.content)}
             variant={"noStyle"}
             className="flex w-full items-center justify-between transition-all hover:bg-slate-200"
           >
@@ -64,7 +64,7 @@ const MessageActions = ({
       <MessageReplyButton
         messageId={message.id}
         messageUserName={message.sender.userName}
-        messageText={message.text}
+        messageText={message.content}
       />
       {/* TODO: implement this feature later */}
       {/* <MessageReactionPicker chatId={chatId} messageId={message.id} /> */}

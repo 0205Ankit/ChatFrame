@@ -43,7 +43,7 @@ const ReplyMessageText = ({ message, isSender }: PropType) => {
             },
           )}
         >
-          {message.repliedToMessage?.text}
+          {message.repliedToMessage?.content}
         </pre>
       </div>
     </>

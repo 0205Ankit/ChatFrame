@@ -18,13 +18,11 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: userData } = useSession();
-  const { data } = api.chat.getChatsById.useQuery({ chatId: params.chatId });
+  const { data } = api.chat.getChatsById.useQuery({
+    chatId: params.chatId,
+  });
 
   const { ref: isInViewRef, inView } = useInView();
-
-  useEffect(() => {
-    if (!userData?.user) return;
-  }, [userData]);
 
   useEffect(() => {
     if (!messagesEndRef.current) return;

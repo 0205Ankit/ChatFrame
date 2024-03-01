@@ -29,6 +29,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       ]);
     });
   }, [session.data?.user, utils]);
+
   return (
     <SocketContext.Provider
       value={{

@@ -181,3 +181,19 @@ export const getUnreadMessages = ({
 
   return numberOfUnreadMessages;
 };
+
+export const getLastMessage = (message: Message | undefined) => {
+  if (!message) return;
+
+  if (message.type === "TEXT") {
+    return message.content;
+  }
+
+  if (message.type === "PHOTO") {
+    return "Sent a photo";
+  }
+
+  if (message.type === "AUDIO") {
+    return "Sent a voice message";
+  }
+};

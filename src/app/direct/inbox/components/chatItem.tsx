@@ -1,6 +1,6 @@
 "use client";
 import { useSocket } from "@/lib/socket.context";
-import { getElapsedTime, getUnreadMessages } from "@/lib/utils";
+import { getElapsedTime, getLastMessage, getUnreadMessages } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { type GetChat } from "@/types/chat-type";
 import socket from "@/utils/socket";
@@ -68,7 +68,7 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
             {senderPaticipant?.user.userName ?? "User"}
           </h5>
           <p className="w-[140px] truncate text-sm font-medium text-slate-500">
-            {chat.messages[chat.messages.length - 1]?.text}
+            {getLastMessage(chat.messages[chat.messages.length - 1])}
           </p>
         </div>
       </div>

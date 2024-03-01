@@ -60,6 +60,10 @@ io.on("connection", (socket) => {
     socket.in(room).emit("stop typing", room);
   });
 
+  socket.on("new message", (room: string) => {
+    socket.in(room).emit("message recieved", room);
+  });
+
   socket.off("setup", (userData: { id: string }) => {
     console.log("USER DISCONNECTED");
     void socket.leave(userData.id);
