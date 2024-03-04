@@ -5,7 +5,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import React from "react";
 import { RxCopy } from "react-icons/rx";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { LuSend } from "react-icons/lu";
@@ -43,13 +42,15 @@ const MessageActions = ({
           >
             Forward <LuSend />
           </Button>
-          <Button
-            onClick={() => navigator.clipboard.writeText(message.content)}
-            variant={"noStyle"}
-            className="flex w-full items-center justify-between transition-all hover:bg-slate-200"
-          >
-            Copy <RxCopy />
-          </Button>
+          {message.type === "TEXT" && (
+            <Button
+              onClick={() => navigator.clipboard.writeText(message.content)}
+              variant={"noStyle"}
+              className="flex w-full items-center justify-between transition-all hover:bg-slate-200"
+            >
+              Copy <RxCopy />
+            </Button>
+          )}
           <Separator />
           {canDeleteMsg && (
             <Button
@@ -65,6 +66,7 @@ const MessageActions = ({
         messageId={message.id}
         messageUserName={message.sender.userName}
         messageText={message.content}
+        messageType={message.type}
       />
       {/* TODO: implement this feature later */}
       {/* <MessageReactionPicker chatId={chatId} messageId={message.id} /> */}

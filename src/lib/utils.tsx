@@ -108,22 +108,6 @@ export function getElapsedTime(startDate: Date) {
   }
 }
 
-// export function getFormattedDateTime(date: Date) {
-//   // Get the current date and time in local timezone
-//   const momentDate = date ? moment(date) : moment().local();
-
-//   // Format the weekday as "ddd" (e.g., "Wed")
-//   const formattedWeekday = momentDate.format("ddd");
-
-//   // Format the time as "h:mm A" (e.g., "11:45 AM")
-//   const formattedTime = momentDate.format("h:mm A");
-
-//   return {
-//     weekday: formattedWeekday,
-//     time: formattedTime,
-//   };
-// }
-
 export function getFormattedDateTime(date: Date) {
   const momentDate = date ? moment(date) : moment().local();
   const now = moment();
@@ -196,4 +180,17 @@ export const getLastMessage = (message: Message | undefined) => {
   if (message.type === "AUDIO") {
     return "Sent a voice message";
   }
+};
+
+export const getFormattedElapsedSeconds = ({
+  seconds,
+}: {
+  seconds: number;
+}) => {
+  if (seconds < 60) {
+    return `00:${seconds < 10 ? "0" + seconds : seconds}`;
+  } else if (seconds >= 60) {
+    return `${Math.floor(seconds / 60) < 10 ? `0${Math.floor(seconds / 60)}` : Math.floor(seconds / 60)}:${seconds % 60 < 10 ? "0" + (seconds % 60) : seconds % 60}`;
+  }
+  return seconds;
 };

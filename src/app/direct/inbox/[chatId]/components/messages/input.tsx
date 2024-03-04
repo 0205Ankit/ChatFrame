@@ -8,7 +8,6 @@ import {
 import EmojiPicker from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Textarea } from "@/components/ui/textarea";
-import { TbPhotoSquareRounded } from "react-icons/tb";
 import { cn } from "@/lib/utils";
 import socket from "@/utils/socket";
 import { api } from "@/trpc/react";
@@ -16,7 +15,8 @@ import { useMessage } from "./messages-context/provider";
 import { useSession } from "next-auth/react";
 import { IoMdClose } from "react-icons/io";
 import { Button } from "@/components/ui/button";
-import UploadPhoto from "./upload-photo";
+import UploadPhoto from "./message-input-actions/upload-photo";
+import UploadAudio from "./message-input-actions/upload-audio";
 
 //TODO: make the textarea resizable as the message grow
 
@@ -141,9 +141,9 @@ const MessageInput = ({
           onChange={typingHandler}
           ref={textAreaRef}
         />
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2">
+          <UploadAudio chatId={chatId} senderId={senderId} />
           <UploadPhoto chatId={chatId} senderId={senderId} />
-          <TbPhotoSquareRounded className="cursor-pointer text-2xl" />
         </div>
       </div>
       {replyMessageId && (

@@ -14,6 +14,12 @@ export const customFileRouter = {
   }).onUploadComplete(async ({ file }) => {
     return { url: file.url };
   }),
+
+  audioFileUploader: f({
+    audio: { maxFileSize: "2MB", maxFileCount: 1 },
+  }).onUploadComplete(async ({ file }) => {
+    return { url: file.url };
+  }),
 } satisfies FileRouter;
 
 export type CustomFileRouter = typeof customFileRouter;

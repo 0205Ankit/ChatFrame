@@ -2,8 +2,8 @@ import LoadingScreen from "@/components/loading-screen";
 import useSinglePhotoUpload from "@/hooks/use-singlePhoto-upload";
 import { api } from "@/trpc/react";
 import React, { useEffect } from "react";
-import { IoMicOutline } from "react-icons/io5";
 import socket from "@/utils/socket";
+import { TbPhotoSquareRounded } from "react-icons/tb";
 
 const UploadPhoto = ({
   chatId,
@@ -41,7 +41,7 @@ const UploadPhoto = ({
       {isUploadingPhoto && <LoadingScreen />}
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <IoMicOutline className="cursor-pointer text-2xl" />
+        <TbPhotoSquareRounded className="cursor-pointer text-2xl" />
       </div>
     </>
   );

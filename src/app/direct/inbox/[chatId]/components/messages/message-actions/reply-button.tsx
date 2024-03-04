@@ -1,15 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { HiOutlineReply } from "react-icons/hi";
-import { useMessage } from "./messages-context/provider";
+import { useMessage } from "../messages-context/provider";
+import { type MsgType } from "@prisma/client";
 
 const MessageReply = ({
   messageId,
   messageUserName,
   messageText,
+  messageType,
 }: {
   messageId: string;
   messageUserName: string;
   messageText: string;
+  messageType: MsgType;
 }) => {
   const {
     setFocusMessageInput,
@@ -19,7 +22,13 @@ const MessageReply = ({
   } = useMessage();
 
   const replyMessageHandler = () => {
-    setReplyMessageText(messageText);
+    if (messageType === "PHOTO") {
+      setReplyMessageText("Image");
+    } if(messageType === "AUDIO"){
+      setReplyMessageText("Audio");
+    } else {
+      setReplyMessageText(messageText);
+    }
     setReplyMessageUsername(messageUserName);
     setFocusMessageInput(true);
     setReplyMessageId(messageId);
