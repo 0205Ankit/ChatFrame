@@ -22,7 +22,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socket.on("connected", () => {
       setIsSocketConnected(true);
     });
-    socket.on("message recieved", async () => {
+    socket.on("message received", async () => {
       await Promise.all([
         void utils.chat.getChats.invalidate(),
         void utils.messages.getMessagesByChatId.invalidate(),

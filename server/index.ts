@@ -61,7 +61,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("new message", (room: string) => {
-    socket.in(room).emit("message recieved", room);
+    socket.in(room).emit("message received", room);
   });
 
   socket.off("setup", (userData: { id: string }) => {

@@ -11,7 +11,7 @@ export const messagesRouter = createTRPCRouter({
         chatId: z.string(),
         isReadByRecievers: z.array(z.string()).optional(),
         replyToMessageId: z.string().optional(),
-        type: z.nativeEnum(MsgType).optional()
+        type: z.nativeEnum(MsgType).optional(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -24,7 +24,7 @@ export const messagesRouter = createTRPCRouter({
           ...(!!input.replyToMessageId && {
             repliedToMessageId: input.replyToMessageId,
           }),
-          type:input.type ?? "TEXT"
+          type: input.type ?? "TEXT",
         },
         include: {
           chat: {
@@ -84,6 +84,16 @@ export const messagesRouter = createTRPCRouter({
           isReadByRecievers: {
             push: ctx.session.user.id,
           },
+        },
+      });
+    }),
+  //////////////////////////////////////////////////
+  deleteMessage: protectedProcedure
+    .input(z.object({ messageId: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.db.message.delete({
+        where: {
+          id: input.messageId,
         },
       });
     }),

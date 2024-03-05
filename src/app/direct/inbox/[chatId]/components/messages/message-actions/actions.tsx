@@ -9,9 +9,9 @@ import { RxCopy } from "react-icons/rx";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { LuSend } from "react-icons/lu";
 import { cn, getFormattedDateTime } from "@/lib/utils";
-import { AiOutlineDelete } from "react-icons/ai";
 import MessageReplyButton from "./reply-button";
 import { type Message } from "@prisma/client";
+import DeleteButton from "./delete-button";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   createdAt: Date;
@@ -53,12 +53,7 @@ const MessageActions = ({
           )}
           <Separator />
           {canDeleteMsg && (
-            <Button
-              variant={"noStyle"}
-              className="flex w-full items-center justify-between text-error transition-all hover:bg-slate-200"
-            >
-              Delete <AiOutlineDelete />
-            </Button>
+            <DeleteButton messageId={message.id} chatId={message.chatId} />
           )}
         </PopoverContent>
       </Popover>
