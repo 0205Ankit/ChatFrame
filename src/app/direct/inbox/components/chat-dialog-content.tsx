@@ -10,7 +10,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const CreateChatDialogContent = () => {
+const CreateChatDialogContent = ({
+  closeDialog,
+}: {
+  closeDialog: () => void;
+}) => {
   const [userInput, setUserInput] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<User[]>([]);
   const [sendQuery, setSendQuery] = useState(false);
@@ -35,6 +39,7 @@ const CreateChatDialogContent = () => {
   const { mutate: mutateMessage } = api.chat.createChat.useMutation({
     onSuccess: (data) => {
       void utils.chat.getChats.invalidate();
+      closeDialog();
       router.push(`/direct/inbox/${data.id}`);
     },
   });
