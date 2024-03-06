@@ -56,13 +56,7 @@ const SearchDropdown = ({
         <div className="custom-scrollbar absolute inset-x-0 top-[calc(100%+5px)] max-h-[300px] w-full overflow-y-auto rounded-md bg-white shadow-xl">
           {isLoading ? (
             <div className="flex items-center gap-1 px-4 py-3">
-              <div
-                style={{
-                  height: `${40}px`,
-                  width: `${40}px`,
-                }}
-                className="animate-pulse rounded-full bg-slate-200"
-              />
+              <div className="h-[40px] w-[40px] animate-pulse rounded-full bg-slate-200" />
               <div className="flex flex-col">
                 <h1 className="mb-1 w-20 animate-pulse rounded-sm bg-slate-200 py-1"></h1>
                 <h1 className="w-10 animate-pulse rounded-sm bg-slate-200 py-1"></h1>

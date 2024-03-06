@@ -52,6 +52,8 @@ const MessagesContainer = ({
     <div className="p-5">
       <UserCard
         userName={senderParticipants[0]?.user.userName ?? "User"}
+        isGroupChat={chat.type === "GROUP"}
+        allParticipants={chat.participants}
         profilePhoto={
           senderParticipants[0]?.user.profilePhoto ??
           "/empty-profile-photo.jpeg"
@@ -73,6 +75,7 @@ const MessagesContainer = ({
             <Message
               key={message.id}
               message={message}
+              isGroupChat={chat.type === "GROUP"}
               isSender={message.senderId === currUserId}
             />
           </React.Fragment>

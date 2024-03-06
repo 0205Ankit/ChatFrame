@@ -34,7 +34,7 @@ const ProfileActions = ({ userId }: { userId: string }) => {
   );
 
   const sendMessageHandler = () => {
-    sendMessage({ type: "ONE_TO_ONE", participantId: userId });
+    sendMessage({ type: "ONE_TO_ONE", participantId: [userId] });
   };
 
   return (

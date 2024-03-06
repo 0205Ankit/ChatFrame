@@ -2,17 +2,18 @@
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import MessageActions from "./message-actions/actions";
-import { Message, type MsgType } from "@prisma/client";
+import { Message, type User, type MsgType } from "@prisma/client";
 import ReplyMessageContent from "./reply-message-content";
 import Image from "next/image";
 import Link from "next/link";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   message: Message & {
-    sender: { userName: string };
+    sender: User;
     repliedToMessage: (Message & { sender: { userName: string } }) | null;
   };
   isSender: boolean;
+  isGroupChat: boolean;
 };
 
 const MessageContent = ({
@@ -58,7 +59,7 @@ const MessageContent = ({
     );
 };
 
-const Message = ({ message, isSender }: PropType) => {
+const Message = ({ message, isSender, isGroupChat }: PropType) => {
   const [showActions, setShowActions] = useState(false);
 
   return (
@@ -72,12 +73,33 @@ const Message = ({ message, isSender }: PropType) => {
       {message.repliedToMessageId && message.repliedToMessage && (
         <ReplyMessageContent message={message} isSender={isSender} />
       )}
-      <div className="relative w-fit">
-        <MessageContent
-          messageType={message.type}
-          messageContent={message.content}
-          isSender={isSender}
-        />
+
+      <div
+        className={cn("relative flex w-fit items-end gap-1", {
+          "flex-row-reverse": isSender,
+        })}
+      >
+        {isGroupChat && (
+          <Image
+            src={message.sender.profilePhoto ?? "/empty-profile-photo.jpeg"}
+            alt="profile"
+            width={50}
+            height={50}
+            className="h-5 w-5 rounded-full object-cover"
+          />
+        )}
+        <div>
+          {/* {isGroupChat && !isSender && !message.repliedToMessage && (
+            <p className="my-1 text-[10px] font-medium">
+              {message.sender.userName}
+            </p>
+          )} */}
+          <MessageContent
+            messageType={message.type}
+            messageContent={message.content}
+            isSender={isSender}
+          />
+        </div>
         {showActions && (
           <MessageActions
             message={message}

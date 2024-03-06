@@ -1,6 +1,9 @@
 "use client";
+import { MultipleUserPhoto } from "@/app/_components/multiple-user-photo";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { type User } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -8,10 +11,35 @@ import React from "react";
 const UserCard = ({
   userName,
   profilePhoto,
+  isGroupChat,
+  allParticipants,
 }: {
   userName: string;
   profilePhoto: string;
+  isGroupChat?: boolean;
+  allParticipants: { userId: string; user: User }[]; /// TODO: import actual types
 }) => {
+  const { data } = useSession();
+
+  const allParticipantsPhotos = allParticipants.map(
+    (participant) =>
+      participant.user.profilePhoto ?? "/empty-profile-photo.jpeg",
+  );
+
+  if (isGroupChat) {
+    return (
+      <div className="mb-10 mt-5 flex flex-col items-center">
+        <MultipleUserPhoto userImages={allParticipantsPhotos} imgSize={80} />
+        <p className="my-3 w-[200px] truncate text-xl font-semibold">
+          {allParticipants
+            .filter((participant) => participant.userId !== data?.user?.id)
+            .map((participant) => participant.user.userName ?? "User")
+            .join(", ")}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-10 mt-5 flex flex-col items-center">
       <Image

@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { type Message } from "@prisma/client";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
 
@@ -16,6 +17,7 @@ const ReplyMessageContent = ({ message, isSender }: PropType) => {
   const isAPhoto = message.repliedToMessage?.type === "PHOTO";
   const isAText = message.repliedToMessage?.type === "TEXT";
   const isAudio = message.repliedToMessage?.type === "AUDIO";
+  const { data } = useSession();
 
   return (
     <>
@@ -29,9 +31,16 @@ const ReplyMessageContent = ({ message, isSender }: PropType) => {
           </span>
         ) : (
           <span>
-            {isSender
-              ? `You replied to ${message.repliedToMessage?.sender.userName}`
-              : `${message.sender.userName} replied to you`}
+            {isSender ? (
+              `You replied to ${message.repliedToMessage?.sender.userName}`
+            ) : (
+              <span>
+                {message.repliedToMessage?.sender.userName ===
+                data?.user?.userName
+                  ? `${message.sender.userName} replied to you`
+                  : `${message.sender.userName} replied to ${message.repliedToMessage?.sender.userName}`}
+              </span>
+            )}
           </span>
         )}
       </p>
