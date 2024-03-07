@@ -1,5 +1,5 @@
 "use client";
-import { MultipleUserPhoto } from "@/app/_components/multiple-user-photo";
+import { MultipleUserPhoto } from "@/components/multiple-user-photo";
 import { useSocket } from "@/lib/socket.context";
 import { getElapsedTime, getLastMessage, getUnreadMessages } from "@/lib/utils";
 import { api } from "@/trpc/react";
@@ -43,7 +43,7 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
         await mutateAsync({ chatId: chat.id });
         router.replace(`/direct/inbox/${chat.id}`);
       }}
-      className="flex justify-between rounded-sm px-4 py-4 hover:bg-slate-100 max-lg:justify-center max-lg:px-2"
+      className="flex cursor-pointer justify-between rounded-sm px-4 py-4 hover:bg-slate-100 max-lg:justify-center max-lg:px-2"
     >
       <div className="flex items-center gap-3 max-lg:gap-0">
         <div className="relative">
@@ -84,14 +84,22 @@ const ChatItem = ({ chat }: { chat: GetChat }) => {
                 {senderParticipant?.user.userName ?? "User"}
               </p>
             ) : (
-              <p className="w-[140px] truncate font-semibold">
-                {chat.participants
-                  .filter(
-                    (participant) => participant.userId !== data?.user?.id,
-                  )
-                  .map((participant) => participant.user.userName ?? "User")
-                  .join(", ")}
-              </p>
+              <>
+                {chat.name ? (
+                  <p className="w-[140px] truncate font-semibold">
+                    {chat.name}
+                  </p>
+                ) : (
+                  <p className="w-[140px] truncate font-semibold">
+                    {chat.participants
+                      .filter(
+                        (participant) => participant.userId !== data?.user?.id,
+                      )
+                      .map((participant) => participant.user.userName ?? "User")
+                      .join(", ")}
+                  </p>
+                )}
+              </>
             )}
           </div>
           <p className="w-[140px] truncate text-sm font-medium text-slate-500">

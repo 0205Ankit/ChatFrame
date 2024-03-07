@@ -1,12 +1,11 @@
 "use client";
-import { MultipleUserPhoto } from "@/app/_components/multiple-user-photo";
+import { MultipleUserPhoto } from "@/components/multiple-user-photo";
 import { type GetChat } from "@/types/chat-type";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { AiOutlinePhone } from "react-icons/ai";
-import { HiOutlineVideoCamera } from "react-icons/hi";
+import ChatSettings from "./chat-settings";
 
 type PropType = {
   chat: GetChat;
@@ -46,18 +45,23 @@ const ChatHeader = ({ chat, currUserId }: PropType) => {
       ) : (
         <div className="flex items-center gap-3">
           <MultipleUserPhoto userImages={allParticipantsPhotos} imgSize={56} />
-          <p className="w-[300px] -translate-x-5 truncate font-semibold">
-            {chat.participants
-              .filter((participant) => participant.userId !== data?.user?.id)
-              .map((participant) => participant.user.userName ?? "User")
-              .join(", ")}
-          </p>
+          {chat.name ? (
+            <p className="w-[300px] truncate font-semibold">{chat.name}</p>
+          ) : (
+            <p className="w-[300px] truncate font-semibold">
+              {chat.participants
+                .filter((participant) => participant.userId !== data?.user?.id)
+                .map((participant) => participant.user.userName ?? "User")
+                .join(", ")}
+            </p>
+          )}
         </div>
       )}
-      <div className="flex items-center gap-3 text-3xl">
+      {/* <div className="flex items-center gap-3 text-3xl">
         <AiOutlinePhone className="cursor-pointer" />
         <HiOutlineVideoCamera className="cursor-pointer" />
-      </div>
+      </div> */}
+      {chat.type === "GROUP" && <ChatSettings chatId={chat.id} />}
     </div>
   );
 };

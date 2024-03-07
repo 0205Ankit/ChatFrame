@@ -53,6 +53,7 @@ const MessagesContainer = ({
       <UserCard
         userName={senderParticipants[0]?.user.userName ?? "User"}
         isGroupChat={chat.type === "GROUP"}
+        chatName={chat.name}
         allParticipants={chat.participants}
         profilePhoto={
           senderParticipants[0]?.user.profilePhoto ??

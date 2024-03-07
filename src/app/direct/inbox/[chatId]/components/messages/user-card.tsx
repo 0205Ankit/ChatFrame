@@ -1,5 +1,5 @@
 "use client";
-import { MultipleUserPhoto } from "@/app/_components/multiple-user-photo";
+import { MultipleUserPhoto } from "@/components/multiple-user-photo";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { type User } from "@prisma/client";
@@ -13,10 +13,12 @@ const UserCard = ({
   profilePhoto,
   isGroupChat,
   allParticipants,
+  chatName,
 }: {
   userName: string;
   profilePhoto: string;
   isGroupChat?: boolean;
+  chatName?: string;
   allParticipants: { userId: string; user: User }[]; /// TODO: import actual types
 }) => {
   const { data } = useSession();
@@ -30,12 +32,18 @@ const UserCard = ({
     return (
       <div className="mb-10 mt-5 flex flex-col items-center">
         <MultipleUserPhoto userImages={allParticipantsPhotos} imgSize={80} />
-        <p className="my-3 w-[200px] truncate text-xl font-semibold">
-          {allParticipants
-            .filter((participant) => participant.userId !== data?.user?.id)
-            .map((participant) => participant.user.userName ?? "User")
-            .join(", ")}
-        </p>
+        {chatName ? (
+          <p className="my-3 w-[200px] truncate text-center text-xl font-semibold">
+            {chatName}
+          </p>
+        ) : (
+          <p className="my-3 w-[200px] truncate text-center text-xl font-semibold">
+            {allParticipants
+              .filter((participant) => participant.userId !== data?.user?.id)
+              .map((participant) => participant.user.userName ?? "User")
+              .join(", ")}
+          </p>
+        )}
       </div>
     );
   }

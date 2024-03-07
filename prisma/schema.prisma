@@ -172,6 +172,7 @@ model Chat {
     createdAt    DateTime          @default(now())
     updatedAt    DateTime          @updatedAt
     type         ChatType
+    name         String            @default("")
     messages     Message[]
     participants ChatParticipant[]
 }

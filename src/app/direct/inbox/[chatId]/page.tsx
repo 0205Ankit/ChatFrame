@@ -12,6 +12,7 @@ import { useInView } from "react-intersection-observer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { api } from "@/trpc/react";
 import { MessagesProvider } from "./components/messages/messages-context/provider";
+import NoChatComponent from "@/components/no-chat-component";
 
 const ChatPage = ({ params }: { params: { chatId: string } }) => {
   const [isTyping, setIsTyping] = useState(false);
@@ -32,8 +33,8 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
     if (!inView) setShowScrollButton(true);
   }, [data?.messages, inView]);
 
-  if (!data) return;
   if (!userData) return;
+  if (!data) return <NoChatComponent />;
 
   return (
     <MessagesProvider>

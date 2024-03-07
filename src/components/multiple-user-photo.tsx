@@ -24,7 +24,12 @@ export const MultipleUserPhoto = ({
             alt="profile"
             width={50}
             height={50}
-            className="absolute left-0 top-0 z-10 h-4/6 w-4/6 rounded-full border-2 border-white object-cover"
+            className={cn(
+              "absolute left-0 top-0 z-10 h-4/6 w-4/6 rounded-full border-2 border-white object-cover",
+              {
+                "h-full w-full": !userImages[1],
+              },
+            )}
           />
         )}
         {userImages[1] && (

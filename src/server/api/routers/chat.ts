@@ -90,8 +90,8 @@ export const chatRouter = createTRPCRouter({
 
   getChatsById: protectedProcedure
     .input(z.object({ chatId: z.string() }))
-    .query(({ ctx, input }) => {
-      return ctx.db.chat.findUnique({
+    .query(async ({ ctx, input }) => {
+      const chat = await ctx.db.chat.findUnique({
         where: {
           id: input.chatId,
         },
@@ -104,5 +104,75 @@ export const chatRouter = createTRPCRouter({
           messages: true,
         },
       });
+
+      if (
+        chat?.participants.some(
+          (participant) => participant.userId === ctx.session.user.id,
+        )
+      ) {
+        return chat;
+      }
+      return null;
+    }),
+
+  updateChatName: protectedProcedure
+    .input(z.object({ chatId: z.string(), name: z.string().max(15) }))
+    .mutation(async ({ ctx, input }) => {
+      const chat = await ctx.db.chat.update({
+        where: {
+          id: input.chatId,
+          type: "GROUP",
+        },
+        data: {
+          name: input.name,
+        },
+      });
+      return chat;
+    }),
+
+  removeParticipantFromChat: protectedProcedure
+    .input(z.object({ chatId: z.string(), participantId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const chat = await ctx.db.chat.update({
+        where: {
+          id: input.chatId,
+          type: "GROUP",
+        },
+        data: {
+          participants: {
+            delete: {
+              userId_chatId: {
+                userId: input.participantId,
+                chatId: input.chatId,
+              },
+            },
+          },
+        },
+      });
+      return chat;
+    }),
+
+  addParticipantToChat: protectedProcedure
+    .input(
+      z.object({ chatId: z.string(), participantIds: z.array(z.string()) }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const chat = await ctx.db.chat.update({
+        where: {
+          id: input.chatId,
+          type: "GROUP",
+        },
+        data: {
+          participants: {
+            createMany: {
+              data: input.participantIds.map((participantId) => ({
+                userId: participantId,
+                isAdmin: false,
+              })),
+            },
+          },
+        },
+      });
+      return chat;
     }),
 });

@@ -6,6 +6,7 @@ export type GetChat = {
   updatedAt: Date;
   type: ChatType;
   messages: Message[];
+  name?: string;
   participants: {
     createdAt: Date;
     updatedAt: Date;
