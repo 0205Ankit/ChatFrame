@@ -48,4 +48,14 @@ export const commentsRouter = createTRPCRouter({
         orderBy: { createdAt: "asc" },
       });
     }),
+
+  getCommentsByPostId: protectedProcedure
+    .input(z.object({ postId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.comment.findMany({
+        where: { postId: input.postId, replyToId: null },
+        include: { author: true },
+        orderBy: { createdAt: "desc" },
+      });
+    }),
 });

@@ -26,12 +26,8 @@ export const postRouter = createTRPCRouter({
         orderBy: { createdAt: "desc" },
         include: {
           createdBy: true,
-          comments: {
-            orderBy: { createdAt: "desc" },
-            where: { replyToId: null },
-            include: {
-              author: true,
-            },
+          _count: {
+            select: { comments: true },
           },
           likes: true,
         },
@@ -81,12 +77,8 @@ export const postRouter = createTRPCRouter({
         Post: {
           include: {
             createdBy: true,
-            comments: {
-              orderBy: { createdAt: "desc" },
-              where: { replyToId: null },
-              include: {
-                author: true,
-              },
+            _count: {
+              select: { comments: true },
             },
             likes: true,
           },
@@ -146,12 +138,8 @@ export const postRouter = createTRPCRouter({
         skip: skip,
         include: {
           createdBy: true,
-          comments: {
-            orderBy: { createdAt: "desc" },
-            where: { replyToId: null },
-            include: {
-              author: true,
-            },
+          _count: {
+            select: { comments: true },
           },
           likes: true,
         },

@@ -29,6 +29,10 @@ const PostDialog = ({ post, closeDialogHandler }: PropType) => {
   const utils = api.useUtils();
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
+
+  const { data: comments, isLoading } =
+    api.comments.getCommentsByPostId.useQuery({ postId: post.id });
+
   const { data } = api.likes.likedByuser.useQuery({ postId: post.id });
   const { data: savedData } = api.post.isPostSaved.useQuery({
     postId: post.id,
@@ -102,20 +106,28 @@ const PostDialog = ({ post, closeDialogHandler }: PropType) => {
                 />
               </div>
             )}
-            {post.comments.length > 0 ? (
-              <div className="px-4">
-                {post.comments.map((comment) => (
-                  <CommentFormattedText
-                    key={comment.id}
-                    comment={comment}
-                    mainCommentId={comment.id}
-                    className="mb-5"
-                  />
-                ))}
-              </div>
-            ) : (
-              <NoComments />
-            )}
+            <>
+              {isLoading ? (
+                <CommentsSkeleton />
+              ) : (
+                <>
+                  {comments && comments.length > 0 ? (
+                    <div className="px-4">
+                      {comments?.map((comment) => (
+                        <CommentFormattedText
+                          key={comment.id}
+                          comment={comment}
+                          mainCommentId={comment.id}
+                          className="mb-5"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <NoComments />
+                  )}
+                </>
+              )}
+            </>
           </div>
           <div className="">
             <PostActions
@@ -134,3 +146,24 @@ const PostDialog = ({ post, closeDialogHandler }: PropType) => {
 };
 
 export default PostDialog;
+
+const CommentsSkeleton = () => {
+  return (
+    <div className="animate-pulse px-4">
+      <div className="mb-4 flex items-center gap-2">
+        <div className="h-8 w-8 rounded-full bg-slate-300"></div>
+        <div>
+          <div className="mb-2 h-[6px] w-20 rounded-full bg-slate-300"></div>
+          <div className="h-[6px] w-40 rounded-full bg-slate-300"></div>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <div className="h-8 w-8 rounded-full bg-slate-300"></div>
+        <div>
+          <div className="mb-2 h-[6px] w-20 rounded-full bg-slate-300"></div>
+          <div className="h-[6px] w-40 rounded-full bg-slate-300"></div>
+        </div>
+      </div>
+    </div>
+  );
+};

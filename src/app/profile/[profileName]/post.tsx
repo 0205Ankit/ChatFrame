@@ -37,7 +37,7 @@ const Post = ({ post, className }: PropType) => {
             <AiFillHeart className="text-xl" /> {post?.likes?.length ?? 0}
           </div>
           <div className="flex items-center gap-1 font-bold text-slate-100">
-            <IoChatbubble className="text-xl" /> {post?.comments?.length ?? 0}
+            <IoChatbubble className="text-xl" /> {post?._count.comments ?? 0}
           </div>
         </div>
       </div>

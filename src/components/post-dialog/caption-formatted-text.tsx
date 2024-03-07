@@ -14,7 +14,10 @@ const CaptionFormattedText = ({
   return (
     <div className="flex-start flex gap-3">
       <Avatar className="h-7 w-7">
-        <AvatarImage src={data?.profilePhoto ?? "/empty-profile-photo.jpeg"} />
+        <AvatarImage
+          className="object-cover"
+          src={data?.profilePhoto ?? "/empty-profile-photo.jpeg"}
+        />
         <AvatarFallback>CF</AvatarFallback>
       </Avatar>
       <pre className="font-sans text-sm">
