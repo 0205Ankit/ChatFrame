@@ -7,11 +7,15 @@ import AllUserPosts from "./all-posts";
 import SavedPosts from "./saved-posts";
 import { api } from "@/trpc/server";
 import Link from "next/link";
+import { getServerAuthSession } from "@/server/auth";
+import { redirect } from "next/navigation";
 
 const tabsTriggerStyle =
   "rounded-none px-2 data-[state=active]:border-t-2 data-[state=active]:border-primary data-[state=active]:shadow-none";
 
 const ProfilePage = async ({ params }: { params: { profileName: string } }) => {
+  const session = await getServerAuthSession();
+  if (!session?.user) return redirect("/");
   const { profileName } = params;
   const user = await api.user.checkUserExistByUserName.query({
     profileName,
