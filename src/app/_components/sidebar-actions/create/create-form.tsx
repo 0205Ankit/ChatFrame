@@ -19,6 +19,7 @@ import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import ProfileCard from "@/components/profile-card";
 import ImageSlider from "@/components/image-slider";
+import { useSession } from "next-auth/react";
 
 const defaultValues = {
   caption: "",
@@ -27,7 +28,11 @@ const defaultValues = {
   hideLikes: false,
   hideComments: false,
 };
-const CreateForm = () => {
+const CreateForm = ({
+  closeCreateFormDialog,
+}: {
+  closeCreateFormDialog: () => void;
+}) => {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploadingPost, setIsUploadingPost] = useState(false);
   const { toast } = useToast();
@@ -38,6 +43,7 @@ const CreateForm = () => {
   });
   const selectedImages = form.getValues("images");
   const router = useRouter();
+  const { data: session } = useSession();
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -54,8 +60,10 @@ const CreateForm = () => {
 
   const { mutate } = api.post.create.useMutation({
     onSuccess: () => {
+      router.replace(`/profile/${session?.user.userName}`);
       router.refresh();
-      router.replace("/");
+      form.reset();
+      closeCreateFormDialog();
     },
     onError: () => {
       toast({
