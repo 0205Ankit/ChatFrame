@@ -19,7 +19,7 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { data: userData } = useSession();
-  const { data } = api.chat.getChatsById.useQuery({
+  const { data, isLoading } = api.chat.getChatsById.useQuery({
     chatId: params.chatId,
   });
 
@@ -38,48 +38,66 @@ const ChatPage = ({ params }: { params: { chatId: string } }) => {
 
   return (
     <MessagesProvider>
-      <div className="relative flex h-screen flex-col">
-        <div>
-          <ChatHeader currUserId={userData?.user.id} chat={data} />
-          <Separator />
+      {isLoading ? (
+        <ChatPageSkeleton />
+      ) : (
+        <div className="relative flex h-screen flex-col">
+          <div>
+            <ChatHeader currUserId={userData?.user.id} chat={data} />
+            <Separator />
+          </div>
+          <ScrollArea className="relative h-[calc(100%-160px)]">
+            <MessagesContainer
+              chatId={params.chatId}
+              chat={data}
+              currUserId={userData?.user.id}
+              isTyping={isTyping}
+            />
+            <Button
+              onClick={() => {
+                if (!messagesEndRef.current) return;
+                messagesEndRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                });
+                setShowScrollButton(false);
+              }}
+              className={cn(
+                "fixed bottom-[100px] right-1/3 hidden rounded-full p-2 text-2xl",
+                {
+                  block: showScrollButton,
+                },
+              )}
+            >
+              <MdKeyboardDoubleArrowDown />
+            </Button>
+            <div ref={isInViewRef} className=" bg-red-400" />
+            <div ref={messagesEndRef} />
+          </ScrollArea>
+          <div className="absolute inset-x-0 bottom-0 z-10 bg-white py-4">
+            <MessageInput
+              chatId={params.chatId}
+              senderId={userData?.user.id}
+              setIsTyping={setIsTyping}
+            />
+          </div>
         </div>
-        <ScrollArea className="relative h-[calc(100%-160px)]">
-          <MessagesContainer
-            chatId={params.chatId}
-            chat={data}
-            currUserId={userData?.user.id}
-            isTyping={isTyping}
-          />
-          <Button
-            onClick={() => {
-              if (!messagesEndRef.current) return;
-              messagesEndRef.current?.scrollIntoView({
-                behavior: "smooth",
-              });
-              setShowScrollButton(false);
-            }}
-            className={cn(
-              "fixed bottom-[100px] right-1/3 hidden rounded-full p-2 text-2xl",
-              {
-                block: showScrollButton,
-              },
-            )}
-          >
-            <MdKeyboardDoubleArrowDown />
-          </Button>
-          <div ref={isInViewRef} className=" bg-red-400" />
-          <div ref={messagesEndRef} />
-        </ScrollArea>
-        <div className="absolute inset-x-0 bottom-0 z-10 bg-white py-4">
-          <MessageInput
-            chatId={params.chatId}
-            senderId={userData?.user.id}
-            setIsTyping={setIsTyping}
-          />
-        </div>
-      </div>
+      )}
     </MessagesProvider>
   );
 };
 
 export default ChatPage;
+
+const ChatPageSkeleton = () => {
+  return (
+    <div className="h-screen animate-pulse">
+      <div className="h-20 px-5 py-3">
+        <div className="flex items-center gap-3">
+          <div className="h-14 w-14 rounded-full bg-slate-300"></div>
+          <div className="h-3 w-20 rounded-full bg-slate-300"></div>
+        </div>
+      </div>
+      <Separator />
+    </div>
+  );
+};

@@ -7,7 +7,7 @@ import { api } from "@/trpc/react";
 import CreateGroupChat from "./create-chat";
 
 const ChatList = () => {
-  const { data } = api.chat.getChats.useQuery();
+  const { data, isLoading } = api.chat.getChats.useQuery();
   if (!data) return;
   const sortedChats = data.sort((a, b) => {
     return (
@@ -21,6 +21,15 @@ const ChatList = () => {
       <CreateGroupChat />
       <Separator className="mt-6" />
       <ScrollArea className="h-full flex-col items-center justify-center max-lg:flex">
+        {isLoading && (
+          <div className="flex animate-pulse items-center gap-3 p-4">
+            <div className="h-14 w-14 rounded-full bg-slate-300"></div>
+            <div className="flex flex-col gap-3 max-lg:hidden">
+              <div className="h-2 w-28 rounded-full bg-slate-300"></div>
+              <div className="h-2 w-16 rounded-full bg-slate-300"></div>
+            </div>
+          </div>
+        )}
         {sortedChats?.map((chat) => {
           return chat.messages.length > 0 || chat.type === "GROUP" ? (
             <ChatItem key={chat.id} chat={chat} />
