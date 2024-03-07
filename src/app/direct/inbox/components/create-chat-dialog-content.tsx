@@ -55,6 +55,8 @@ const CreateChatDialogContent = ({
     onSuccess: (data) => {
       void utils.chat.getChats.invalidate();
       closeDialog();
+      setSelectedUsers([]);
+      setSelectedUser(null);
       router.push(`/direct/inbox/${data.id}`);
     },
   });

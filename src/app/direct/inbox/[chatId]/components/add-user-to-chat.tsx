@@ -26,6 +26,8 @@ const AddUsersToChat = ({
         void utils.chat.getChats.invalidate();
         void utils.chat.getChatsById.invalidate();
         setOpen(false);
+        setSelectedUser(null);
+        setSelectedUsers([]);
       },
     });
 

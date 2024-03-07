@@ -102,6 +102,7 @@ const ChatSettings = ({ chatId }: { chatId: string }) => {
                         variant={"noStyle"}
                         onClick={(e) => {
                           e.stopPropagation();
+                          e.preventDefault();
                           removeParticipant({
                             chatId: chatId,
                             participantId: participant.userId,
