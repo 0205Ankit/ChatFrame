@@ -1,12 +1,7 @@
 "use client";
 import React from "react";
 import { IoSearch } from "react-icons/io5";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "../../../../components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet";
 import { cn } from "@/lib/utils";
 import SearchDropdown from "./search-dropdown";
 import { Separator } from "@/components/ui/separator";

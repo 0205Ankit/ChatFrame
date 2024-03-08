@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import AppLogo from "../../components/app-logo";
+import AppLogo from "./app-logo";
 import Search from "./sidebar-actions/search/search";
 import Messages from "./sidebar-actions/messages";
 import Create from "./sidebar-actions/create/create";

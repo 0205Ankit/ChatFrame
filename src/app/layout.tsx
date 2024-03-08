@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { getServerAuthSession } from "@/server/auth";
-import SideBar from "@/app/_components/sidebar";
+import SideBar from "@/components/sidebar";
 import Providers from "@/context/providers";
 
 const inter = Inter({

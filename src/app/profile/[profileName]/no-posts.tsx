@@ -1,4 +1,4 @@
-import CreateForm from "@/app/_components/sidebar-actions/create/create-form";
+import CreateForm from "@/components/sidebar-actions/create/create-form";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import React from "react";
 import { IoCameraOutline } from "react-icons/io5";
