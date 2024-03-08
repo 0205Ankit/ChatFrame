@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { getServerAuthSession } from "@/server/auth";
 import SideBar from "@/app/_components/sidebar";
-import Providers from "@/lib/providers";
+import Providers from "@/context/providers";
 
 const inter = Inter({
   subsets: ["latin"],

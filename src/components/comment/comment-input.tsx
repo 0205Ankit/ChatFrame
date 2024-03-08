@@ -41,11 +41,7 @@ export const CommentInput = ({ postId }: { postId: string }) => {
     },
     onSettled: async () => {
       router.refresh();
-      await Promise.all([
-        void utils.comments.getCommentsByPostId.invalidate(),
-        // void utils.post.getPostForHomePage.invalidate(),
-        // void utils.post.getAllPostOfUser.invalidate(),
-      ]);
+      await Promise.all([void utils.comments.getCommentsByPostId.invalidate()]);
     },
   });
 

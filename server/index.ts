@@ -39,16 +39,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("join chat", (room: string) => {
-    // const userIdsInRoom = [] as string[];
     void socket.join(room);
-    // const socketsInRoom = io.sockets.adapter.rooms.get(room);
-    // if (socketsInRoom) {
-    //   socketsInRoom.forEach((socketId) => {
-    //     const userSocket = io.sockets.sockets.get(socketId) as CustomSocket;
-    //     userIdsInRoom.push(userSocket?.data.userId);
-    //   });
-    // }
-    // console.log(room, userIdsInRoom);
     void socket.in(room).emit("joined chat", room);
   });
 
@@ -62,6 +53,11 @@ io.on("connection", (socket) => {
 
   socket.on("new message", (room: string) => {
     socket.in(room).emit("message received", room);
+  });
+
+  socket.on("any new message", () => {
+    console.log("i ran");
+    socket.emit("any new message received");
   });
 
   socket.off("setup", (userData: { id: string }) => {

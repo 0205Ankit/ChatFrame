@@ -5,9 +5,28 @@ import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { api } from "@/trpc/react";
 import CreateGroupChat from "./create-chat";
+import socket from "@/utils/socket";
+// import { usePathname } from "next/navigation";
 
 const ChatList = () => {
+  const utils = api.useUtils();
+  // const pathname = usePathname();
   const { data, isLoading } = api.chat.getChats.useQuery();
+  // const { mutate } = api.messages.unreadMessages.useMutation({
+  //   onSuccess: () => {
+  //     void utils.chat.getChats.invalidate();
+  //     void utils.chat.getTotalUnreadChats.invalidate();
+  //   },
+  // });
+
+  socket.on("message received", () => {
+    // if (pathname === `/direct/inbox/${chatId}`) {
+    //   mutate({ chatId });
+    //   return;
+    // }
+    void utils.chat.getChats.invalidate();
+  });
+
   if (!data) return;
   const sortedChats = data.sort((a, b) => {
     return (

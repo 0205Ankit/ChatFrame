@@ -20,7 +20,10 @@ export const messagesRouter = createTRPCRouter({
           content: input.content,
           senderId: input.senderId,
           chatId: input.chatId,
-          isReadByRecievers: input.isReadByRecievers ?? [],
+          isReadByRecievers: input.isReadByRecievers
+            ? [...input.isReadByRecievers, input.senderId]
+            : [input.senderId],
+
           ...(!!input.replyToMessageId && {
             repliedToMessageId: input.replyToMessageId,
           }),

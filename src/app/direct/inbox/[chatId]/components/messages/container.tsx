@@ -1,13 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import UserCard from "./user-card";
 import { type GetChat } from "@/types/chat-type";
 import Message from "./message";
-import { useRouter } from "next/navigation";
 import { getFormattedDateTime } from "@/lib/utils";
-import socket from "@/utils/socket";
 import { differenceInMinutes } from "date-fns";
 import { api } from "@/trpc/react";
+import socket from "@/utils/socket";
 
 type PropType = {
   chatId: string;
@@ -22,31 +21,18 @@ const MessagesContainer = ({
   chat,
   isTyping,
 }: PropType) => {
+  const utils = api.useUtils();
   const senderParticipants = chat.participants.filter((user) => {
     return user.userId !== currUserId;
   });
-  const router = useRouter();
-  const utils = api.useUtils();
 
-  const { data, isLoading } = api.messages.getMessagesByChatId.useQuery(
-    { chatId },
-    {
-      onSuccess: () => {
-        socket.emit("join chat", chatId);
-      },
-    },
-  );
-  const { mutate } = api.messages.unreadMessages.useMutation();
+  const { data, isLoading } = api.messages.getMessagesByChatId.useQuery({
+    chatId,
+  });
 
-  useEffect(() => {
-    socket.on("message reaction received", async () => {
-      await Promise.all([
-        void utils.chat.getChats.invalidate(),
-        void utils.messages.getMessagesByChatId.invalidate(),
-      ]);
-    });
-    mutate({ chatId });
-  }, [chatId, router, utils, mutate, data]);
+  socket.on("message received", () => {
+    void utils.messages.getMessagesByChatId.invalidate();
+  });
 
   return (
     <>

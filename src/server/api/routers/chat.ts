@@ -88,6 +88,44 @@ export const chatRouter = createTRPCRouter({
     });
   }),
 
+  getOnlyChatIds: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.chat.findMany({
+      where: {
+        participants: {
+          some: {
+            userId: ctx.session.user.id,
+          },
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+  }),
+
+  getTotalUnreadChats: protectedProcedure.query(async ({ ctx }) => {
+    const chats = await ctx.db.chat.findMany({
+      where: {
+        participants: {
+          some: {
+            userId: ctx.session.user.id,
+          },
+        },
+      },
+      include: {
+        messages: true,
+      },
+    });
+
+    const getTotalUnreadChats = chats?.filter((chat) => {
+      return !chat.messages[
+        chat.messages.length - 1
+      ]?.isReadByRecievers.includes(ctx.session.user.id);
+    }).length;
+
+    return getTotalUnreadChats;
+  }),
+
   getChatsById: protectedProcedure
     .input(z.object({ chatId: z.string() }))
     .query(async ({ ctx, input }) => {

@@ -15,20 +15,23 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSocketConnected, setIsSocketConnected] = useState(false);
   const session = useSession();
   const utils = api.useUtils();
+  const { data: chatIds } = api.chat.getOnlyChatIds.useQuery();
 
   useEffect(() => {
     if (!session.data?.user) return;
     socket.emit("setup", session.data?.user);
     socket.on("connected", () => {
-      setIsSocketConnected(true);
+      setIsSocketConnected(true); // set Socket Connected State to true
     });
-    socket.on("message received", async () => {
-      await Promise.all([
-        void utils.chat.getChats.invalidate(),
-        void utils.messages.getMessagesByChatId.invalidate(),
-      ]);
+
+    // return if chatIds and socket is not connected
+    if (!chatIds || !isSocketConnected) return;
+
+    // join the rooms which chat id
+    chatIds.forEach((id) => {
+      socket.emit("join chat", id.id);
     });
-  }, [session.data?.user, utils]);
+  }, [session.data?.user, utils, chatIds, isSocketConnected]);
 
   return (
     <SocketContext.Provider
