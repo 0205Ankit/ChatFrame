@@ -2,11 +2,15 @@ import AppLogo from "@/components/app-logo";
 import AuthButton from "@/components/auth-button";
 import SignInForm from "@/components/sign-in-form";
 import { Separator } from "@/components/ui/separator";
+import { getServerAuthSession } from "@/server/auth";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
-const LoginPage = () => {
+const LoginPage = async () => {
+  const session = await getServerAuthSession();
+  if (session?.user) redirect("/");
   return (
     <>
       <div className="max-w-6/12 fixed left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 gap-10">

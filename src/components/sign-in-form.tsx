@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 const signInFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }),
@@ -25,6 +26,7 @@ const defaultValues = {
 
 const SignInForm = () => {
   const { toast } = useToast();
+  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
@@ -35,16 +37,26 @@ const SignInForm = () => {
     const { email, password } = values;
     try {
       setLoading(true);
-      await signIn("credentials", {
+      const signin = await signIn("credentials", {
         email,
         password,
         callbackUrl: "/",
+        redirect: false,
       });
+      if (signin?.error) {
+        toast({
+          title: "Error while signing you in!",
+          description: signin.error,
+          variant: "destructive",
+        });
+        return;
+      }
+      router.refresh();
     } catch (err) {
       console.log(err);
       toast({
-        title: "Error while signing in!",
-        description: "Please try again later",
+        title: "Error while signing you in!",
+        description: "Something went wrong",
         variant: "destructive",
       });
     } finally {

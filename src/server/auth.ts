@@ -52,22 +52,27 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
         const { email, password } = credentials;
-        const user = await db.user.findUnique({
-          where: {
-            email,
-          },
-        });
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        if (user && bcrypt.compareSync(password, user.password ?? "")) {
-          return {
-            id: user.id,
-            email: user.email,
-            profilePhoto: user.profilePhoto,
-            name: user.name,
-            picture: user.image,
-            userName: user.userName,
-          };
-        } else {
+        try {
+          const user = await db.user.findUnique({
+            where: {
+              email,
+            },
+          });
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          if (user && bcrypt.compareSync(password, user.password ?? "")) {
+            return {
+              id: user.id,
+              email: user.email,
+              profilePhoto: user.profilePhoto,
+              name: user.name,
+              picture: user.image,
+              userName: user.userName,
+            };
+          } else {
+            throw new Error("Invalid credentials");
+          }
+        } catch (err) {
+          console.error(err);
           throw new Error("Invalid credentials");
         }
       },
@@ -78,7 +83,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/",
+    signIn: "/login",
   },
   callbacks: {
     async signIn() {
