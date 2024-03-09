@@ -111,9 +111,10 @@ model User {
     id            String      @id @default(cuid())
     name          String?
     email         String?     @unique
+    password      String?
     emailVerified DateTime?
     image         String?
-    userName      String      @unique @default(dbgenerated("substring('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' FROM (floor(random() * 62) + 1)::integer FOR 10)"))
+    userName      String      @unique @default(nanoid(10))
     accounts      Account[]
     sessions      Session[]
     posts         Post[]

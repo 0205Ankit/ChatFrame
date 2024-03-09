@@ -15,7 +15,7 @@ const tabsTriggerStyle =
 
 const ProfilePage = async ({ params }: { params: { profileName: string } }) => {
   const session = await getServerAuthSession();
-  if (!session?.user) return redirect("/");
+  if (!session?.user) return redirect("/login");
   const { profileName } = params;
   const user = await api.user.checkUserExistByUserName.query({
     profileName,

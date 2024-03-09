@@ -6,8 +6,10 @@ import {
 } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/server/db";
 import { nanoid } from "nanoid";
+import bcrypt from "bcrypt";
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -40,6 +42,36 @@ export const authOptions: NextAuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID ?? "",
       clientSecret: process.env.GITHUB_CLIENT_SECRET ?? "",
+    }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials) return null;
+        const { email, password } = credentials;
+        const user = await db.user.findUnique({
+          where: {
+            email,
+          },
+        });
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        if (user && bcrypt.compareSync(password, user.password ?? "")) {
+          return {
+            id: user.id,
+            email: user.email,
+            profilePhoto: user.profilePhoto,
+            name: user.name,
+            picture: user.image,
+            userName: user.userName,
+          };
+        } else {
+          throw new Error("Invalid credentials");
+        }
+      },
+      /////////////////////////////////
     }),
   ],
   session: {

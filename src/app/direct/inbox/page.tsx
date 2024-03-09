@@ -6,7 +6,7 @@ import React from "react";
 const InboxPage = async () => {
   const session = await getServerAuthSession();
   if (!session?.user) {
-    redirect("/");
+    redirect("/login");
   }
   return <NoChatComponent />;
 };

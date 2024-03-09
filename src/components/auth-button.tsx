@@ -17,7 +17,7 @@ const AuthButton = ({ provider, className }: AuthButtonType) => {
   const loginHandler = async () => {
     setLoading(true);
     try {
-      await signIn(provider ,{
+      await signIn(provider, {
         callbackUrl: "/",
       });
     } catch (error) {
@@ -37,7 +37,7 @@ const AuthButton = ({ provider, className }: AuthButtonType) => {
       isLoading={loading}
       onClick={loginHandler}
       className={cn(
-        "text-primaryText flex items-center gap-5 border border-slate-300 bg-transparent hover:bg-transparent",
+        "flex items-center gap-5 border border-slate-300 bg-transparent text-primaryText hover:bg-transparent",
         className,
       )}
     >
