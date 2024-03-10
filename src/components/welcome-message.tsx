@@ -48,7 +48,7 @@ const WelcomeMessage = () => {
         all on{" "}
         <Link
           className="font-semibold text-primary underline"
-          href={"https://github.com/0205Ankit/chatFrame"}
+          href={"https://github.com/0205Ankit/ChatFrame"}
           target="_blank"
         >
           Github

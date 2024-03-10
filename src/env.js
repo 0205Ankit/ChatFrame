@@ -33,7 +33,7 @@ export const env = createEnv({
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
     DIRECT_URL: z.string(),
-    SERVER_ENDPOINT: z.string(),
+    EXPRESS_SERVER_ENDPOINT: z.string(),
   },
 
   /**
@@ -59,7 +59,7 @@ export const env = createEnv({
     DIRECT_URL: process.env.DIRECT_URL,
     GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-    SERVER_ENDPOINT: process.env.SERVER_ENDPOINT,
+    EXPRESS_SERVER_ENDPOINT: process.env.EXPRESS_SERVER_ENDPOINT,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

@@ -5,9 +5,6 @@ import Post from "./post/post";
 import { useInView } from "react-intersection-observer";
 import { Loader2 } from "lucide-react";
 import { LuBadgeCheck } from "react-icons/lu";
-import { TbPhotoVideo } from "react-icons/tb";
-import Image from "next/image";
-import Link from "next/link";
 import WelcomeMessage from "../welcome-message";
 
 const HomePage = () => {
@@ -31,7 +28,7 @@ const HomePage = () => {
   }, [inView, hasNextPage, fetchNextPage]);
 
   if (data?.pages[0]?.posts.length === 0) {
-    return <WelcomeMessage/>;
+    return <WelcomeMessage />;
   }
 
   return (
