@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from "react";
 import { api } from "@/trpc/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { type PostType } from "@/types/post-type";
 import { Button } from "../ui/button";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useToast } from "@/hooks/use-toast";
@@ -11,11 +10,10 @@ import CommentReplies from "./comment-replies";
 import { cn, getCommentWithMentions, getElapsedTime } from "@/lib/utils";
 import { useComment } from "./comment-provider";
 import { getUserDetails } from "@/app/queries";
-
-type CommentType = PostType["comments"][number];
+import { type CommentsType } from "@/types/comment-type";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
-  comment: CommentType;
+  comment: CommentsType;
   mainCommentId: string;
   isReply?: boolean;
 };
@@ -57,6 +55,7 @@ const CommentFormattedText = ({
     },
     onSuccess: () => {
       router.refresh();
+      void utils.comments.getCommentsByPostId.invalidate();
     },
     onSettled: () => {
       void utils.comments.getReplies.invalidate();
