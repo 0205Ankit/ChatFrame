@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
         try {
           const user = await db.user.findUnique({
             where: {
-              email,
+              email: email.toLowerCase(),
             },
           });
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

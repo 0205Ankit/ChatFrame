@@ -1,6 +1,6 @@
-# Create T3 App
+# ChatFrame
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Welcome to [ChatFrame] – a social media-like app where you can share your photos, like and comment on posts, and engage in one-on-one or group chats. This README provides essential information to get you started with the project.
 
 ## What's next? How do I make an app with this?
 

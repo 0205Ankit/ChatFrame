@@ -36,10 +36,10 @@ const EditProfile = ({
 
   const userNameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
-    if (userName.length > 20) {
+    if (e.target.value.length > 20) {
       setError("Username must be less than 20 characters");
     }
-    if (userName.length <= 3) {
+    if (e.target.value.length <= 3) {
       setError("Username must be greater than 3 characters");
     }
     if (e.target.value.includes(" ")) {
