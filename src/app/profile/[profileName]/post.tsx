@@ -31,6 +31,7 @@ const Post = ({ post, className }: PropType) => {
           width={100}
           height={100}
           className="aspect-square w-full object-cover"
+          unoptimized
         />
         <div className="absolute inset-0 hidden items-center justify-center bg-black/30 group-hover:flex">
           <div className="mr-4 flex items-center gap-1 font-bold text-slate-100">

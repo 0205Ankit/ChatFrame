@@ -57,6 +57,7 @@ const Post = forwardRef(
             width={100}
             height={100}
             className="h-10 w-10 rounded-full object-cover"
+            unoptimized
           />
           <h1 className={cn("")}>{post?.createdBy?.userName ?? "user"}</h1>
         </Link>
