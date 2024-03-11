@@ -53,7 +53,6 @@ const SignInForm = () => {
       }
       router.refresh();
     } catch (err) {
-      console.log(err);
       toast({
         title: "Error while signing you in!",
         description: "Something went wrong",

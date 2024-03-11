@@ -46,8 +46,7 @@ const CommentFormattedText = ({
     commentId: comment.id,
   });
   const { mutate } = api.comments.delete.useMutation({
-    onError: (err) => {
-      console.log(err);
+    onError: () => {
       toast({
         title: "Something went wrong",
         description: "Can't delete the comment right now, Try again later",

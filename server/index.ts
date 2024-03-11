@@ -56,7 +56,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("any new message", () => {
-    console.log("i ran");
     socket.emit("any new message received");
   });
 

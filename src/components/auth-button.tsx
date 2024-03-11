@@ -21,7 +21,6 @@ const AuthButton = ({ provider, className }: AuthButtonType) => {
         callbackUrl: "/",
       });
     } catch (error) {
-      console.log(error);
       toast({
         title: "Error while logging in",
         description: "Something went wrong with Authentication try again later",
