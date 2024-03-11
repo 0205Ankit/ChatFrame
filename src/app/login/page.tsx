@@ -26,7 +26,7 @@ const LoginPage = async () => {
           <div className="flex w-full flex-col items-center">
             <h5 className="mb-3 text-3xl font-semibold">Welcome Back</h5>
             <SignInForm />
-            <AuthButton provider="google" className="mb-2 w-full" />
+            {/* <AuthButton provider="google" className="mb-2 w-full" /> */}
             <AuthButton provider="github" className="w-full" />
           </div>
           <div className="w-full">
