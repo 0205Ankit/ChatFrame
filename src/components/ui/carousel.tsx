@@ -205,7 +205,9 @@ const CarouselPrevious = React.forwardRef<
     <Button
       ref={ref}
       variant={variant}
-      size={size}
+      size={
+        size as "default" | "smallest" | "sm" | "xs" | "lg" | null | undefined
+      }
       className={cn(
         "absolute  h-6 w-6 rounded-full focus:ring-0",
         orientation === "horizontal"
@@ -234,7 +236,9 @@ const CarouselNext = React.forwardRef<
     <Button
       ref={ref}
       variant={variant}
-      size={size}
+      size={
+        size as "default" | "smallest" | "sm" | "xs" | "lg" | null | undefined
+      }
       className={cn(
         "absolute h-6 w-6 rounded-full focus:ring-0",
         orientation === "horizontal"

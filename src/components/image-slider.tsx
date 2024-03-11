@@ -78,8 +78,8 @@ const ImageSlider = ({
       </CarouselContent>
       {images.length > 1 && (
         <>
-          <CarouselPrevious className="left-2" type="button" />
-          <CarouselNext className="right-2" type="button" />
+          <CarouselPrevious className="left-2" type="button" size={"sm"} />
+          <CarouselNext className="right-2" type="button" size={"sm"} />
           <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-1">
             {Array(count)
               .fill(0)

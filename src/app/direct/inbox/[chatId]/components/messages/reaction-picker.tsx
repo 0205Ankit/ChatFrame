@@ -8,13 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-const MessageReactionPicker = ({
-  messageId,
-  chatId,
-}: {
-  messageId: string;
-  chatId: string;
-}) => {
+const MessageReactionPicker = () => {
   return (
     <Popover>
       <PopoverTrigger>

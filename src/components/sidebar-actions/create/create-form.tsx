@@ -102,6 +102,7 @@ const CreateForm = ({
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
     maxFiles: 4,
   });

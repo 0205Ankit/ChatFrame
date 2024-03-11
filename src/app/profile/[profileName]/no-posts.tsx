@@ -1,9 +1,11 @@
+"use client";
 import CreateForm from "@/components/sidebar-actions/create/create-form";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import React from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import React, { useState } from "react";
 import { IoCameraOutline } from "react-icons/io5";
 
 const NoPosts = () => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="flex w-80 flex-col items-center">
       <IoCameraOutline className="mb-2 text-4xl" />
@@ -11,12 +13,15 @@ const NoPosts = () => {
       <span className="text-center">
         When you share photos, they will appear on your profile.
       </span>
-      <Dialog>
-        <DialogTrigger className="mt-3 text-center font-semibold text-primary">
-          Share your first photo
-        </DialogTrigger>
+      <p
+        onClick={() => setOpen(true)}
+        className="mt-3 text-center font-semibold text-primary"
+      >
+        Share your first photo
+      </p>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="m-0 min-w-[800px] overflow-hidden border-none p-0">
-          <CreateForm />
+          <CreateForm closeCreateFormDialog={() => setOpen(false)} />
         </DialogContent>
       </Dialog>
     </div>

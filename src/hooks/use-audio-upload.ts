@@ -1,8 +1,6 @@
 import { useUploadThing } from "@/utils/uploadthing";
-import { useDropzone } from "@uploadthing/react/hooks";
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import { useToast } from "./use-toast";
-import { generateClientDropzoneAccept } from "uploadthing/client";
 
 const useAudioUpload = () => {
   const { toast } = useToast();
