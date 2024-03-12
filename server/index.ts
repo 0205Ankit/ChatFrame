@@ -12,7 +12,7 @@ const PORT = process.env.PORT ?? 3333;
 const app = express();
 const server = createServer(app);
 const corsConfig = {
-  origin: process.env.CORS_ORIGIN,
+  origin: "https://chat-frame.vercel.app", // TODO: remove hard coded value
   credentials: true,
 };
 
