@@ -2,7 +2,6 @@ import express from "express";
 import { createServer } from "node:http";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
-import cors from "cors";
 
 dotenv.config({
   path: "./.env",
@@ -12,11 +11,17 @@ const PORT = process.env.PORT ?? 3333;
 const app = express();
 const server = createServer(app);
 const corsConfig = {
-  origin: "https://chat-frame.vercel.app", // TODO: remove hard coded value
+  origin: process.env.CORS_ORIGIN,
   credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "X-HTTP-Method-Override",
+  ],
 };
 
-app.use(cors(corsConfig));
 app.use(express.json());
 
 const io = new Server(server, {

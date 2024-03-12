@@ -50,10 +50,10 @@ const ChatList = () => {
           </div>
         )}
         {sortedChats?.map((chat) => {
-          return chat.messages.length > 0 || chat.type === "GROUP" ? (
-            <ChatItem key={chat.id} chat={chat} />
-          ) : (
-            <></>
+          return (
+            (chat.messages.length > 0 || chat.type === "GROUP") && (
+              <ChatItem key={chat.id} chat={chat} />
+            )
           );
         })}
       </ScrollArea>
