@@ -19,6 +19,7 @@ const corsConfig = {
     "Authorization",
     "X-Requested-With",
     "X-HTTP-Method-Override",
+    "Access-Control-Allow-Origin",
   ],
 };
 
