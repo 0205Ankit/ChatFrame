@@ -16,14 +16,14 @@ const corsConfig = {
   credentials: true,
 };
 
+app.use(cors(corsConfig));
+app.use(express.json());
+
 const io = new Server(server, {
   pingTimeout: 60000, // what is a pong packet?
   cors: corsConfig,
 });
 // app.set("io", io); // using set method to mount the `io` instance on the app to avoid usage of `global`
-
-app.use(cors(corsConfig));
-app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello!");
