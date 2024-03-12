@@ -18,19 +18,20 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const { data: chatIds } = api.chat.getOnlyChatIds.useQuery();
 
   useEffect(() => {
-    if (!session.data?.user) return;
-    socket.emit("setup", session.data?.user);
-    socket.on("connected", () => {
-      setIsSocketConnected(true); // set Socket Connected State to true
-    });
+    if (session.data?.user) {
+      socket.emit("setup", session.data?.user);
+      socket.on("connected", () => {
+        setIsSocketConnected(true); // set Socket Connected State to true
+      });
 
-    // return if chatIds and socket is not connected
-    if (!chatIds || !isSocketConnected) return;
+      // return if chatIds and socket is not connected
+      if (!chatIds || !isSocketConnected) return;
 
-    // join the rooms which chat id
-    chatIds.forEach((id) => {
-      socket.emit("join chat", id.id);
-    });
+      // join the rooms which chat id
+      chatIds.forEach((id) => {
+        socket.emit("join chat", id.id);
+      });
+    }
   }, [session.data?.user, utils, chatIds, isSocketConnected]);
 
   return (
