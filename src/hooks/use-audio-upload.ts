@@ -30,24 +30,6 @@ const useAudioUpload = () => {
     void startUpload([audioFile]);
   };
 
-  //   const onDrop = useCallback(
-  //     (acceptedFiles: File[]) => {
-  //       void startUpload(acceptedFiles);
-  //     },
-  //     [startUpload],
-  //   );
-
-  //   const fileTypes = permittedFileInfo?.config
-  //     ? Object.keys(permittedFileInfo?.config)
-  //     : [];
-
-  //   const { getRootProps, getInputProps } = useDropzone({
-  //     onDrop,
-  //     accept: fileTypes ? generateClientDropzoneAccept(fileTypes) : undefined,
-  //     maxFiles: 1,
-  //     multiple: false,
-  //   });
-
   return {
     startUploading,
     isUploadingAudio,
