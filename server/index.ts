@@ -11,7 +11,7 @@ const PORT = process.env.PORT ?? 3333;
 const app = express();
 const server = createServer(app);
 const corsConfig = {
-  origin: process.env.CORS_ORIGIN,
+  origin: "*",
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: [
