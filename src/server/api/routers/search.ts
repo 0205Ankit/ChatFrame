@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "Frontend/src/server/api/trpc";
 import { z } from "zod";
 
 export const searchRouter = createTRPCRouter({

@@ -1,5 +1,5 @@
-import { postRouter } from "@/server/api/routers/post";
-import { createTRPCRouter } from "@/server/api/trpc";
+import { postRouter } from "Frontend/src/server/api/routers/post";
+import { createTRPCRouter } from "Frontend/src/server/api/trpc";
 import { userRouter } from "./routers/user";
 import { commentsRouter } from "./routers/comments";
 import { likesRouter } from "./routers/likes";

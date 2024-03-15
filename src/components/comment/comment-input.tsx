@@ -6,12 +6,12 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "Frontend/src/components/ui/popover";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Loader2 } from "lucide-react";
 import React, { useEffect } from "react";
-import { api } from "@/trpc/react";
-import { cn } from "@/lib/utils";
+import { api } from "Frontend/src/trpc/react";
+import { cn } from "Frontend/src/lib/utils";
 import { useRouter } from "next/navigation";
 import { useComment } from "./comment-provider";
 

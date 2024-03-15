@@ -7,9 +7,9 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
+} from "Frontend/src/components/ui/carousel";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn } from "Frontend/src/lib/utils";
 import likeAnimation from "../../public/animations/like-animation.json";
 import Lottie from "lottie-react";
 

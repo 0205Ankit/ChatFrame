@@ -13,8 +13,8 @@ import {
   FormItem,
   FormMessage,
 } from "./ui/form";
-import { api } from "@/trpc/react";
-import { useToast } from "@/hooks/use-toast";
+import { api } from "Frontend/src/trpc/react";
+import { useToast } from "Frontend/src/hooks/use-toast";
 import { signIn } from "next-auth/react";
 
 const signUpFormSchema = z.object({

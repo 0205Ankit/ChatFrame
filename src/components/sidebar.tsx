@@ -7,7 +7,7 @@ import Create from "./sidebar-actions/create/create";
 import Profile from "./sidebar-actions/profile";
 import MoreOptions from "./sidebar-actions/moreOptions";
 import Home from "./sidebar-actions/home";
-import { cn } from "@/lib/utils";
+import { cn } from "Frontend/src/lib/utils";
 import { usePathname } from "next/navigation";
 
 type PropTypes = React.HTMLAttributes<HTMLDivElement> & {

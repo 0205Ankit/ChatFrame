@@ -1,4 +1,4 @@
-import { api } from '@/trpc/react';
+import { api } from 'Frontend/src/trpc/react';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';

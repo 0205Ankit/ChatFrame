@@ -1,5 +1,5 @@
 "use client";
-import { api } from "@/trpc/react";
+import { api } from "Frontend/src/trpc/react";
 import React, { useEffect } from "react";
 import Post from "./post/post";
 import { useInView } from "react-intersection-observer";

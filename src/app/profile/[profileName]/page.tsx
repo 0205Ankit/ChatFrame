@@ -1,13 +1,13 @@
 import React from "react";
 import ProfileHeader from "./profile-header";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "Frontend/src/components/ui/tabs";
 import { LuGrid, LuBookmark } from "react-icons/lu";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "Frontend/src/components/ui/separator";
 import AllUserPosts from "./all-posts";
 import SavedPosts from "./saved-posts";
-import { api } from "@/trpc/server";
+import { api } from "Frontend/src/trpc/server";
 import Link from "next/link";
-import { getServerAuthSession } from "@/server/auth";
+import { getServerAuthSession } from "Frontend/src/server/auth";
 import { redirect } from "next/navigation";
 
 const tabsTriggerStyle =

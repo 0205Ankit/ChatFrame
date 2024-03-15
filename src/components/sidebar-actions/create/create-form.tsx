@@ -1,24 +1,24 @@
 "use client";
 import React, { useCallback, useState } from "react";
 import { TbPhotoVideo } from "react-icons/tb";
-import { Button } from "@/components/ui/button";
+import { Button } from "Frontend/src/components/ui/button";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createPostSchema } from "@/schema/form-schema";
+import { createPostSchema } from "Frontend/src/schema/form-schema";
 import { generateClientDropzoneAccept } from "uploadthing/client";
-import { useUploadThing } from "@/utils/uploadthing";
-import { Separator } from "@/components/ui/separator";
+import { useUploadThing } from "Frontend/src/utils/uploadthing";
+import { Separator } from "Frontend/src/components/ui/separator";
 import LocationField from "./location-field";
 import CaptionField from "./caption-field";
 import HideLikesField from "./hideLikes-field";
 import HideCommentsField from "./hideComments-field";
-import LoadingScreen from "@/components/loading-screen";
-import { useToast } from "@/hooks/use-toast";
+import LoadingScreen from "Frontend/src/components/loading-screen";
+import { useToast } from "Frontend/src/hooks/use-toast";
 import { useDropzone } from "@uploadthing/react/hooks";
-import { api } from "@/trpc/react";
+import { api } from "Frontend/src/trpc/react";
 import { useRouter } from "next/navigation";
-import ProfileCard from "@/components/profile-card";
-import ImageSlider from "@/components/image-slider";
+import ProfileCard from "Frontend/src/components/profile-card";
+import ImageSlider from "Frontend/src/components/image-slider";
 import { useSession } from "next-auth/react";
 
 const defaultValues = {

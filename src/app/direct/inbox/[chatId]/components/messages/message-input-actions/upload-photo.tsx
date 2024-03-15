@@ -1,8 +1,8 @@
-import LoadingScreen from "@/components/loading-screen";
-import useSinglePhotoUpload from "@/hooks/use-singlePhoto-upload";
-import { api } from "@/trpc/react";
+import LoadingScreen from "Frontend/src/components/loading-screen";
+import useSinglePhotoUpload from "Frontend/src/hooks/use-singlePhoto-upload";
+import { api } from "Frontend/src/trpc/react";
 import React, { useEffect } from "react";
-import socket from "@/utils/socket";
+import socket from "Frontend/src/utils/socket";
 import { TbPhotoSquareRounded } from "react-icons/tb";
 
 const UploadPhoto = ({

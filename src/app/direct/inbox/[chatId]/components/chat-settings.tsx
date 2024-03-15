@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "Frontend/src/components/ui/button";
 import React, { useState } from "react";
 import { TbSettings } from "react-icons/tb";
 import {
@@ -6,14 +6,14 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
+} from "Frontend/src/components/ui/sheet";
 import ChangeChatName from "./change-chat-name";
 import AddUsersToChat from "./add-user-to-chat";
-import { api } from "@/trpc/react";
+import { api } from "Frontend/src/trpc/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "Frontend/src/components/ui/scroll-area";
 
 const ChatSettings = ({ chatId }: { chatId: string }) => {
   const [open, setOpen] = useState(false);

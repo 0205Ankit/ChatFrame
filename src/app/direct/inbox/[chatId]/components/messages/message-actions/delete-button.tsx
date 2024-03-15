@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { api } from "@/trpc/react";
-import socket from "@/utils/socket";
+import { Button } from "Frontend/src/components/ui/button";
+import { api } from "Frontend/src/trpc/react";
+import socket from "Frontend/src/utils/socket";
 import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 

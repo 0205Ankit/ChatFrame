@@ -1,7 +1,7 @@
 import React from "react";
 import { RiChat3Line } from "react-icons/ri";
 import { useComment } from "../../comment/comment-provider";
-import { type PostType } from "@/types/post-type";
+import { type PostType } from "Frontend/src/types/post-type";
 import LikePost from "./like-post";
 import SavePost from "./save-post";
 import LikesCount from "./likes-count";

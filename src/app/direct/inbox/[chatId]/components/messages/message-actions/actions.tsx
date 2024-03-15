@@ -1,14 +1,14 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "Frontend/src/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
+} from "Frontend/src/components/ui/popover";
+import { Separator } from "Frontend/src/components/ui/separator";
 import { RxCopy } from "react-icons/rx";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { LuSend } from "react-icons/lu";
-import { cn, getFormattedDateTime } from "@/lib/utils";
+import { cn, getFormattedDateTime } from "Frontend/src/lib/utils";
 import MessageReplyButton from "./reply-button";
 import { type Message } from "@prisma/client";
 import DeleteButton from "./delete-button";

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "Frontend/src/components/ui/button";
 import { HiOutlineReply } from "react-icons/hi";
 import { useMessage } from "../messages-context/provider";
 import { type MsgType } from "@prisma/client";

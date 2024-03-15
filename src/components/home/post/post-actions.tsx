@@ -1,9 +1,9 @@
-import LikePost from "@/components/post-dialog/post-actions/like-post";
-import SavePost from "@/components/post-dialog/post-actions/save-post";
-import { type PostType } from "@/types/post-type";
+import LikePost from "Frontend/src/components/post-dialog/post-actions/like-post";
+import SavePost from "Frontend/src/components/post-dialog/post-actions/save-post";
+import { type PostType } from "Frontend/src/types/post-type";
 import React from "react";
 import Comments from "./comments";
-import LikesCount from "@/components/post-dialog/post-actions/likes-count";
+import LikesCount from "Frontend/src/components/post-dialog/post-actions/likes-count";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   post: PostType;

@@ -1,6 +1,6 @@
 "use client";
-import CreateForm from "@/components/sidebar-actions/create/create-form";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import CreateForm from "Frontend/src/components/sidebar-actions/create/create-form";
+import { Dialog, DialogContent } from "Frontend/src/components/ui/dialog";
 import React, { useState } from "react";
 import { IoCameraOutline } from "react-icons/io5";
 

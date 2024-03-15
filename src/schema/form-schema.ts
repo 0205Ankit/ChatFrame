@@ -1,4 +1,4 @@
-import { CAPTION_LENGTH, LOCATION_LENGTH } from "@/lib/constants";
+import { CAPTION_LENGTH, LOCATION_LENGTH } from "Frontend/src/lib/constants";
 import { z } from "zod";
 
 export const createPostSchema = z.object({

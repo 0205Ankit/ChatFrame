@@ -1,4 +1,4 @@
-import { AlertDialog, AlertDialogContent } from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogContent } from "Frontend/src/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 
 export default function LoadingScreen() {

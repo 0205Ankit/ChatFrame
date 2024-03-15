@@ -1,5 +1,5 @@
-import { useToast } from "@/hooks/use-toast";
-import { api } from "@/trpc/react";
+import { useToast } from "Frontend/src/hooks/use-toast";
+import { api } from "Frontend/src/trpc/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";

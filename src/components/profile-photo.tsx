@@ -6,19 +6,19 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "Frontend/src/components/ui/dialog";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
-import useProfilePhotoUpload from "@/hooks/use-profilePhoto-upload";
+import { cn } from "Frontend/src/lib/utils";
+import useProfilePhotoUpload from "Frontend/src/hooks/use-profilePhoto-upload";
 import { Loader2 } from "lucide-react";
-import { api } from "@/trpc/react";
-import { useToast } from "@/hooks/use-toast";
+import { api } from "Frontend/src/trpc/react";
+import { useToast } from "Frontend/src/hooks/use-toast";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "Frontend/src/components/ui/tooltip";
 import { useRouter } from "next/navigation";
 
 type PropTypes = React.HTMLAttributes<HTMLImageElement> & {

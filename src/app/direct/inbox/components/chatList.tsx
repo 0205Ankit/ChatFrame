@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 import ChatItem from "./chatItem";
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { api } from "@/trpc/react";
+import { Separator } from "Frontend/src/components/ui/separator";
+import { ScrollArea } from "Frontend/src/components/ui/scroll-area";
+import { api } from "Frontend/src/trpc/react";
 import CreateGroupChat from "./create-chat";
-import socket from "@/utils/socket";
+import socket from "Frontend/src/utils/socket";
 // import { usePathname } from "next/navigation";
 
 const ChatList = () => {

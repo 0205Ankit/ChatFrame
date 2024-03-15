@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn } from "Frontend/src/lib/utils";
 import Image from "next/image";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {

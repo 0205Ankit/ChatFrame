@@ -1,7 +1,7 @@
 "use client";
-import { MultipleUserPhoto } from "@/components/multiple-user-photo";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { MultipleUserPhoto } from "Frontend/src/components/multiple-user-photo";
+import { buttonVariants } from "Frontend/src/components/ui/button";
+import { cn } from "Frontend/src/lib/utils";
 import { type User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";

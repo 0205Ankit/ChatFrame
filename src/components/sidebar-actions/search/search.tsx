@@ -2,9 +2,9 @@
 import React from "react";
 import { IoSearch } from "react-icons/io5";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../../ui/sheet";
-import { cn } from "@/lib/utils";
+import { cn } from "Frontend/src/lib/utils";
 import SearchDropdown from "./search-dropdown";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "Frontend/src/components/ui/separator";
 import RecentSearch from "./recent-search";
 import { usePathname } from "next/navigation";
 

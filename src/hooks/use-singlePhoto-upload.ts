@@ -1,4 +1,4 @@
-import { useUploadThing } from "@/utils/uploadthing";
+import { useUploadThing } from "Frontend/src/utils/uploadthing";
 import { useDropzone } from "@uploadthing/react/hooks";
 import React, { useCallback } from "react";
 import { useToast } from "./use-toast";

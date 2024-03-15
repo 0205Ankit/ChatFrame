@@ -1,4 +1,4 @@
-import { useUploadThing } from "@/utils/uploadthing";
+import { useUploadThing } from "Frontend/src/utils/uploadthing";
 import React from "react";
 import { useToast } from "./use-toast";
 

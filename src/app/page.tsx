@@ -1,4 +1,4 @@
-import { getServerAuthSession } from "@/server/auth";
+import { getServerAuthSession } from "Frontend/src/server/auth";
 import HomePage from "../components/home/home";
 import { redirect } from "next/navigation";
 

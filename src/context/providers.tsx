@@ -1,7 +1,7 @@
 "use client";
-import { customFileRouter } from "@/app/api/uploadthing/core";
-import { Toaster } from "@/components/ui/toaster";
-import { TRPCReactProvider } from "@/trpc/react";
+import { customFileRouter } from "Frontend/src/app/api/uploadthing/core";
+import { Toaster } from "Frontend/src/components/ui/toaster";
+import { TRPCReactProvider } from "Frontend/src/trpc/react";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { SessionProvider } from "next-auth/react";
 import React, { type PropsWithChildren } from "react";

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { RiMessengerLine } from "react-icons/ri";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent } from "./ui/dialog";
-import CreateChatDialogContent from "@/app/direct/inbox/components/create-chat-dialog-content";
+import CreateChatDialogContent from "Frontend/src/app/direct/inbox/components/create-chat-dialog-content";
 
 const NoChatComponent = () => {
   const [open, setOpen] = useState(false);

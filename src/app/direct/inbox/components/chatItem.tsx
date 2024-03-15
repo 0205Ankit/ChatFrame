@@ -1,8 +1,8 @@
 "use client";
-import { MultipleUserPhoto } from "@/components/multiple-user-photo";
-import { getElapsedTime, getLastMessage, getUnreadMessages } from "@/lib/utils";
-import { api } from "@/trpc/react";
-import { type GetChat } from "@/types/chat-type";
+import { MultipleUserPhoto } from "Frontend/src/components/multiple-user-photo";
+import { getElapsedTime, getLastMessage, getUnreadMessages } from "Frontend/src/lib/utils";
+import { api } from "Frontend/src/trpc/react";
+import { type GetChat } from "Frontend/src/types/chat-type";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

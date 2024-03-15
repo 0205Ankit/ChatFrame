@@ -1,6 +1,6 @@
 "use server";
 
-import { getServerAuthSession } from "@/server/auth";
+import { getServerAuthSession } from "Frontend/src/server/auth";
 
 export const getUserDetails = async () => {
   const session = await getServerAuthSession();

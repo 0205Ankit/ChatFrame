@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { cn } from "@/lib/utils";
+import { cn } from "Frontend/src/lib/utils";
 import ChatList from "./components/chatList";
 
 const inter = Inter({

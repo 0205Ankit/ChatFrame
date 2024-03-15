@@ -1,8 +1,8 @@
-import AppLogo from "@/components/app-logo";
-import AuthButton from "@/components/auth-button";
-import SignUpForm from "@/components/sign-up-form";
-import { Separator } from "@/components/ui/separator";
-import { getServerAuthSession } from "@/server/auth";
+import AppLogo from "Frontend/src/components/app-logo";
+import AuthButton from "Frontend/src/components/auth-button";
+import SignUpForm from "Frontend/src/components/sign-up-form";
+import { Separator } from "Frontend/src/components/ui/separator";
+import { getServerAuthSession } from "Frontend/src/server/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";

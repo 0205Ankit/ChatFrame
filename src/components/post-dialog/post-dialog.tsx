@@ -1,10 +1,10 @@
 "use client";
 import React, { useState, type PropsWithChildren, useEffect } from "react";
 import ImageSlider from "../image-slider";
-import { cn } from "@/lib/utils";
+import { cn } from "Frontend/src/lib/utils";
 import ProfileCard from "../profile-card";
 import { Separator } from "../ui/separator";
-import { type PostType } from "@/types/post-type";
+import { type PostType } from "Frontend/src/types/post-type";
 import CaptionFormattedText from "./caption-formatted-text";
 import CommentFormattedText from "../comment/comment-formatted-text";
 import { CommentInput } from "../comment/comment-input";
@@ -12,8 +12,8 @@ import { CommentProvider } from "../comment/comment-provider";
 import NoComments from "./no-comments";
 import PostActions from "./post-actions/post-actions";
 import { useRouter } from "next/navigation";
-import { api } from "@/trpc/react";
-import { getUserDetails } from "@/app/queries";
+import { api } from "Frontend/src/trpc/react";
+import { getUserDetails } from "Frontend/src/app/queries";
 import { Button } from "../ui/button";
 import { AiOutlineDelete } from "react-icons/ai";
 
