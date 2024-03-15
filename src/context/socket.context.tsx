@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useContext, useState } from "react";
-import socket from "Frontend/src/utils/socket";
+import socket from "@/utils/socket";
 import { useSession } from "next-auth/react";
-import { api } from "Frontend/src/trpc/react";
+import { api } from "@/trpc/react";
 
 type SocketContextType = {
   isSocketConnected: boolean;

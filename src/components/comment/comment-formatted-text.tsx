@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import { api } from "Frontend/src/trpc/react";
-import { Avatar, AvatarFallback, AvatarImage } from "Frontend/src/components/ui/avatar";
+import { api } from "@/trpc/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useToast } from "Frontend/src/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import CommentReplies from "./comment-replies";
-import { cn, getCommentWithMentions, getElapsedTime } from "Frontend/src/lib/utils";
+import { cn, getCommentWithMentions, getElapsedTime } from "@/lib/utils";
 import { useComment } from "./comment-provider";
-import { getUserDetails } from "Frontend/src/app/queries";
-import { type CommentsType } from "Frontend/src/types/comment-type";
+import { getUserDetails } from "@/app/queries";
+import { type CommentsType } from "@/types/comment-type";
 
 type PropType = React.HTMLAttributes<HTMLDivElement> & {
   comment: CommentsType;

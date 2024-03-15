@@ -1,6 +1,6 @@
-import EmptyProfilePhoto from "Frontend/src/components/empty-profile-photo";
-import ProfilePhoto from "Frontend/src/components/profile-photo";
-import { api } from "Frontend/src/trpc/server";
+import EmptyProfilePhoto from "@/components/empty-profile-photo";
+import ProfilePhoto from "@/components/profile-photo";
+import { api } from "@/trpc/server";
 import React from "react";
 import EditProfile from "./edit-profile";
 import ProfileActions from "./profile-actions";

@@ -1,8 +1,8 @@
-import { MultipleUserPhoto } from "Frontend/src/components/multiple-user-photo";
-import { Button } from "Frontend/src/components/ui/button";
-import UserSearchInput from "Frontend/src/components/user-search-input";
-import { useToast } from "Frontend/src/hooks/use-toast";
-import { api } from "Frontend/src/trpc/react";
+import { MultipleUserPhoto } from "@/components/multiple-user-photo";
+import { Button } from "@/components/ui/button";
+import UserSearchInput from "@/components/user-search-input";
+import { useToast } from "@/hooks/use-toast";
+import { api } from "@/trpc/react";
 import { type User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

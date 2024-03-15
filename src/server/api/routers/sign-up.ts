@@ -1,4 +1,4 @@
-import { createTRPCRouter, publicProcedure } from "Frontend/src/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { customAlphabet } from "nanoid";

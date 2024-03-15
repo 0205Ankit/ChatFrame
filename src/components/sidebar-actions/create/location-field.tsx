@@ -3,8 +3,8 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "Frontend/src/components/ui/form";
-import { Input } from "Frontend/src/components/ui/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 import { IoLocationOutline } from "react-icons/io5";

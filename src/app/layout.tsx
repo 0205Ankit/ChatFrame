@@ -1,10 +1,10 @@
 import "@/styles/globals.css";
 
 import { Inter } from "next/font/google";
-import { cn } from "Frontend/src/lib/utils";
-import { getServerAuthSession } from "Frontend/src/server/auth";
-import SideBar from "Frontend/src/components/sidebar";
-import Providers from "Frontend/src/context/providers";
+import { cn } from "@/lib/utils";
+import { getServerAuthSession } from "@/server/auth";
+import SideBar from "@/components/sidebar";
+import Providers from "@/context/providers";
 
 const inter = Inter({
   subsets: ["latin"],

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { cn, formatName } from "Frontend/src/lib/utils";
+import { cn, formatName } from "@/lib/utils";
 import Image from "next/image";
-import { useToast } from "Frontend/src/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
 
 interface AuthButtonType extends React.HTMLAttributes<HTMLDivElement> {

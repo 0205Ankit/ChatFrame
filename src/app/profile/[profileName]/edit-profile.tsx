@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Dialog, DialogContent } from "Frontend/src/components/ui/dialog";
-import { Button } from "Frontend/src/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { LiaUserEditSolid } from "react-icons/lia";
-import ProfilePhoto from "Frontend/src/components/profile-photo";
-import { Input } from "Frontend/src/components/ui/input";
-import { cn } from "Frontend/src/lib/utils";
+import ProfilePhoto from "@/components/profile-photo";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { BsInfoCircle } from "react-icons/bs";
-import { api } from "Frontend/src/trpc/react";
+import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 
 const EditProfile = ({

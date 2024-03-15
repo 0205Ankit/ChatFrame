@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem } from "Frontend/src/components/ui/form";
-import { Switch } from "Frontend/src/components/ui/switch";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Switch } from "@/components/ui/switch";
 
 interface Field {
   onChange: (checked: boolean) => void;

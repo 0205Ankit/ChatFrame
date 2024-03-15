@@ -1,6 +1,7 @@
-import { createTRPCRouter, protectedProcedure } from "Frontend/src/server/api/trpc";
-import { createPostSchema } from "Frontend/src/schema/form-schema";
+
 import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { createPostSchema } from "@/schema/form-schema";
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure

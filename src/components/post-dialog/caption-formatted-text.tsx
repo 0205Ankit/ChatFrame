@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import { api } from "Frontend/src/trpc/react";
-import { Avatar, AvatarFallback, AvatarImage } from "Frontend/src/components/ui/avatar";
+import { api } from "@/trpc/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const CaptionFormattedText = ({
   caption,

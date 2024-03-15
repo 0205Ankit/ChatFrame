@@ -3,11 +3,11 @@ import React from "react";
 import Image from "next/image";
 import { AiFillHeart } from "react-icons/ai";
 import { IoChatbubble } from "react-icons/io5";
-import { type api } from "Frontend/src/trpc/server";
+import { type api } from "@/trpc/server";
 import { type inferAsyncReturnType } from "@trpc/server";
-import PostDialog from "Frontend/src/components/post-dialog/post-dialog";
-import { Dialog, DialogContent } from "Frontend/src/components/ui/dialog";
-import { cn } from "Frontend/src/lib/utils";
+import PostDialog from "@/components/post-dialog/post-dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 type PostType = NonNullable<
   inferAsyncReturnType<typeof api.post.getAllPostOfUser.query>[0]

@@ -1,5 +1,5 @@
-import { api } from "Frontend/src/trpc/react";
-import { type PostType } from "Frontend/src/types/post-type";
+import { api } from "@/trpc/react";
+import { type PostType } from "@/types/post-type";
 import React from "react";
 
 const LikesCount = ({ post }: { post: PostType }) => {

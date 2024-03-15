@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "Frontend/src/components/ui/button";
-import { api } from "Frontend/src/trpc/react";
+import { Button } from "@/components/ui/button";
+import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 

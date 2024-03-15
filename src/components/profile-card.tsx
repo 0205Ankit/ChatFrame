@@ -1,6 +1,6 @@
 import React from "react";
-import { cn } from "Frontend/src/lib/utils";
-import { api } from "Frontend/src/trpc/react";
+import { cn } from "@/lib/utils";
+import { api } from "@/trpc/react";
 import Image from "next/image";
 
 type PropType = React.HTMLAttributes<HTMLImageElement> & {

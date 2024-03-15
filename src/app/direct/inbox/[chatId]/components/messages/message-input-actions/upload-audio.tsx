@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { IoMicOutline } from "react-icons/io5";
 import { FaRegCircleStop } from "react-icons/fa6";
-import { Button } from "Frontend/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useAudioRecorder } from "react-audio-voice-recorder";
 import { IoIosClose } from "react-icons/io";
-import { getFormattedElapsedSeconds } from "Frontend/src/lib/utils";
+import { getFormattedElapsedSeconds } from "@/lib/utils";
 import { IoPlayCircle } from "react-icons/io5";
 import { FaPauseCircle } from "react-icons/fa";
-import useAudioUpload from "Frontend/src/hooks/use-audio-upload";
-import { api } from "Frontend/src/trpc/react";
-import socket from "Frontend/src/utils/socket";
-import LoadingScreen from "Frontend/src/components/loading-screen";
+import useAudioUpload from "@/hooks/use-audio-upload";
+import { api } from "@/trpc/react";
+import socket from "@/utils/socket";
+import LoadingScreen from "@/components/loading-screen";
 
 const UploadAudio = ({
   chatId,

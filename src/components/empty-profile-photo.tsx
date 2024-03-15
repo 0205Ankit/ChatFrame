@@ -5,10 +5,10 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "Frontend/src/components/ui/tooltip";
+} from "@/components/ui/tooltip";
 import Image from "next/image";
-import { cn } from "Frontend/src/lib/utils";
-import useProfilePhotoUpload from "Frontend/src/hooks/use-profilePhoto-upload";
+import { cn } from "@/lib/utils";
+import useProfilePhotoUpload from "@/hooks/use-profilePhoto-upload";
 import { Loader2 } from "lucide-react";
 
 type PropTypes = React.HTMLAttributes<HTMLImageElement>;

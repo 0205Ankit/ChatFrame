@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from "Frontend/src/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
 
 export const searchRouter = createTRPCRouter({
@@ -31,9 +31,9 @@ export const searchRouter = createTRPCRouter({
       });
     }),
 
-    deleteAllRecentSearch: protectedProcedure.mutation(({ ctx }) => {
-      return ctx.db.searchHistory.deleteMany({
-        where: { userId: ctx.session.user.id },
-      });
-    })
+  deleteAllRecentSearch: protectedProcedure.mutation(({ ctx }) => {
+    return ctx.db.searchHistory.deleteMany({
+      where: { userId: ctx.session.user.id },
+    });
+  }),
 });

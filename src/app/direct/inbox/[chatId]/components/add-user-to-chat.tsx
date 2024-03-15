@@ -1,9 +1,9 @@
-import { MultipleUserPhoto } from "Frontend/src/components/multiple-user-photo";
-import { Button } from "Frontend/src/components/ui/button";
-import { Dialog, DialogContent } from "Frontend/src/components/ui/dialog";
-import UserSearchInput from "Frontend/src/components/user-search-input";
-import { useToast } from "Frontend/src/hooks/use-toast";
-import { api } from "Frontend/src/trpc/react";
+import { MultipleUserPhoto } from "@/components/multiple-user-photo";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import UserSearchInput from "@/components/user-search-input";
+import { useToast } from "@/hooks/use-toast";
+import { api } from "@/trpc/react";
 import { type User } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 

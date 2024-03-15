@@ -3,7 +3,7 @@ import * as React from "react";
 import { type TextareaAutosizeProps } from "react-textarea-autosize";
 import Textarea from "react-textarea-autosize";
 
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 
 export type TextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 

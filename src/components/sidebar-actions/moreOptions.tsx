@@ -1,4 +1,4 @@
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 import React from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import {
@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "Frontend/src/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { GoBookmark } from "react-icons/go";
 import { TbActivity } from "react-icons/tb";
 import { IoLogOutOutline } from "react-icons/io5";

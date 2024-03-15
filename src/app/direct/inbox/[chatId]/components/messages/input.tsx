@@ -4,17 +4,17 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "Frontend/src/components/ui/popover";
+} from "@/components/ui/popover";
 import EmojiPicker from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
-import { Textarea } from "Frontend/src/components/ui/textarea";
-import { cn } from "Frontend/src/lib/utils";
-import socket from "Frontend/src/utils/socket";
-import { api } from "Frontend/src/trpc/react";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import socket from "@/utils/socket";
+import { api } from "@/trpc/react";
 import { useMessage } from "./messages-context/provider";
 import { useSession } from "next-auth/react";
 import { IoMdClose } from "react-icons/io";
-import { Button } from "Frontend/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import UploadPhoto from "./message-input-actions/upload-photo";
 import UploadAudio from "./message-input-actions/upload-audio";
 

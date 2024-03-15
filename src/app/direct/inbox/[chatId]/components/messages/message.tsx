@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import MessageActions from "./message-actions/actions";
 import { Message, type User, type MsgType } from "@prisma/client";

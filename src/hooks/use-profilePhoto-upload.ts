@@ -1,5 +1,5 @@
-import { api } from "Frontend/src/trpc/react";
-import { useUploadThing } from "Frontend/src/utils/uploadthing";
+import { api } from "@/trpc/react";
+import { useUploadThing } from "@/utils/uploadthing";
 import { useDropzone } from "@uploadthing/react/hooks";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";

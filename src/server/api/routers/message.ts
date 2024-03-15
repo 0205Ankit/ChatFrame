@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from "Frontend/src/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { MsgType } from "@prisma/client";
 import { z } from "zod";
 

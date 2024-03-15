@@ -1,4 +1,4 @@
-import { type api } from "Frontend/src/trpc/server";
+import { type api } from "@/trpc/server";
 import { type inferAsyncReturnType } from "@trpc/server";
 
 export type ReplyCommentsType = inferAsyncReturnType<

@@ -1,6 +1,6 @@
-import { cn } from "Frontend/src/lib/utils";
-import { api } from "Frontend/src/trpc/react";
-import socket from "Frontend/src/utils/socket";
+import { cn } from "@/lib/utils";
+import { api } from "@/trpc/react";
+import socket from "@/utils/socket";
 import Link from "next/link";
 import { FaFacebookMessenger } from "react-icons/fa";
 import { RiMessengerLine } from "react-icons/ri";

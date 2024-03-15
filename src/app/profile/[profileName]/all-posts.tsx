@@ -1,6 +1,6 @@
 import React from "react";
 import NoPosts from "./no-posts";
-import { api } from "Frontend/src/trpc/server";
+import { api } from "@/trpc/server";
 import Post from "./post";
 
 const AllPosts = async ({ profileName }: { profileName: string }) => {

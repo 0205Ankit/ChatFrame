@@ -1,6 +1,6 @@
-import PostDialog from "Frontend/src/components/post-dialog/post-dialog";
-import { Dialog, DialogContent } from "Frontend/src/components/ui/dialog";
-import { type PostType } from "Frontend/src/types/post-type";
+import PostDialog from "@/components/post-dialog/post-dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { type PostType } from "@/types/post-type";
 import React from "react";
 import { RiChat3Line } from "react-icons/ri";
 

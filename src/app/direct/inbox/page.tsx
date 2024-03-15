@@ -1,5 +1,5 @@
-import NoChatComponent from "Frontend/src/components/no-chat-component";
-import { getServerAuthSession } from "Frontend/src/server/auth";
+import NoChatComponent from "@/components/no-chat-component";
+import { getServerAuthSession } from "@/server/auth";
 import { redirect } from "next/navigation";
 import React from "react";
 

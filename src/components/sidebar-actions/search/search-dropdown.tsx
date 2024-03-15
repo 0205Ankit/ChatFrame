@@ -1,5 +1,5 @@
-import UserSearchInput from "Frontend/src/components/user-search-input";
-import { api } from "Frontend/src/trpc/react";
+import UserSearchInput from "@/components/user-search-input";
+import { api } from "@/trpc/react";
 import { type User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";

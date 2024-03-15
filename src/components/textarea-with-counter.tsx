@@ -3,7 +3,7 @@ import {
   TextareaAutosize as Textarea,
   type TextareaAutosizeProps,
 } from "./textarea-autosize";
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 
 type TextareaWithCounterProps = TextareaAutosizeProps & {
   hasCounter?: boolean;

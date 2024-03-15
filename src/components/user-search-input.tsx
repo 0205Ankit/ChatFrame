@@ -1,4 +1,4 @@
-import { api } from "Frontend/src/trpc/react";
+import { api } from "@/trpc/react";
 import debounce from "lodash.debounce";
 import React, { useState } from "react";
 import { Input } from "./ui/input";

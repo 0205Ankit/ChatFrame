@@ -1,7 +1,7 @@
-import ProfileCard from "Frontend/src/components/profile-card";
-import { Button } from "Frontend/src/components/ui/button";
-import { cn } from "Frontend/src/lib/utils";
-import { api } from "Frontend/src/trpc/react";
+import ProfileCard from "@/components/profile-card";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { IoClose } from "react-icons/io5";

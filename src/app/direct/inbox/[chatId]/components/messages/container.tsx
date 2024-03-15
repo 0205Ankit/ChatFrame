@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import UserCard from "./user-card";
-import { type GetChat } from "Frontend/src/types/chat-type";
+import { type GetChat } from "@/types/chat-type";
 import Message from "./message";
-import { getFormattedDateTime } from "Frontend/src/lib/utils";
+import { getFormattedDateTime } from "@/lib/utils";
 import { differenceInMinutes } from "date-fns";
-import { api } from "Frontend/src/trpc/react";
-import socket from "Frontend/src/utils/socket";
+import { api } from "@/trpc/react";
+import socket from "@/utils/socket";
 
 type PropType = {
   chatId: string;

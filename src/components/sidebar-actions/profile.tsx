@@ -1,9 +1,9 @@
 import React from "react";
 import { RiUserLine } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { api } from "Frontend/src/trpc/react";
+import { api } from "@/trpc/react";
 
 type PropTypes = {
   active?: boolean;

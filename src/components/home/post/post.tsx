@@ -1,8 +1,8 @@
 "use client";
-import ImageSlider from "Frontend/src/components/image-slider";
-import { cn } from "Frontend/src/lib/utils";
-import { api } from "Frontend/src/trpc/react";
-import { type api as serverApi } from "Frontend/src/trpc/server";
+import ImageSlider from "@/components/image-slider";
+import { cn } from "@/lib/utils";
+import { api } from "@/trpc/react";
+import { type api as serverApi } from "@/trpc/server";
 import { type inferAsyncReturnType } from "@trpc/server";
 import Image from "next/image";
 import PostActions from "./post-actions";

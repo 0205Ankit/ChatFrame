@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from "Frontend/src/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
 
 export const likesRouter = createTRPCRouter({
@@ -44,11 +44,13 @@ export const likesRouter = createTRPCRouter({
       });
     }),
 
-    getTotalLikes: protectedProcedure.input(z.object({ postId: z.string() })).query(async ({ ctx, input }) => {
+  getTotalLikes: protectedProcedure
+    .input(z.object({ postId: z.string() }))
+    .query(async ({ ctx, input }) => {
       return ctx.db.like.count({
         where: {
-          postId: input.postId
-        }
-      })
-    })
+          postId: input.postId,
+        },
+      });
+    }),
 });

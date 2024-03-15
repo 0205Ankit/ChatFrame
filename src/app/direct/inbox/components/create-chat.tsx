@@ -1,6 +1,6 @@
-import { Button } from "Frontend/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { IoMdAdd } from "react-icons/io";
-import { Dialog, DialogContent } from "Frontend/src/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CreateChatDialogContent from "./create-chat-dialog-content";
 import { useState } from "react";
 

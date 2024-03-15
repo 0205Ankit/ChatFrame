@@ -1,18 +1,18 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import ChatHeader from "./components/chat-header";
-import { Separator } from "Frontend/src/components/ui/separator";
+import { Separator } from "@/components/ui/separator";
 import MessageInput from "./components/messages/input";
 import MessagesContainer from "./components/messages/container";
 import { useSession } from "next-auth/react";
-import { Button } from "Frontend/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 import { useInView } from "react-intersection-observer";
-import { ScrollArea } from "Frontend/src/components/ui/scroll-area";
-import { api } from "Frontend/src/trpc/react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessagesProvider } from "./components/messages/messages-context/provider";
-import NoChatComponent from "Frontend/src/components/no-chat-component";
+import NoChatComponent from "@/components/no-chat-component";
+import { api } from "@/trpc/react";
 
 const ChatPage = ({ params }: { params: { chatId: string } }) => {
   const [isTyping, setIsTyping] = useState(false);

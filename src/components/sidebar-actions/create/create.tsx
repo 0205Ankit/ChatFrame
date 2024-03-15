@@ -1,7 +1,7 @@
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
-import { Dialog, DialogContent } from "Frontend/src/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CreateForm from "./create-form";
 
 type PropTypes = {

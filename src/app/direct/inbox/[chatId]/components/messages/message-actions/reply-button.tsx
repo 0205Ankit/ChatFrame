@@ -1,4 +1,4 @@
-import { Button } from "Frontend/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { HiOutlineReply } from "react-icons/hi";
 import { useMessage } from "../messages-context/provider";
 import { type MsgType } from "@prisma/client";
@@ -24,7 +24,8 @@ const MessageReply = ({
   const replyMessageHandler = () => {
     if (messageType === "PHOTO") {
       setReplyMessageText("Image");
-    } if(messageType === "AUDIO"){
+    }
+    if (messageType === "AUDIO") {
       setReplyMessageText("Audio");
     } else {
       setReplyMessageText(messageText);

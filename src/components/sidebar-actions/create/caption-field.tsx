@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem } from "Frontend/src/components/ui/form";
-import { TextareaWithCounter } from "Frontend/src/components/textarea-with-counter";
+import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { TextareaWithCounter } from "@/components/textarea-with-counter";
 
 const CaptionField = () => {
   const form = useFormContext();

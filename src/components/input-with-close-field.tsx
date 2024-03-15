@@ -2,7 +2,7 @@
 import React, { type HTMLAttributes } from "react";
 import { Input } from "./ui/input";
 import { IoCloseCircle } from "react-icons/io5";
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 type PropTypes = HTMLAttributes<HTMLDivElement> & {
   placeholder?: string;
 };

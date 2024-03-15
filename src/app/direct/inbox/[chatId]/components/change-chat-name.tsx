@@ -1,4 +1,4 @@
-import { Button } from "Frontend/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import {
   Dialog,
@@ -6,9 +6,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "Frontend/src/components/ui/dialog";
-import { Input } from "Frontend/src/components/ui/input";
-import { api } from "Frontend/src/trpc/react";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { api } from "@/trpc/react";
 
 const ChangeChatName = ({ chatId }: { chatId: string }) => {
   const [open, setOpen] = useState(false);

@@ -4,9 +4,9 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "Frontend/src/components/ui/accordion";
+} from "@/components/ui/accordion";
 import CommentFormattedText from "./comment-formatted-text";
-import { type ReplyCommentsType } from "Frontend/src/types/comment-type";
+import { type ReplyCommentsType } from "@/types/comment-type";
 
 const CommentReplies = ({
   comments,

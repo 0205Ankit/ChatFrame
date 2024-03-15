@@ -1,4 +1,4 @@
-import { cn } from "Frontend/src/lib/utils";
+import { cn } from "@/lib/utils";
 import { type Message } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";

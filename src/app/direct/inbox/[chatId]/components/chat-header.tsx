@@ -1,6 +1,6 @@
 "use client";
-import { MultipleUserPhoto } from "Frontend/src/components/multiple-user-photo";
-import { type GetChat } from "Frontend/src/types/chat-type";
+import { MultipleUserPhoto } from "@/components/multiple-user-photo";
+import { type GetChat } from "@/types/chat-type";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
