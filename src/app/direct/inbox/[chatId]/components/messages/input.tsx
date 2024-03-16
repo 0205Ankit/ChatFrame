@@ -9,8 +9,6 @@ import EmojiPicker from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-// import socket from "@/utils/socket";
-import { client } from "@/utils/supabase";
 import { api } from "@/trpc/react";
 import { useMessage } from "./messages-context/provider";
 import { useSession } from "next-auth/react";
@@ -18,6 +16,7 @@ import { IoMdClose } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import UploadPhoto from "./message-input-actions/upload-photo";
 import UploadAudio from "./message-input-actions/upload-audio";
+import socket from "@/utils/socket";
 
 //TODO: make the textarea resizable as the message grow
 
@@ -52,17 +51,18 @@ const MessageInput = ({
         void utils.chat.getChats.invalidate(),
         void utils.messages.getMessagesByChatId.invalidate(),
       ]);
-      const channelB = client.channel(chatId);
-      channelB.subscribe((status) => {
-        // Wait for successful connection
-        if (status !== "SUBSCRIBED") {
-          return null;
-        }
-        void channelB.send({
-          type: "broadcast",
-          event: "new message",
-        });
-      });
+      socket.emit("new message", chatId);
+      // const channelB = client.channel(chatId);
+      // channelB.subscribe((status) => {
+      //   // Wait for successful connection
+      //   if (status !== "SUBSCRIBED") {
+      //     return null;
+      //   }
+      //   void channelB.send({
+      //     type: "broadcast",
+      //     event: "new message",
+      //   });
+      // });
       setMessage("");
       replyMessageId && reset();
     },
