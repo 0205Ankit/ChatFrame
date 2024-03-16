@@ -19,10 +19,12 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (session.data?.user) {
-      socket.emit("setup", session.data?.user);
-      socket.on("connected", () => {
-        setIsSocketConnected(true); // set Socket Connected State to true
-      });
+      if (!isSocketConnected) {
+        socket.emit("setup", session.data?.user);
+        socket.on("connected", () => {
+          setIsSocketConnected(true); // set Socket Connected State to true
+        });
+      }
 
       // return if chatIds and socket is not connected
       if (!chatIds || !isSocketConnected) return;
