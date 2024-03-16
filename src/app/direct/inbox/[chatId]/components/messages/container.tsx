@@ -30,13 +30,6 @@ const MessagesContainer = ({
     chatId,
   });
 
-  // client
-  //   .channel(chatId)
-  //   .on("broadcast", { event: "new message" }, () => {
-  //     void utils.messages.getMessagesByChatId.invalidate();
-  //   })
-  //   .subscribe();
-
   socket.on("message received", () => {
     void utils.messages.getMessagesByChatId.invalidate();
   });
