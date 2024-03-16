@@ -9,7 +9,8 @@ import EmojiPicker from "emoji-picker-react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import socket from "@/utils/socket";
+// import socket from "@/utils/socket";
+import { client } from "@/utils/supabase";
 import { api } from "@/trpc/react";
 import { useMessage } from "./messages-context/provider";
 import { useSession } from "next-auth/react";
@@ -51,7 +52,17 @@ const MessageInput = ({
         void utils.chat.getChats.invalidate(),
         void utils.messages.getMessagesByChatId.invalidate(),
       ]);
-      socket.emit("new message", chatId);
+      const channelB = client.channel(chatId);
+      channelB.subscribe((status) => {
+        // Wait for successful connection
+        if (status !== "SUBSCRIBED") {
+          return null;
+        }
+        void channelB.send({
+          type: "broadcast",
+          event: "new message",
+        });
+      });
       setMessage("");
       replyMessageId && reset();
     },
@@ -61,27 +72,27 @@ const MessageInput = ({
     if (textAreaRef.current && focusMessageInput) {
       textAreaRef.current.focus();
     }
-    const handleTyping = (roomId: string) => {
-      if (roomId !== chatId) return;
-      setIsTyping(true);
-    };
+    // const handleTyping = (roomId: string) => {
+    //   if (roomId !== chatId) return;
+    //   setIsTyping(true);
+    // };
 
-    const handleStopTyping = (roomId: string) => {
-      if (roomId !== chatId) return;
-      setIsTyping(false);
-    };
-    socket.on("typing", (roomId: string) => handleTyping(roomId));
-    socket.on("stop typing", (roomId: string) => handleStopTyping(roomId));
-    return () => {
-      socket.off("typing", handleTyping);
-      socket.off("stop typing", handleStopTyping);
-    };
+    // const handleStopTyping = (roomId: string) => {
+    //   if (roomId !== chatId) return;
+    //   setIsTyping(false);
+    // };
+    // socket.on("typing", (roomId: string) => handleTyping(roomId));
+    // socket.on("stop typing", (roomId: string) => handleStopTyping(roomId));
+    // return () => {
+    //   socket.off("typing", handleTyping);
+    //   socket.off("stop typing", handleStopTyping);
+    // };
   }, [chatId, setIsTyping, senderId, focusMessageInput]);
 
   const sendMessageHandler = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      socket.emit("stop typing", chatId);
+      // socket.emit("stop typing", chatId);
       if (message.trim().length === 0) {
         setMessage("");
         return;
@@ -99,7 +110,7 @@ const MessageInput = ({
     setMessage(e.target.value);
     if (!typing) {
       setTyping(true);
-      socket.emit("typing", chatId);
+      // socket.emit("typing", chatId);
     }
     const lastTypingTime = new Date().getTime();
     const timerLength = 3000;
@@ -107,7 +118,7 @@ const MessageInput = ({
       const timeNow = new Date().getTime();
       const timeDiff = timeNow - lastTypingTime;
       if (timeDiff >= timerLength && typing) {
-        socket.emit("stop typing", chatId);
+        // socket.emit("stop typing", chatId);
         setTyping(false);
       }
     }, timerLength);

@@ -6,7 +6,7 @@ import Message from "./message";
 import { getFormattedDateTime } from "@/lib/utils";
 import { differenceInMinutes } from "date-fns";
 import { api } from "@/trpc/react";
-import socket from "@/utils/socket";
+import { client } from "@/utils/supabase";
 
 type PropType = {
   chatId: string;
@@ -30,9 +30,16 @@ const MessagesContainer = ({
     chatId,
   });
 
-  socket.on("message received", () => {
-    void utils.messages.getMessagesByChatId.invalidate();
-  });
+  client
+    .channel(chatId)
+    .on("broadcast", { event: "new message" }, () => {
+      void utils.messages.getMessagesByChatId.invalidate();
+    })
+    .subscribe();
+
+  // socket.on("message received", () => {
+  //   void utils.messages.getMessagesByChatId.invalidate();
+  // });
 
   return (
     <>
