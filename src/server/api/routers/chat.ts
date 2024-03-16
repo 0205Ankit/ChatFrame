@@ -118,9 +118,12 @@ export const chatRouter = createTRPCRouter({
     });
 
     const getTotalUnreadChats = chats?.filter((chat) => {
-      return !chat.messages[
-        chat.messages.length - 1
-      ]?.isReadByRecievers.includes(ctx.session.user.id);
+      return (
+        chat.messages.length > 0 &&
+        !chat.messages[chat.messages.length - 1]?.isReadByRecievers.includes(
+          ctx.session.user.id,
+        )
+      );
     }).length;
 
     return getTotalUnreadChats;
